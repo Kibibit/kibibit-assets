@@ -1,0 +1,35 @@
+.kb-components-logo {
+  --size: 1em;
+  box-sizing: border-box;
+  margin: calc(var(--size) / 1.8);
+  margin-right: 0;
+  transform: rotate(45deg);
+  overflow: hidden;
+  width: var(--size);
+  height: var(--size);
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: calc(var(--size) * 0.033);
+  
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+
+  .piece {
+    width: 50%;
+    height: 50%;
+    display: inline-block;
+
+    &.one {
+      background: #e31b36;
+    }
+
+    &.three {
+      background: #00a2c9;
+    }
+
+    &.four {
+      background: #eeb146;
+    }
+  }
+}
