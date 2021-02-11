@@ -253,6 +253,7 @@ body {
   display: flex;
   align-items: center;
   font-family: 'Comfortaa', cursive;
+  color: rgb(98, 98, 108);
 }
 
 .swagger-ui .parameter__name.required>span {
