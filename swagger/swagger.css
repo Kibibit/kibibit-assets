@@ -10,7 +10,7 @@ body {
   --put-color: rgba(254, 182, 88, 0.5);
   --delete-color: rgba(255, 56, 96, 0.5);
   --dark-delete-color: hsl(348, 63%, 48%);
-  --section-color: var(--dark-post-color);
+  --section-color: rgba(26, 153, 70, 0.5);
   --placeholder-color: rgba(255, 255, 255, 0.5);
   --main-text-color: whitesmoke;
   --second-text-color: #212121;
