@@ -8,6 +8,7 @@ body {
   --dark-post-color: hsl(141, 71%, 35%);
   --lighter-put-color: hsl(48, 100%, 67%);
   --put-color: rgba(254, 182, 88, 0.5);
+  --patch-color: rgba(254, 182, 88, 0.5);
   --delete-color: rgba(255, 56, 96, 0.5);
   --dark-delete-color: hsl(348, 63%, 48%);
   --section-color: rgba(26, 153, 70, 0.5);
@@ -185,6 +186,12 @@ body {
   background: var(--put-color);
   border-radius: 0;
   border-color: var(--put-color);
+}
+
+.swagger-ui .opblock.opblock-patch {
+  background: var(--patch-color);
+  border-radius: 0;
+  border-color: var(--patch-color);
 }
 
 .swagger-ui .opblock.opblock-delete {
