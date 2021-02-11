@@ -16,6 +16,7 @@ body {
   --main-text-color: whitesmoke;
   --second-text-color: #212121;
   --darker-shade: rgba(0, 0, 0, 0.2);
+  --border-radius: 3px;
 }
 
 .swagger-ui .info li,
@@ -172,31 +173,31 @@ body {
 
 .swagger-ui .opblock.opblock-get {
   background: var(--get-color);
-  border-radius: 0;
+  border-radius: var(--border-radius);
   border-color: var(--get-color);
 }
 
 .swagger-ui .opblock.opblock-post {
   background: var(--post-color);
-  border-radius: 0;
+  border-radius: var(--border-radius);
   border-color: var(--post-color);
 }
 
 .swagger-ui .opblock.opblock-put {
   background: var(--put-color);
-  border-radius: 0;
+  border-radius: var(--border-radius);
   border-color: var(--put-color);
 }
 
 .swagger-ui .opblock.opblock-patch {
   background: var(--patch-color);
-  border-radius: 0;
+  border-radius: var(--border-radius);
   border-color: var(--patch-color);
 }
 
 .swagger-ui .opblock.opblock-delete {
   background: var(--delete-color);
-  border-radius: 0;
+  border-radius: var(--border-radius);
   border-color: var(--delete-color);
 }
 
@@ -207,7 +208,7 @@ body {
 
 .swagger-ui section.models {
   background: var(--section-color);
-  border-radius: 0;
+  border-radius: var(--border-radius);
   border-color: var(--section-color);
 }
 
