@@ -162,7 +162,7 @@ body {
 }
 
 .swagger-ui .opblock .opblock-section-header {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.3);
   color: var(--main-text-color);
 }
 
@@ -385,8 +385,8 @@ body {
 
 code {
   padding: 0 0.2em;
-  background: var(--main-text-color);
-  color: var(--second-text-color);
+  background: transparent;
+  color: var(--main-text-color);
   border-radius: 0.2em;
 }
 
