@@ -3,12 +3,12 @@
 body {
   background: rgba(55, 55, 55, 1);
   background: url(https://thatkookooguy.github.io/https-assets/bg/abstract/bg.png);
-  --get-color: rgba(32, 156, 238, 0.3);
-  --post-color: rgba(35, 209, 96, 0.3);
+  --get-color: rgba(32, 156, 238, 0.5);
+  --post-color: rgba(35, 209, 96, 0.5);
   --dark-post-color: hsl(141, 71%, 35%);
   --lighter-put-color: hsl(48, 100%, 67%);
-  --put-color: hsl(34, 99%, 67%);
-  --delete-color: hsl(348, 100%, 61%);
+  --put-color: rgba(254, 182, 88, 0.5);
+  --delete-color: rgba(255, 56, 96, 0.5);
   --dark-delete-color: hsl(348, 63%, 48%);
   --section-color: var(--dark-post-color);
   --placeholder-color: rgba(255, 255, 255, 0.5);
