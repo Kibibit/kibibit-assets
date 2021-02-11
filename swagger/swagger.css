@@ -249,6 +249,10 @@ body {
   border-radius: 0;
 }
 
+.swagger-ui .parameter__type {
+  color: rgb(98, 98, 108);
+}
+
 .swagger-ui .parameter__name {
   display: flex;
   align-items: center;
