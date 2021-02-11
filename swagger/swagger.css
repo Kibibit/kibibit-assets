@@ -3,7 +3,7 @@
 body {
   background: rgba(55, 55, 55, 1);
   background: url(https://thatkookooguy.github.io/https-assets/bg/abstract/bg.png);
-  --card-background-color: rgba(25, 25, 25, 0.7);
+  --card-background-color: rgba(150, 150, 150, 0.1);
   --get-color: rgba(32, 156, 238, 0.5);
   --post-color: rgba(35, 209, 96, 0.5);
   --dark-post-color: hsl(141, 71%, 35%);
