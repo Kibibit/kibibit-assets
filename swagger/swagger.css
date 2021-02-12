@@ -340,7 +340,7 @@ body {
   display: none;
 }
 
-.swagger-ui .model-title {
+.swagger-ui .model.model-title {
   color: #CC00FF;
 }
 
