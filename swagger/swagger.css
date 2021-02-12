@@ -151,6 +151,10 @@ body {
   color: var(--get-color);
 }
 
+.swagger-ui .model-toggle:after {
+  background: url('http://kibibit.io/kibibit-assets/swagger/original_caret_white.svg') 50% no-repeat;
+}
+
 .swagger-ui .opblock .opblock-summary::after {
   width: 27px;
   height: 27px;
@@ -159,7 +163,6 @@ body {
 }
 
 .swagger-ui .opblock.is-open .opblock-summary::after {
-  transform: translate3d(-18px, 0, 0);
   content: url(//kibibit.io/kibibit-assets/swagger/original_caret_white.svg);
 }
 
