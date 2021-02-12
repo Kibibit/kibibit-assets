@@ -159,6 +159,10 @@ body {
   padding: 1em 1em .5em .5em;
 }
 
+.swagger-ui .opblock .opblock-summary-description:empty {
+  display: none;
+}
+
 .swagger-ui .btn {
   margin-left: 0.5em;
 }
