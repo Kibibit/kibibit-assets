@@ -151,6 +151,10 @@ body {
   color: var(--get-color);
 }
 
+.swagger-ui section.models h4 svg {
+  display: hidden;
+}
+
 .swagger-ui section.models h4::after {
     width: 35px;
     height: 35px;
