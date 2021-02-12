@@ -67,6 +67,7 @@ body {
   display: inline-block;
   height: 1.43em;
   width: 1.43em;
+  transform: translate3d(0, 3px, 0);
 }
 
 .swagger-ui .topbar a>img {
