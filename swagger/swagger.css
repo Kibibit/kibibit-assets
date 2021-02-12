@@ -151,6 +151,18 @@ body {
   color: var(--get-color);
 }
 
+.swagger-ui section.models h4::after {
+    width: 35px;
+    height: 35px;
+    content: '';
+    background: url(//kibibit.io/kibibit-assets/swagger/original_caret_white.svg);
+    background-size: 100%;
+}
+
+.swagger-ui section.models.is-open h4::after {
+  transform: rotate(90deg);
+}
+
 .swagger-ui .model-toggle:after {
   background: url('http://kibibit.io/kibibit-assets/swagger/original_caret_white.svg') 50% no-repeat;
 }
