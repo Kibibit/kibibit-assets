@@ -98,7 +98,7 @@ body {
 }
 
 .swagger-ui .opblock .opblock-summary-path {
-  color: var(--put-color);
+  color: antiquewhite;
   font-family: 'Comfortaa', cursive;
 }
 
