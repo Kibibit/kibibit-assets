@@ -342,6 +342,7 @@ body {
 
 .swagger-ui .model.model-title {
   color: #CC00FF;
+  font-family: 'Comfortaa', cursive;
 }
 
 .swagger-ui .model-box .model td>span:not(.model) {
