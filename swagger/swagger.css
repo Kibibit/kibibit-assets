@@ -116,6 +116,10 @@ body {
   font-family: 'Comfortaa', cursive;
 }
 
+.swagger-ui .btn {
+  margin-left: 0.5em;
+}
+
 .swagger-ui .btn.execute {
   background-color: var(--post-color);
   border-color: var(--post-color);
