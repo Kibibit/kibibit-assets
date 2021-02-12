@@ -23,7 +23,8 @@ body {
 
 .swagger-ui .info li,
 .swagger-ui .info p,
-.swagger-ui .info table {
+.swagger-ui .info table,
+.swagger-ui .response-col_links {
   color: var(--main-text-color);
 }
 
