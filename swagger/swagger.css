@@ -127,6 +127,7 @@ body {
 .swagger-ui .opblock .opblock-summary-path {
   color: antiquewhite;
   font-family: 'Comfortaa', cursive;
+  max-width: calc(100% - 80px - 27px);
 }
 
 .swagger-ui .opblock .opblock-summary-description,
