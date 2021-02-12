@@ -289,13 +289,13 @@ body {
 }
 
 .swagger-ui .model {
-  font-size: 13px;
+  font-size: 17px;
 }
 
 .swagger-ui .model .prop-type {
   font-family: 'Comfortaa', cursive;
-  color: greenyellow;
-  font-size: 17px;
+/*   color: greenyellow; */
+  font-size: 13px;
 }
 
 /* .swagger-ui table tbody tr td {
