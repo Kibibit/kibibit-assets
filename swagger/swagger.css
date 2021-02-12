@@ -172,7 +172,8 @@ body {
   font-family: 'Comfortaa', cursive;
 }
 
-.swagger-ui .opblock {
+.swagger-ui .opblock,
+.swagger-ui section.models {
   background: var(--card-background-color);
   border-radius: var(--border-radius);
   border-color: var(--card-background-color);
@@ -217,11 +218,11 @@ body {
   color: greenyellow;
 }
 
-.swagger-ui section.models {
+/* .swagger-ui section.models {
   background: var(--section-color);
   border-radius: var(--border-radius);
   border-color: var(--section-color);
-}
+} */
 
 .swagger-ui section.models h4 {
   color: var(--main-text-color);
