@@ -200,7 +200,12 @@ body {
   width: 27px;
   height: 27px;
   transform: translate3d(-18px, 0, 0) rotate(-90deg);
+  transform: translate3d(-16px, 0, 0);
   content: url(//kibibit.io/kibibit-assets/swagger/original_caret_white.svg);
+}
+
+.swagger-ui .opblock.is-open .opblock-summary::after {
+  transform: translate3d(-20px, 0, 0) rotate(90deg);
 }
 
 .swagger-ui .opblock.is-open .opblock-summary::after {
