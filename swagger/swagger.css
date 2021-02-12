@@ -249,15 +249,19 @@ body {
   border-radius: 0;
 }
 
+.swagger-ui .parameter__extension, .swagger-ui .parameter__in {
+  color: lightgreen;
+}
+
 .swagger-ui .parameter__type {
-  color: rgb(98, 98, 108);
+  color: lightblue;
 }
 
 .swagger-ui .parameter__name {
   display: flex;
   align-items: center;
   font-family: 'Comfortaa', cursive;
-  color: rgb(98, 98, 108);
+  color: white;
 }
 
 .swagger-ui .parameter__name.required>span {
@@ -278,17 +282,21 @@ body {
   font-family: 'Comfortaa', cursive;
   align-items: center;
 /*   background-color: var(--main-text-color); */
-  border-radius: 0.3em;
+/*   border-radius: 0.3em; */
   color: var(--delete-color);
   display: inline-flex;
   height: 2em;
   justify-content: center;
   line-height: 1.5;
-  padding-left: .75em;
-  padding-right: .75em;
+/*   padding-left: .75em; */
+/*   padding-right: .75em; */
   white-space: nowrap;
-  top: 0;
-  margin: 0 0.6em;
+  letter-spacing: .1em;
+  font-weight: 500;
+  font-size: 0.7em;
+  text-transform: capitalize;
+/*   top: 0; */
+/*   margin: 0 0.6em; */
 }
 
 
