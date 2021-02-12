@@ -206,11 +206,11 @@ body {
   background: var(--patch-color);
 } */
 
-.swagger-ui .opblock.opblock-delete {
+/* .swagger-ui .opblock.opblock-delete {
   background: var(--delete-color);
   border-radius: var(--border-radius);
   border-color: var(--delete-color);
-}
+} */
 
 .swagger-ui .model-example .prop-type {
   font-family: 'Comfortaa', cursive;
