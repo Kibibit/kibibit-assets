@@ -8,8 +8,8 @@ body {
   --post-color: hsl(141, 53%, 53%);
   --dark-post-color: hsl(141, 71%, 35%);
   --lighter-put-color: hsl(48, 100%, 67%);
-  --put-color: hsl(48, 100%, 67%);
-  --patch-color: hsl(48, 100%, 67%);
+  --put-color: #fca130;
+  --patch-color: #50e3c2;
   --delete-color: hsl(348, 100%, 61%);
   --dark-delete-color: hsl(348, 63%, 48%);
   --section-color: rgba(26, 153, 70, 0.5);
@@ -19,6 +19,26 @@ body {
   --darker-shade: rgba(0, 0, 0, 0.2);
   --border-radius: 3px;
   --code-background: rgb(51, 51, 51);
+}
+
+.swagger-ui .opblock.opblock-post .opblock-summary-method {
+  background: var(--post-color);
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary-method {
+  background: var(--get-color);
+}
+
+.swagger-ui .opblock.opblock-delete .opblock-summary-method {
+  background: var(--delete-color);
+}
+
+.swagger-ui .opblock.opblock-patch .opblock-summary-method {
+  background: var(--patch-color);
+}
+
+.swagger-ui .opblock.opblock-put .opblock-summary-method {
+  background: var(--put-color);
 }
 
 .swagger-ui .info li,
@@ -258,6 +278,11 @@ body {
   transform: translateX(-6px);
 }
 
+.swagger-ui textarea {
+  background: var(--code-background);
+  color: white;
+}
+
 .swagger-ui section.models .model-container {
   background: var(--code-background);
 }
@@ -275,10 +300,10 @@ body {
   font-family: 'Comfortaa', cursive;
 } */
 
-.swagger-ui .opblock.opblock-put .opblock-summary-path {
+/* .swagger-ui .opblock.opblock-put .opblock-summary-path {
   color: var(--section-color);
   font-family: 'Comfortaa', cursive;
-}
+} */
 
 .swagger-ui .opblock .opblock-summary-method {
 /*   background: var(--darker-shade) !important; */
