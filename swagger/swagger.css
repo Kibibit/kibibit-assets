@@ -177,7 +177,7 @@ body {
 }
 
 .swagger-ui section.models h4 svg {
-  display: hidden;
+  display: none;
 }
 
 .swagger-ui section.models h4::after {
