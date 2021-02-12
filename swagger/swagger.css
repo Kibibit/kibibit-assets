@@ -415,7 +415,7 @@ body {
 input [disabled],
 textarea [disabled],
 select [disabled] {
-  // opacity: 0.85;
+/*   opacity: 0.85; */
   color: var(--placeholder-color);
   cursor: not-allowed;
 }
