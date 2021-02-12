@@ -18,6 +18,7 @@ body {
   --second-text-color: #212121;
   --darker-shade: rgba(0, 0, 0, 0.2);
   --border-radius: 3px;
+  --code-background: rgb(51, 51, 51);
 }
 
 .swagger-ui .info li,
@@ -234,11 +235,11 @@ body {
 }
 
 .swagger-ui section.models .model-container {
-  background: var(--main-text-color);
+  background: var(--code-background);
 }
 
 .swagger-ui section.models .model-container:hover {
-  background: var(--main-text-color);
+  background: var(--code-background);
 }
 
 /* .swagger-ui section.models .model-container:hover {
@@ -279,6 +280,10 @@ body {
   display: none;
 }
 
+.swagger-ui .model-title {
+  color: #CC00FF;
+}
+
 .swagger-ui .model-box .model td>span:not(.model) {
   color: transparent !important;
 }
@@ -290,6 +295,11 @@ body {
 
 .swagger-ui .model {
   font-size: 17px;
+  color: lightsteelblue;
+}
+
+.swagger-ui .prop-type {
+  color: #AA00FF;
 }
 
 .swagger-ui .model .prop-type {
