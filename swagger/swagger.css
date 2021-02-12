@@ -244,10 +244,10 @@ body {
   background: var();
 } */
 
-.swagger-ui .opblock.opblock-post .opblock-summary-path {
+/* .swagger-ui .opblock.opblock-post .opblock-summary-path {
   color: var(--second-text-color);
   font-family: 'Comfortaa', cursive;
-}
+} */
 
 .swagger-ui .opblock.opblock-put .opblock-summary-path {
   color: var(--section-color);
