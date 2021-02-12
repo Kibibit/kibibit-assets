@@ -172,12 +172,12 @@ body {
   font-family: 'Comfortaa', cursive;
 }
 
-.swagger-ui .opblock.opblock-get {
+.swagger-ui .opblock {
   background: var(--card-background-color);
   border-radius: var(--border-radius);
   border-color: var(--card-background-color);
 }
-
+/*
 .swagger-ui .opblock.opblock-get {
   background: var(--get-color);
   border-radius: var(--border-radius);
@@ -194,7 +194,7 @@ body {
   background: var(--put-color);
   border-radius: var(--border-radius);
   border-color: var(--put-color);
-}
+} */
 
 /* .swagger-ui .opblock.opblock-patch {
   background: var(--patch-color);
@@ -202,9 +202,9 @@ body {
   border-color: var(--patch-color);
 } */
 
-.swagger-ui .opblock.opblock-patch .opblock-summary-method {
+/* .swagger-ui .opblock.opblock-patch .opblock-summary-method {
   background: var(--patch-color);
-}
+} */
 
 .swagger-ui .opblock.opblock-delete {
   background: var(--delete-color);
