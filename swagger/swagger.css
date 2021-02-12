@@ -21,6 +21,10 @@ body {
   --code-background: rgb(51, 51, 51);
 }
 
+.swagger-ui .info .title small.version-stamp {
+  background-color: var(--post-color);
+}
+
 .swagger-ui .opblock.opblock-post .opblock-summary-method {
   background: var(--post-color);
 }
