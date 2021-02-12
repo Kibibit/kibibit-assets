@@ -124,10 +124,21 @@ body {
   justify-content: center;
 }
 
+.swagger-ui .opblock .opblock-summary {
+  display: grid;
+  grid-template-columns: 80px 1fr 27px;
+  grid-template-rows: repeat(2, auto);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+
+
 .swagger-ui .opblock .opblock-summary-path {
   color: antiquewhite;
   font-family: 'Comfortaa', cursive;
   max-width: calc(100% - 80px - 27px);
+  grid-area: 1 / 2 / 2 / 3;
 }
 
 .swagger-ui .opblock .opblock-summary-description,
@@ -140,6 +151,12 @@ body {
 .swagger-ui .opblock-title_normal p {
   color: var(--main-text-color);
   font-family: 'Comfortaa', cursive;
+}
+
+.swagger-ui .opblock .opblock-summary-description {
+  color: rgb(150, 150, 150);
+  grid-area: 2 / 1 / 3 / 4;
+  padding: 1em 1em .5em .5em;
 }
 
 .swagger-ui .btn {
@@ -203,6 +220,7 @@ body {
   transform: translate3d(-18px, 0, 0) rotate(-90deg);
   transform: translate3d(-16px, 0, 0);
   content: url(//kibibit.io/kibibit-assets/swagger/original_caret_white.svg);
+  grid-area: 1 / 3 / 2 / 4;
 }
 
 .swagger-ui .opblock.is-open .opblock-summary::after {
@@ -317,8 +335,7 @@ body {
 } */
 
 .swagger-ui .opblock .opblock-summary-method {
-/*   background: var(--darker-shade) !important; */
-  border-radius: 0;
+  grid-area: 1 / 1 / 2 / 2;
 }
 
 .swagger-ui .parameter__extension, .swagger-ui .parameter__in {
