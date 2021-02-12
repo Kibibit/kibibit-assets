@@ -288,6 +288,18 @@ body {
   font-size: 0.9em;
 }
 
+.swagger-ui .model {
+  font-size: 0.8em;
+}
+
+.swagger-ui table tbody tr td {
+  font-size: 17px;
+}
+
+/* .swagger-ui table tbody tr td {
+  font-size: 0.8em;
+} */
+
 .swagger-ui .parameter__name.required::after,
 .swagger-ui .model-box .model td>span:not(.model)::after {
   font-family: 'Comfortaa', cursive;
