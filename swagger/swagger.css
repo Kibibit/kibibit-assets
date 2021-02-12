@@ -9,7 +9,7 @@ body {
   --dark-post-color: hsl(141, 71%, 35%);
   --lighter-put-color: hsl(48, 100%, 67%);
   --put-color: hsl(48, 100%, 67%);
-  --patch-color: var(--card-background-color);
+  --patch-color: hsl(48, 100%, 67%);
   --delete-color: hsl(348, 100%, 61%);
   --dark-delete-color: hsl(348, 63%, 48%);
   --section-color: rgba(26, 153, 70, 0.5);
@@ -173,6 +173,12 @@ body {
 }
 
 .swagger-ui .opblock.opblock-get {
+  background: var(--card-background-color);
+  border-radius: var(--border-radius);
+  border-color: var(--card-background-color);
+}
+
+.swagger-ui .opblock.opblock-get {
   background: var(--get-color);
   border-radius: var(--border-radius);
   border-color: var(--get-color);
@@ -190,10 +196,14 @@ body {
   border-color: var(--put-color);
 }
 
-.swagger-ui .opblock.opblock-patch {
+/* .swagger-ui .opblock.opblock-patch {
   background: var(--patch-color);
   border-radius: var(--border-radius);
   border-color: var(--patch-color);
+} */
+
+.swagger-ui .opblock.opblock-patch .opblock-summary-method {
+  background: var(--patch-color);
 }
 
 .swagger-ui .opblock.opblock-delete {
@@ -245,7 +255,7 @@ body {
 }
 
 .swagger-ui .opblock .opblock-summary-method {
-  background: var(--darker-shade) !important;
+/*   background: var(--darker-shade) !important; */
   border-radius: 0;
 }
 
