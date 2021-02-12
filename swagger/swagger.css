@@ -401,14 +401,23 @@ body {
 .swagger-ui input[type=email],
 .swagger-ui input[type=password],
 .swagger-ui input[type=search],
-.swagger-ui input[type=text] {
+.swagger-ui input[type=text],
+.swagger-ui input[type=file] {
   font-family: 'Comfortaa', cursive;
   background: transparent;
   border: none;
   border-bottom: 1px solid var(--placeholder-color);
   border-radius: 0;
-  color: var(--placeholder-color);
+  color: var(--main-text-color);
   padding: 8px 0;
+}
+
+input [disabled],
+textarea [disabled],
+select [disabled] {
+  // opacity: 0.85;
+  color: var(--placeholder-color);
+  cursor: not-allowed;
 }
 
 .swagger-ui input[type=email]:focus,
