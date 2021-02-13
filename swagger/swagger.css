@@ -84,6 +84,26 @@ a:active {
   background: var(--put-color);
 }
 
+.swagger-ui .opblock.opblock-get {
+  background: rgba(97, 175, 254, .2);
+}
+
+.swagger-ui .opblock.opblock-patch {
+  background: rgba(80, 227, 194, .2);
+}
+
+.swagger-ui .opblock.opblock-put {
+  background: rgba(252,161,48,.2);
+}
+
+.swagger-ui .opblock.opblock-delete {
+  background: rgba(249, 62, 62, .2);
+}
+
+.swagger-ui .opblock.opblock-post {
+  background: rgba(73, 204, 144, .2);
+}
+
 .swagger-ui .tab li {
   color: rgb(175, 175, 175);
 }
@@ -308,51 +328,11 @@ a:active {
   border-radius: var(--border-radius);
   border-color: var(--card-background-color);
 }
-/*
-.swagger-ui .opblock.opblock-get {
-  background: var(--get-color);
-  border-radius: var(--border-radius);
-  border-color: var(--get-color);
-}
-
-.swagger-ui .opblock.opblock-post {
-  background: var(--post-color);
-  border-radius: var(--border-radius);
-  border-color: var(--post-color);
-}
-
-.swagger-ui .opblock.opblock-put {
-  background: var(--put-color);
-  border-radius: var(--border-radius);
-  border-color: var(--put-color);
-} */
-
-/* .swagger-ui .opblock.opblock-patch {
-  background: var(--patch-color);
-  border-radius: var(--border-radius);
-  border-color: var(--patch-color);
-} */
-
-/* .swagger-ui .opblock.opblock-patch .opblock-summary-method {
-  background: var(--patch-color);
-} */
-
-/* .swagger-ui .opblock.opblock-delete {
-  background: var(--delete-color);
-  border-radius: var(--border-radius);
-  border-color: var(--delete-color);
-} */
 
 .swagger-ui .model-example .prop-type {
   font-family: 'Comfortaa', cursive;
   color: greenyellow;
 }
-
-/* .swagger-ui section.models {
-  background: var(--section-color);
-  border-radius: var(--border-radius);
-  border-color: var(--section-color);
-} */
 
 .swagger-ui section.models h4 {
   color: var(--main-text-color);
@@ -375,20 +355,6 @@ a:active {
 .swagger-ui section.models .model-container:hover {
   background: var(--code-background);
 }
-
-/* .swagger-ui section.models .model-container:hover {
-  background: var();
-} */
-
-/* .swagger-ui .opblock.opblock-post .opblock-summary-path {
-  color: var(--second-text-color);
-  font-family: 'Comfortaa', cursive;
-} */
-
-/* .swagger-ui .opblock.opblock-put .opblock-summary-path {
-  color: var(--section-color);
-  font-family: 'Comfortaa', cursive;
-} */
 
 .swagger-ui .opblock .opblock-summary-method {
   grid-area: 1 / 1 / 2 / 2;
