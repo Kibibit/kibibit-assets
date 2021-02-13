@@ -46,6 +46,10 @@ body {
     grid-area: 2 / 1 / 3 / 3;
 }
 
+.swagger-ui .opblock-tag > small:empty {
+  display: none;
+}
+
 .swagger-ui .opblock-tag > div {
     grid-area: 3 / 1 / 4 / 3;
 }
