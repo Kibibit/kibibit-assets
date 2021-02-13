@@ -23,6 +23,23 @@ body {
   --code-background: rgb(51, 51, 51);
 }
 
+footer {
+  display: block;
+  background: #212121;
+  color: white;
+  padding: 1em;
+  font-family: 'Comfortaa', cursive;
+}
+
+footer .created-by,
+footer .contact-email {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
 /* unvisited link */
 a:link {
   color: var(--get-color);
