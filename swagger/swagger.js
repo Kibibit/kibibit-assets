@@ -57,9 +57,11 @@ function addThemeFooter() {
 </div>
   opensrc
 </div>
-<div class="contact-email"><a href="https://github.com/kibibit" target="_blank">
-<img src="https://simpleicons.org/icons/github.svg">
-</a></div>
+<div class="contact-email">
+  <a href="https://github.com/kibibit" target="_blank">get the theme</a>
+  <a href="https://github.com/kibibit" target="_blank">kibibit on GitHub</a>
+<a href="https://github.com/kibibit" target="_blank">kibibit's HomePage</a>
+</div>
 `;
   document.body.appendChild(footer);
   
