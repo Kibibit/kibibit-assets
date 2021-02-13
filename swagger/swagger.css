@@ -49,7 +49,7 @@ a:link {
 
 /* visited link */
 a:visited {
-  color: hotpink;
+  color: var(--bold-text-color);
 }
 
 /* mouse over link */
@@ -398,7 +398,7 @@ a:active {
 
 .swagger-ui .model-title,
 .swagger-ui .model.model-title {
-  color: #CC00FF;
+  color: #var(--bold-text-color);
   font-family: 'Comfortaa', cursive;
 }
 
