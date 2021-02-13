@@ -139,7 +139,7 @@ body {
 .swagger-ui .opblock .opblock-summary-path {
   color: antiquewhite;
   font-family: 'Comfortaa', cursive;
-  max-width: calc(100% - 80px - 27px);
+  max-width: calc(100% - 1em);
   grid-area: 1 / 2 / 2 / 3;
 }
 
