@@ -21,7 +21,7 @@ function addThemeFooter() {
   const footer = document.createElement("FOOTER");
 
   footer.innerHTML = `
-<div style="display: block;margin-block-start: 1em;margin-block-end: 1em;margin-inline-start: 0px;margin-inline-end: 0px;">
+<div class="created-by">
   Theme created by 
 <div id="footer-animated-logo" class="kb-logo"><span class="letter">k</span>
 
@@ -57,15 +57,7 @@ function addThemeFooter() {
 </div>
   opensrc
 </div>
-<p><a href="mailto:thatkookooguy@kibibit.io">thatkookooguy@kibibit.io</a></p>
-`;
-  
-  footer.style = `
-display: block;
-background: #212121;
-color: white;
-padding: 1em;
-font-family: 'Comfortaa', cursive;
+<div class="contact-email><a href="mailto:thatkookooguy@kibibit.io">thatkookooguy@kibibit.io</a></div>
 `;
   document.body.appendChild(footer);
   
