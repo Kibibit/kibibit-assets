@@ -28,8 +28,8 @@ body {
 
 .swagger-ui .opblock-tag {
   display: inline-grid;
-  grid-template-columns: auto 1fr 27px;
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: auto auto 27px;
+  grid-template-rows: auto auto auto;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   border-bottom: 1px solid rgba(255,255,255,.2);
