@@ -55,6 +55,10 @@ body {
   color: var(--post-color);
 }
 
+.swagger-ui .response-control-media-type--accept-controller select {
+  border-color: var(--post-color);
+}
+
 .swagger-ui .info li,
 .swagger-ui .info p,
 .swagger-ui .info table,
