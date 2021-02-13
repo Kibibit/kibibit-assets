@@ -47,6 +47,10 @@ body {
   background: var(--put-color);
 }
 
+.swagger-ui .tab li {
+  color: rgb(175, 175, 175);
+}
+
 .swagger-ui .info li,
 .swagger-ui .info p,
 .swagger-ui .info table,
