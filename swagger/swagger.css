@@ -28,6 +28,30 @@ body {
   --bold-text-color-alt: #CC00FF;
 }
 
+.swagger-ui .opblock-tag {
+  display: inline-grid;
+  grid-template-columns: auto 1fr 27px;
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.swagger-ui .opblock-tag > a.nostyle {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.swagger-ui .opblock-tag > small {
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+.swagger-ui .opblock-tag > div {
+    grid-area: 2 / 1 / 3 / 3;
+}
+
+.swagger-ui .opblock-tag > .expand-operation {
+    grid-area: 1 / 3 / 3 / 4;
+}
+
 .kb-flex-spacer {
   flex-grow: 1;
 }
