@@ -24,7 +24,8 @@ body {
 }
 
 footer {
-  display: block;
+  display: flex;
+  justify-content: space-between;
   background: var(--second-text-color);
   color: white;
   padding: 1em;
