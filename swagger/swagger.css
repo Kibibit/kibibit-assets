@@ -77,11 +77,12 @@ body {
 }
 
 .swagger-ui .topbar .topbar-wrapper a::before {
-  content: url(//kibibit.io/kibibit-assets/swagger/swagger.svg);
+  content: 'open {API}';
   display: inline-block;
   height: 1.43em;
-  width: 1.43em;
+  line-height: 1.43em;
   transform: translate3d(0, 3px, 0);
+  font-family: 'Bungee Hairline', cursive;
 }
 
 .swagger-ui .topbar a>img {
