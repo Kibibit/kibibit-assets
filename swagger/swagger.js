@@ -22,45 +22,45 @@ function addThemeFooter() {
 
   footer.innerHTML = `
 <div class="created-by">
-  Theme created by 
-<div id="footer-animated-logo" class="kb-logo"><span class="letter">k</span>
+  <a href="https://github.com/kibibit/announce-it" target="_blank">Theme</a> created by 
+  <a href="https://github.com/kibibit" target="_blank">
+    <div id="footer-animated-logo" class="kb-logo"><span class="letter">k</span>
 
-  <div class="shape-animation shape-one to-red">
-    <div class="shape shape1"></div>
-    <div class="shape shape2"></div>
-  </div>
+      <div class="shape-animation shape-one to-red">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+      </div>
 
-  <div class="shape-animation shape-zero">
-    <div class="shape shape1"></div>
-    <div class="shape shape2"></div>
-  </div>
+      <div class="shape-animation shape-zero">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+      </div>
 
-  <div class="shape-animation shape-one to-blue middle">
-    <div class="shape shape1"></div>
-    <div class="shape shape2"></div>
-  </div>
+      <div class="shape-animation shape-one to-blue middle">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+      </div>
 
-  <div class="shape-animation shape-zero">
-    <div class="shape shape1"></div>
-    <div class="shape shape2"></div>
-  </div>
+      <div class="shape-animation shape-zero">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+      </div>
 
-  <div class="shape-animation shape-one to-yellow">
-    <div class="shape shape1"></div>
-    <div class="shape shape2"></div>
-  </div>
-  <span class="letter">t</span>
+      <div class="shape-animation shape-one to-yellow">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+      </div>
+      <span class="letter">t</span>
 
-  <div class="k1b1b0t-mouth-container">
-    <div class="k1b1b0t-mouth">[<span class="mo-an">||||</span>]</div>
-  </div>
-</div>
-  opensrc
+      <div class="k1b1b0t-mouth-container">
+        <div class="k1b1b0t-mouth">[<span class="mo-an">||||</span>]</div>
+      </div>
+    </div>
+    opensrc
+  </a>
 </div>
 <div class="contact-email">
-  <a href="https://github.com/kibibit" target="_blank">get the theme</a>
-  <a href="https://github.com/kibibit" target="_blank">kibibit on GitHub</a>
-<a href="https://github.com/kibibit" target="_blank">kibibit's HomePage</a>
+  <a href="mailto:thatkookooguy@kibibit.io">thatkookooguy@kibibit.io</a>
 </div>
 `;
   document.body.appendChild(footer);
