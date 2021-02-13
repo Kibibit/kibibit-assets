@@ -18,5 +18,5 @@ function addMetaTag() {
 }
 
 // inject fonts used in theme
-addCss('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Righteous&display=swap');
+addCss('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Righteous&family=Bungee+Hairline&display=swap');
 addMetaTag();
