@@ -135,7 +135,7 @@ a:active {
 }
 
 .swagger-ui .topbar .topbar-wrapper a::before {
-  content: 'open {API}';
+  content: 'open {API} Documentation';
   display: inline-block;
   height: 1.43em;
   line-height: 1.43em;
