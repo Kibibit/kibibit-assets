@@ -22,6 +22,7 @@ body {
   --border-radius: 3px;
   --code-background: rgb(51, 51, 51);
   --bold-text-color: hotpink;
+  --bold-text-color-alt: #CC00FF;
 }
 
 footer {
