@@ -18,7 +18,10 @@ function addMetaTag() {
 }
 
 function addThemeFooter() {
+  const spacer = document.createElement('DIV');
   const footer = document.createElement("FOOTER");
+  
+  spacer.classList.add('kb-flex-spacer');
 
   footer.innerHTML = `
 <div class="created-by">
@@ -63,6 +66,7 @@ function addThemeFooter() {
   <a href="mailto:thatkookooguy@kibibit.io">thatkookooguy@kibibit.io</a>
 </div>
 `;
+  document.body.appendChild(spacer);
   document.body.appendChild(footer);
   
   window.kibibitLogogTimer = setInterval(() => {
