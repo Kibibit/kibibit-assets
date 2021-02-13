@@ -25,7 +25,7 @@ body {
 
 footer {
   display: block;
-  background: #212121;
+  background: var(--second-text-color);
   color: white;
   padding: 1em;
   font-family: 'Comfortaa', cursive;
