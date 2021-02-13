@@ -5,6 +5,9 @@ body {
   background: url(https://thatkookooguy.github.io/https-assets/bg/abstract/bg.png);
   background-size: 200%;
   background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   --card-background-color: rgba(150, 150, 150, .2);
   --get-color: hsl(204, 86%, 53%);
   --post-color: hsl(141, 53%, 53%);
