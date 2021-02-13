@@ -23,6 +23,26 @@ body {
   --code-background: rgb(51, 51, 51);
 }
 
+/* unvisited link */
+a:link {
+  color: var(--get-color);
+}
+
+/* visited link */
+a:visited {
+  color: hotpink;
+}
+
+/* mouse over link */
+a:hover {
+/*   color: hotpink; */
+}
+
+/* selected link */
+a:active {
+  color: blue;
+}
+
 .swagger-ui .info .title small.version-stamp {
   background-color: var(--post-color);
 }
