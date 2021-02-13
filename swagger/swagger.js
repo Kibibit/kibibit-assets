@@ -18,19 +18,21 @@ function addMetaTag() {
 }
 
 function addThemeFooter() {
-  document.body.appendChild(`
-<footer style="
-    content: 'Theme created by kibibit opensrc';
-    display: block;
-    background: #212121;
-    color: white;
-    padding: 1em;
-    font-family: 'Comfortaa', cursive;
-">
-  <p>Theme created by kibibit opensrc</p>
-  <p><a href="mailto:hege@example.com">hege@example.com</a></p>
-</footer>
-`);
+  const footer = document.createElement("FOOTER");
+
+  footer.innerHTML = `
+<p>Theme created by kibibit opensrc</p>
+<p><a href="mailto:hege@example.com">hege@example.com</a></p>
+`;
+  
+  footer.style = `
+display: block;
+background: #212121;
+color: white;
+padding: 1em;
+font-family: 'Comfortaa', cursive;
+`;
+  document.body.appendChild(footer);
 }
 
 // inject fonts used in theme
@@ -38,4 +40,8 @@ addCss('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;
 addCss('https://kibibit.io/kibibit-assets/swagger/swagger.css');
 addCss('https://kibibit.io/kibibit-logo/kb-logo.css');
 addMetaTag();
-addThemeFooter();
+
+window.addEventListener('DOMContentLoaded', (event) => {
+  addThemeFooter();
+});
+
