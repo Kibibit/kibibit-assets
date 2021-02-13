@@ -200,6 +200,7 @@ a:active {
 .swagger-ui .topbar {
   /* ffdd57 */
   background-color: var(--second-text-color);
+  overflow: hidden;
 }
 
 .swagger-ui .info .title {
