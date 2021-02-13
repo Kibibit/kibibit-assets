@@ -21,7 +21,7 @@ function addThemeFooter() {
   const footer = document.createElement("FOOTER");
 
   footer.innerHTML = `
-<p>
+<div style="display: block;margin-block-start: 1em;margin-block-end: 1em;margin-inline-start: 0px;margin-inline-end: 0px;">
   Theme created by 
 <div id="logo" class="kb-logo full-logo"><span class="letter">k</span>
 
@@ -56,7 +56,7 @@ function addThemeFooter() {
   </div>
 </div>
   opensrc
-</p>
+</div>
 <p><a href="mailto:thatkookooguy@kibibit.io">thatkookooguy@kibibit.io</a></p>
 `;
   
