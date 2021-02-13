@@ -21,8 +21,43 @@ function addThemeFooter() {
   const footer = document.createElement("FOOTER");
 
   footer.innerHTML = `
-<p>Theme created by kibibit opensrc</p>
-<p><a href="mailto:hege@example.com">hege@example.com</a></p>
+<p>
+  Theme created by 
+<div id="logo" class="kb-logo full-logo"><span class="letter">k</span>
+
+  <div class="shape-animation shape-one to-red">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+  </div>
+
+  <div class="shape-animation shape-zero">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+  </div>
+
+  <div class="shape-animation shape-one to-blue middle">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+  </div>
+
+  <div class="shape-animation shape-zero">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+  </div>
+
+  <div class="shape-animation shape-one to-yellow">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+  </div>
+  <span class="letter">t</span>
+
+  <div class="k1b1b0t-mouth-container">
+    <div class="k1b1b0t-mouth">[<span class="mo-an">||||</span>]</div>
+  </div>
+</div>
+  opensrc
+</p>
+<p><a href="mailto:thatkookooguy@kibibit.io">thatkookooguy@kibibit.io</a></p>
 `;
   
   footer.style = `
