@@ -50,6 +50,10 @@ footer .contact-email {
   margin-inline-end: 0px;
 }
 
+.swagger-ui .opblock-tag small {
+  color: rgb(200, 200, 200);
+}
+
 /* unvisited link */
 a:link {
   color: var(--get-color);
