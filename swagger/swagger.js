@@ -23,7 +23,7 @@ function addThemeFooter() {
   footer.innerHTML = `
 <div style="display: block;margin-block-start: 1em;margin-block-end: 1em;margin-inline-start: 0px;margin-inline-end: 0px;">
   Theme created by 
-<div id="logo" class="kb-logo full-logo"><span class="letter">k</span>
+<div id="logo" class="kb-logo"><span class="letter">k</span>
 
   <div class="shape-animation shape-one to-red">
     <div class="shape shape1"></div>
@@ -68,6 +68,10 @@ padding: 1em;
 font-family: 'Comfortaa', cursive;
 `;
   document.body.appendChild(footer);
+  
+  window.kibibitLogogTimer = setInterval(() => {
+  test.classList.toggle("full-logo");
+}, 5000);
 }
 
 // inject fonts used in theme
