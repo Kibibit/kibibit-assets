@@ -28,6 +28,10 @@ body {
   --bold-text-color-alt: #CC00FF;
 }
 
+.kb-flex-spacer {
+  flex-grow: 1;
+}
+
 footer {
   display: flex;
   justify-content: space-between;
