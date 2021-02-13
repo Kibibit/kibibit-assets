@@ -32,6 +32,7 @@ body {
   grid-template-rows: repeat(2, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+  border-bottom: 1px solid rgba(255,255,255,.2);
 }
 
 .swagger-ui .opblock-tag > a.nostyle {
