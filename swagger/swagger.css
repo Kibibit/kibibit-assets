@@ -26,6 +26,10 @@ body {
   --bold-text-color-alt: #CC00FF;
 }
 
+.swagger-ui .markdown p, .swagger-ui .markdown pre, .swagger-ui .renderedMarkdown p, .swagger-ui .renderedMarkdown pre {
+  margin: 0 auto 1em;
+}
+
 .swagger-ui .opblock-tag {
   display: inline-grid;
   grid-template-columns: auto auto 27px;
