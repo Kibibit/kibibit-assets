@@ -399,7 +399,7 @@ a:active {
 
 .swagger-ui .model-title,
 .swagger-ui .model.model-title {
-  color: #var(--bold-text-color);
+  color: var(--bold-text-color);
   font-family: 'Comfortaa', cursive;
 }
 
