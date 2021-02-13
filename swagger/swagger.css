@@ -417,7 +417,7 @@ a:active {
 }
 
 .swagger-ui .prop-type {
-  color: #AA00FF;
+  color: var(--bold-text-color);
 }
 
 .swagger-ui .model .prop-type {
