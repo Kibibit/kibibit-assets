@@ -35,6 +35,7 @@ function addThemeFooter() {
 
 // inject fonts used in theme
 addCss('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Righteous&family=Bungee+Hairline&display=swap');
+addCss('https://github.com/Kibibit/kibibit-assets/blob/master/swagger/swagger.css');
 addCss('https://kibibit.io/kibibit-logo/kb-logo.css');
 addMetaTag();
 addThemeFooter();
