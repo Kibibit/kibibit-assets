@@ -67,11 +67,16 @@ body {
 
 footer {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   background: var(--second-text-color);
   color: white;
   padding: 1em;
   font-family: 'Comfortaa', cursive;
+}
+
+footer .created-by {
+  margin-inline-end: 45px;
 }
 
 footer .created-by,
