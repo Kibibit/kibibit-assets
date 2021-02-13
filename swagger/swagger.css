@@ -65,6 +65,15 @@ a:active {
   background-color: var(--post-color);
 }
 
+.swagger-ui .opblock .opblock-summary-operation-id, .swagger-ui .opblock .opblock-summary-path, .swagger-ui .opblock .opblock-summary-path__deprecated {
+/*   antique white */
+  color: rgba(250,235,215);
+}
+
+.swagger-ui .opblock.opblock-deprecated .opblock-summary-method {
+  background: grey;
+}
+
 .swagger-ui .opblock.opblock-post .opblock-summary-method {
   background: var(--post-color);
 }
