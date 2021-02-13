@@ -51,6 +51,10 @@ body {
   color: rgb(175, 175, 175);
 }
 
+.swagger-ui .response-control-media-type__accept-message {
+  color: var(--post-color);
+}
+
 .swagger-ui .info li,
 .swagger-ui .info p,
 .swagger-ui .info table,
