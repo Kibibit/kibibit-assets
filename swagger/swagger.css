@@ -26,7 +26,14 @@ body {
   --bold-text-color-alt: #CC00FF;
 }
 
-.swagger-ui .info li, .swagger-ui .info p, .swagger-ui .info table {
+col_header response-col_description {
+  font-size: 14px;
+}
+
+.swagger-ui .info li,
+.swagger-ui .info p,
+.swagger-ui .info table,
+.swagger-ui .response-col_links {
   font-family: 'Comfortaa', cursive;
 }
 
