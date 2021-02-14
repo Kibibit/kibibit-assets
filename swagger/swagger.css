@@ -27,7 +27,7 @@ body {
   font-family: 'Comfortaa', cursive;
 }
 
-col_header response-col_description {
+.col_header.response-col_description {
   font-size: 14px;
 }
 
@@ -45,7 +45,7 @@ col_header response-col_description {
   font-family: 'Comfortaa', cursive;
 }
 
-.swagger-ui .response-col_links {
+.swagger-ui .response-col_links:not(.col_header) {
   font-size: .8em;
 }
 
