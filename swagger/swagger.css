@@ -181,8 +181,7 @@ a:active {
 }
 
 .swagger-ui .opblock .opblock-summary-operation-id, .swagger-ui .opblock .opblock-summary-path, .swagger-ui .opblock .opblock-summary-path__deprecated {
-/*   antique white */
-  color: rgba(250,235,215);
+  color: white;
 }
 
 .swagger-ui .opblock-description-wrapper, .swagger-ui .opblock-external-docs-wrapper, .swagger-ui .opblock-title_normal {
@@ -337,7 +336,7 @@ a:active {
 
 
 .swagger-ui .opblock .opblock-summary-path {
-  color: antiquewhite;
+  color: white;
   font-family: 'Comfortaa', cursive;
   max-width: calc(100% - 1em);
   grid-area: 1 / 2 / 2 / 3;
