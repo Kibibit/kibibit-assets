@@ -462,6 +462,7 @@ a:active {
 .swagger-ui .opblock .opblock-summary-method {
   grid-area: 1 / 1 / 2 / 2;
   font-family: 'Comfortaa', cursive;
+  font-size: .8em;
 }
 
 .swagger-ui .parameter__extension, .swagger-ui .parameter__in {
