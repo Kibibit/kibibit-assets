@@ -24,10 +24,17 @@ body {
   --code-background: rgb(51, 51, 51);
   --bold-text-color: hotpink;
   --bold-text-color-alt: #CC00FF;
+  font-family: 'Comfortaa', cursive;
 }
 
 col_header response-col_description {
   font-size: 14px;
+}
+
+.swagger-ui .opblock .opblock-summary-operation-id,
+.swagger-ui .opblock .opblock-summary-path,
+.swagger-ui .opblock .opblock-summary-path__deprecated {
+  font-family: 'Comfortaa', cursive;
 }
 
 .swagger-ui .info li,
@@ -453,6 +460,7 @@ a:active {
 
 .swagger-ui .opblock .opblock-summary-method {
   grid-area: 1 / 1 / 2 / 2;
+  font-family: 'Comfortaa', cursive;
 }
 
 .swagger-ui .parameter__extension, .swagger-ui .parameter__in {
