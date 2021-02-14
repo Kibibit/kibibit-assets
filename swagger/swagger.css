@@ -24,6 +24,7 @@ body {
   --code-background: rgb(51, 51, 51);
   --bold-text-color: hotpink;
   --bold-text-color-alt: #CC00FF;
+  --secondary-text-color: rgb(200, 200, 200);
   font-family: 'Comfortaa', cursive;
 }
 
@@ -33,6 +34,7 @@ body {
 .swagger-ui .info h4,
 .swagger-ui .info h5 {
   font-family: 'Comfortaa', cursive;
+  color: var(--main-text-color);
 }
 
 .swagger-ui .opblock-body pre.microlight,
@@ -41,7 +43,7 @@ body {
 .swagger-ui .renderedMarkdown code {
   font-family: Hack, monospace;
   background: var(--code-background);
-  color: white;
+  color: var(--main-text-color);
 }
 
 .swagger-ui .markdown code,
@@ -247,7 +249,7 @@ a:active {
 .swagger-ui .info p,
 .swagger-ui .info table,
 .swagger-ui .response-col_links {
-  color: var(--main-text-color);
+  color: var(--secondary-text-color);
 }
 
 /* change swagger logo in topnav */
