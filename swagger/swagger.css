@@ -26,6 +26,10 @@ body {
   --bold-text-color-alt: #CC00FF;
 }
 
+.swagger-ui .responses-inner h4, .swagger-ui .responses-inner h5 {
+  color: rgb(200, 200, 200);
+}
+
 .swagger-ui .markdown p, .swagger-ui .markdown pre, .swagger-ui .renderedMarkdown p, .swagger-ui .renderedMarkdown pre {
   margin: 0 auto 1em;
 }
