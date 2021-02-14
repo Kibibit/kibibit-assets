@@ -26,6 +26,10 @@ body {
   --bold-text-color-alt: #CC00FF;
 }
 
+.swagger-ui .info li, .swagger-ui .info p, .swagger-ui .info table {
+  font-family: 'Comfortaa', cursive;
+}
+
 .swagger-ui .responses-inner h4, .swagger-ui .responses-inner h5 {
   color: rgb(200, 200, 200);
   font-family: 'Comfortaa', cursive;
