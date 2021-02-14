@@ -35,8 +35,8 @@ body {
   font-family: 'Comfortaa', cursive;
 }
 
-.swagger-ui .markdown > *:first-child,
-.swagger-ui .renderedMarkdown > *:first-child {
+.swagger-ui table .markdown > *:first-child,
+.swagger-ui table .renderedMarkdown > *:first-child {
   margin-top: 0;
 }
 
