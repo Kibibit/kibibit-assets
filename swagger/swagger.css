@@ -27,6 +27,29 @@ body {
   font-family: 'Comfortaa', cursive;
 }
 
+.swagger-ui .info h1,
+.swagger-ui .info h2,
+.swagger-ui .info h3,
+.swagger-ui .info h4,
+.swagger-ui .info h5 {
+  font-family: 'Comfortaa', cursive;
+}
+
+.swagger-ui .opblock-body pre.microlight,
+.swagger-ui .model,
+.swagger-ui .markdown code,
+.swagger-ui .renderedMarkdown code {
+  font-family: Hack, monospace;
+  background: var(--code-background);
+  color: white;
+}
+
+.swagger-ui .markdown code,
+.swagger-ui .renderedMarkdown code {
+  padding: 0.5em;
+  font-size: 12px;
+}
+
 .col_header.response-col_description {
   font-size: 14px;
 }
