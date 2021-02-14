@@ -33,7 +33,8 @@ col_header response-col_description {
 
 .swagger-ui .opblock .opblock-summary-operation-id,
 .swagger-ui .opblock .opblock-summary-path,
-.swagger-ui .opblock .opblock-summary-path__deprecated {
+.swagger-ui .opblock .opblock-summary-path__deprecated,
+.swagger-ui .tab li {
   font-family: 'Comfortaa', cursive;
 }
 
