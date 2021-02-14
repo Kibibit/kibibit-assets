@@ -45,6 +45,10 @@ col_header response-col_description {
   font-family: 'Comfortaa', cursive;
 }
 
+.swagger-ui .response-col_links {
+  font-size: .8em;
+}
+
 .swagger-ui .responses-inner h4, .swagger-ui .responses-inner h5 {
   color: rgb(200, 200, 200);
   font-family: 'Comfortaa', cursive;
