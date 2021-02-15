@@ -30,6 +30,15 @@ body {
   font-family: 'Comfortaa', cursive;
 }
 
+.swagger-ui input[type=email].invalid,
+.swagger-ui input[type=file].invalid,
+.swagger-ui input[type=password].invalid,
+.swagger-ui input[type=search].invalid,
+.swagger-ui input[type=text].invalid,
+.swagger-ui textarea.invalid {
+  background: transparent;
+}
+
 .swagger-ui input[disabled],
 .swagger-ui select[disabled],
 .swagger-ui textarea[disabled] {
@@ -624,7 +633,7 @@ select [disabled] {
 .swagger-ui input[type=password]:focus,
 .swagger-ui input[type=search]:focus,
 .swagger-ui input[type=text]:focus {
-  border-bottom: 2px solid var(--main-text-color);
+  border-bottom: 2px solid;
   color: var(--main-text-color);
   outline: none;
   border-left: 6px solid var(--main-text-color);
