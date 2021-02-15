@@ -780,12 +780,12 @@ code {
   .swagger-ui td.parameters-col_name::before { content: "Name"; }
   .swagger-ui td.parameters-col_description::before { content: "Description"; }
 
-  .swagger-ui table.model,
-  .swagger-ui table.model thead,
-  .swagger-ui table.model tbody,
-  .swagger-ui table.model th,
-  .swagger-ui table.model td,
-  .swagger-ui table.model tr {
-    display: initial;
-  }
+  .swagger-ui table.model { display: table; }
+
+  /* .swagger-ui table.model thead { display:  } */
+  .swagger-ui table.model tbody { display: table-row-group; }
+
+  /* .swagger-ui table.model th { display: table-} */
+  .swagger-ui table.model td { display: table-cell; }
+  .swagger-ui table.model tr { display: table-row; }
 }
