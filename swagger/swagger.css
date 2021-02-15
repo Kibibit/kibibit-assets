@@ -78,7 +78,10 @@ body {
 .swagger-ui .opblock .opblock-summary-operation-id,
 .swagger-ui .opblock .opblock-summary-path,
 .swagger-ui .opblock .opblock-summary-path__deprecated,
-.swagger-ui .tab li {
+.swagger-ui .tab li,
+.swagger-ui .opblock-description-wrapper,
+.swagger-ui .opblock-external-docs-wrapper,
+.swagger-ui .opblock-title_normal {
   font-family: 'Comfortaa', cursive;
 }
 
