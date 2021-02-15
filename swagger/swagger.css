@@ -30,6 +30,10 @@ body {
   font-family: 'Comfortaa', cursive;
 }
 
+.swagger-ui .loading-container {
+  min-height: 250px;
+}
+
 .swagger-ui .loading-container .loading,
 .swagger-ui .loading-container .loading::before,
 .swagger-ui .loading-container .loading::after {
