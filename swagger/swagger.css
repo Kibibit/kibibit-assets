@@ -751,7 +751,7 @@ code {
   .swagger-ui table tbody tr td,
   .swagger-ui table tbody tr td:first-of-type,
   .swagger-ui td.response-col_links {
-    padding-left: .9em;
+    padding-left: 0.9em;
   }
 
   .swagger-ui td::before {
@@ -759,13 +759,13 @@ code {
     padding: 0.5em 0;
     white-space: nowrap;
     font-weight: bold;
-    border-left: .3em solid hotpink;
-    padding-left: .5em;
+    border-left: 0.3em solid hotpink;
+    padding-left: 0.5em;
     color: hotpink;
-    margin-left: -.9em;
+    margin-left: -0.9em;
     margin-bottom: 1em;
   }
-    
+
   .swagger-ui .opblock.opblock-get td::before { border-color: transparent; color: var(--get-color); }
   .swagger-ui .opblock.opblock-post td::before { border-color: transparent; color: var(--post-color); }
   .swagger-ui .opblock.opblock-put td::before { border-color: transparent; color: var(--put-color); }
@@ -779,4 +779,13 @@ code {
 
   .swagger-ui td.parameters-col_name::before { content: "Name"; }
   .swagger-ui td.parameters-col_description::before { content: "Description"; }
+
+  .swagger-ui table.model,
+  .swagger-ui table.model thead,
+  .swagger-ui table.model tbody,
+  .swagger-ui table.model th,
+  .swagger-ui table.model td,
+  .swagger-ui table.model tr {
+    display: initial;
+  }
 }
