@@ -32,6 +32,7 @@ body {
 
 .swagger-ui .loading-container {
   min-height: 250px;
+  padding: 0;
 }
 
 .swagger-ui .loading-container .loading,
