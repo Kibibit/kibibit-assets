@@ -348,8 +348,6 @@ a:active {
   grid-row-gap: 0px;
 }
 
-
-
 .swagger-ui .opblock .opblock-summary-path {
   color: white;
   font-family: 'Comfortaa', cursive;
@@ -597,7 +595,6 @@ a:active {
   /*   margin: 0 0.6em; */
 }
 
-
 .swagger-ui input[type=email],
 .swagger-ui input[type=password],
 .swagger-ui input[type=search],
@@ -742,11 +739,14 @@ code {
 
   .swagger-ui tr {
     padding: 0 1em 1em;
+    background: rgba(0, 0, 0, 0.2);
+    margin: 0.5em 0;
+    border-radius: var(--border-radius);
   }
 
-  .swagger-ui tr:nth-of-type(even) {
+  /*   .swagger-ui tr:nth-of-type(even) {
     background: rgba(0, 0, 0, 0.2);
-  }
+  } */
 
   .swagger-ui td.response-col_links {
     padding-left: 0;
