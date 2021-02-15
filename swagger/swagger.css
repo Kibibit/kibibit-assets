@@ -726,40 +726,40 @@ code {
   only screen and (max-width: 760px),
   (min-device-width: 768px) and (max-device-width: 1024px) {
   /* Force table to not be like tables anymore */
-  .swagger-ui table,
-  .swagger-ui thead,
-  .swagger-ui tbody,
-  .swagger-ui th,
-  .swagger-ui td,
-  .swagger-ui tr {
+  .swagger-ui :not(.model-box) table,
+  .swagger-ui :not(.model-box) thead,
+  .swagger-ui :not(.model-box) tbody,
+  .swagger-ui :not(.model-box) th,
+  .swagger-ui :not(.model-box) td,
+  .swagger-ui :not(.model-box) tr {
     display: block;
   }
 
   /* Hide table headers (but not display: none;, for accessibility) */
-  .swagger-ui thead tr {
+  .swagger-ui :not(.model-box) thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
 
-  .swagger-ui tr {
+  .swagger-ui :not(.model-box) tr {
     padding: 0 1em 1em;
     background: rgba(0, 0, 0, 0.2);
     margin: 0.5em 0;
     border-radius: var(--border-radius);
   }
 
-  /*   .swagger-ui tr:nth-of-type(even) {
+  /*   .swagger-ui :not(.model-box) tr:nth-of-type(even) {
     background: rgba(0, 0, 0, 0.2);
   } */
 
-  .swagger-ui table tbody tr td,
-  .swagger-ui table tbody tr td:first-of-type,
-  .swagger-ui td.response-col_links {
+  .swagger-ui :not(.model-box) table tbody tr td,
+  .swagger-ui :not(.model-box) table tbody tr td:first-of-type,
+  .swagger-ui :not(.model-box) td.response-col_links {
     padding-left: .9em;
   }
 
-  .swagger-ui td::before {
+  .swagger-ui :not(.model-box) td::before {
     display: block;
     padding: 0.5em 0;
     white-space: nowrap;
@@ -771,11 +771,11 @@ code {
     margin-bottom: 1em;
   }
     
-  .swagger-ui .opblock.opblock-get td::before { border-color: transparent; color: var(--get-color); }
-  .swagger-ui .opblock.opblock-post td::before { border-color: transparent; color: var(--post-color); }
-  .swagger-ui .opblock.opblock-put td::before { border-color: transparent; color: var(--put-color); }
-  .swagger-ui .opblock.opblock-patch td::before { border-color: transparent; color: var(--patch-color); }
-  .swagger-ui .opblock.opblock-delete td::before { border-color: transparent; color: var(--delete-color); }
+  .swagger-ui .opblock.opblock-get :not(.model-box) td::before { border-color: transparent; color: var(--get-color); }
+  .swagger-ui .opblock.opblock-post :not(.model-box) td::before { border-color: transparent; color: var(--post-color); }
+  .swagger-ui .opblock.opblock-put :not(.model-box) td::before { border-color: transparent; color: var(--put-color); }
+  .swagger-ui .opblock.opblock-patch :not(.model-box) td::before { border-color: transparent; color: var(--patch-color); }
+  .swagger-ui .opblock.opblock-delete :not(.model-box) td::before { border-color: transparent; color: var(--delete-color); }
 
   /* Label the data */
   .swagger-ui td.response-col_status::before { content: "Code"; }
