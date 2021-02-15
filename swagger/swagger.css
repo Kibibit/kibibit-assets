@@ -28,6 +28,12 @@ body {
   font-family: 'Comfortaa', cursive;
 }
 
+.swagger-ui input[disabled],
+.swagger-ui select[disabled],
+.swagger-ui textarea[disabled] {
+  opacity: .5;
+}
+
 .swagger-ui .info h1,
 .swagger-ui .info h2,
 .swagger-ui .info h3,
@@ -605,6 +611,8 @@ select [disabled] {
 .swagger-ui input[type=text]:focus {
   border-bottom: 2px solid var(--main-text-color);
   color: var(--main-text-color);
+  outline: none;
+  border-left: 6px solid var(--main-text-color);
 }
 
 .swagger-ui input[type=email]::placeholder,
