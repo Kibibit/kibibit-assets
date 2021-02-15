@@ -71,6 +71,8 @@ body {
 
 .swagger-ui .loading-container .loading::after {
   left: 1.5em;
+  transform: none;
+  color: #fff;
 }
 
 @-webkit-keyframes load1 {
