@@ -719,7 +719,17 @@ only screen and (max-width: 760px),
 		left: -9999px;
 	}
 	
-	tr {}
+	tr {
+		padding: 0 1em 1em;
+	}
+	
+	tr:nth-of-type(even) { 
+		background: rgba(0,0,0,.2);
+	}
+	
+	td.response-col_links {
+		padding-left: 0;
+	}
 	
 	td {}
 	
