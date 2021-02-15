@@ -763,7 +763,14 @@ code {
     padding-left: .5em;
     color: hotpink;
     margin-left: -.9em;
+    margin-bottom: 1em;
   }
+    
+  .swagger-ui .opblock.opblock-get td::before { border-color: var(--get-color); color: var(--get-color); }
+  .swagger-ui .opblock.opblock-post td::before { border-color: var(--post-color); color: var(--post-color); }
+  .swagger-ui .opblock.opblock-put td::before { border-color: var(--put-color); color: var(--put-color); }
+  .swagger-ui .opblock.opblock-patch td::before { border-color: var(--patch-color); color: var(--patch-color); }
+  .swagger-ui .opblock.opblock-delete td::before { border-color: var(--delete-color); color: var(--delete-color); }
 
   /* Label the data */
   .swagger-ui td.response-col_status::before { content: "Code"; }
