@@ -765,4 +765,7 @@ code {
   .swagger-ui td.response-col_status::before { content: "Code"; }
   .swagger-ui td.response-col_description::before { content: "Description"; }
   .swagger-ui td.response-col_links::before { content: "Links"; }
+
+  .swagger-ui td.parameters-col_name::before { content: "Name"; }
+  .swagger-ui td.parameters-col_description::before { content: "Description"; }
 }
