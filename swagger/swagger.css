@@ -540,11 +540,11 @@ a:active {
   font-family: 'Comfortaa', cursive;
 }
 
-.swagger-ui .model-box .model td > span:not(.model) {
+.swagger-ui .model-box .model td > span.responses-table {
   color: transparent !important;
 }
 
-.swagger-ui .model-box .model td > span:not(.model)::after {
+.swagger-ui .model-box .model td > span.responses-table::after {
   content: 'required';
   font-size: 0.9em;
 }
@@ -574,7 +574,7 @@ a:active {
   } */
 
 .swagger-ui .parameter__name.required::after,
-.swagger-ui .model-box .model td > span:not(.model)::after {
+.swagger-ui .model-box .model td > span.responses-table::after {
   font-family: 'Comfortaa', cursive;
   align-items: center;
 
@@ -727,40 +727,40 @@ code {
   only screen and (max-width: 760px),
   (min-device-width: 768px) and (max-device-width: 1024px) {
   /* Force table to not be like tables anymore */
-  .swagger-ui table:not(.model),
-  .swagger-ui table:not(.model) thead,
-  .swagger-ui table:not(.model) tbody,
-  .swagger-ui table:not(.model) th,
-  .swagger-ui table:not(.model) td,
-  .swagger-ui table:not(.model) tr {
+  .swagger-ui table.responses-table,
+  .swagger-ui table.responses-table thead,
+  .swagger-ui table.responses-table tbody,
+  .swagger-ui table.responses-table th,
+  .swagger-ui table.responses-table td,
+  .swagger-ui table.responses-table tr {
     display: block;
   }
 
   /* Hide table headers (but not display: none;, for accessibility) */
-  .swagger-ui table:not(.model) thead tr {
+  .swagger-ui table.responses-table thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
 
-  .swagger-ui table:not(.model) tr {
+  .swagger-ui table.responses-table tr {
     padding: 0 1em 1em;
     background: rgba(0, 0, 0, 0.2);
     margin: 0.5em 0;
     border-radius: var(--border-radius);
   }
 
-  /*   .swagger-ui table:not(.model) tr:nth-of-type(even) {
+  /*   .swagger-ui table.responses-table tr:nth-of-type(even) {
     background: rgba(0, 0, 0, 0.2);
   } */
 
-  .swagger-ui table:not(.model) tbody tr td,
-  .swagger-ui table:not(.model) tbody tr td:first-of-type,
-  .swagger-ui table:not(.model) td.response-col_links {
+  .swagger-ui table.responses-table tbody tr td,
+  .swagger-ui table.responses-table tbody tr td:first-of-type,
+  .swagger-ui table.responses-table td.response-col_links {
     padding-left: 0.9em;
   }
 
-  .swagger-ui table:not(.model) td::before {
+  .swagger-ui table.responses-table td::before {
     display: block;
     padding: 0.5em 0;
     white-space: nowrap;
@@ -772,11 +772,62 @@ code {
     margin-bottom: 1em;
   }
 
-  .swagger-ui .opblock.opblock-get table:not(.model) td::before { border-color: transparent; color: var(--get-color); }
-  .swagger-ui .opblock.opblock-post table:not(.model) td::before { border-color: transparent; color: var(--post-color); }
-  .swagger-ui .opblock.opblock-put table:not(.model) td::before { border-color: transparent; color: var(--put-color); }
-  .swagger-ui .opblock.opblock-patch table:not(.model) td::before { border-color: transparent; color: var(--patch-color); }
-  .swagger-ui .opblock.opblock-delete table:not(.model) td::before { border-color: transparent; color: var(--delete-color); }
+  .swagger-ui .opblock.opblock-get table.responses-table td::before { border-color: transparent; color: var(--get-color); }
+  .swagger-ui .opblock.opblock-post table.responses-table td::before { border-color: transparent; color: var(--post-color); }
+  .swagger-ui .opblock.opblock-put table.responses-table td::before { border-color: transparent; color: var(--put-color); }
+  .swagger-ui .opblock.opblock-patch table.responses-table td::before { border-color: transparent; color: var(--patch-color); }
+  .swagger-ui .opblock.opblock-delete table.responses-table td::before { border-color: transparent; color: var(--delete-color); }
+
+  .swagger-ui table.parameters,
+  .swagger-ui table.parameters thead,
+  .swagger-ui table.parameters tbody,
+  .swagger-ui table.parameters th,
+  .swagger-ui table.parameters td,
+  .swagger-ui table.parameters tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  .swagger-ui table.parameters thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .swagger-ui table.parameters tr {
+    padding: 0 1em 1em;
+    background: rgba(0, 0, 0, 0.2);
+    margin: 0.5em 0;
+    border-radius: var(--border-radius);
+  }
+
+  /*   .swagger-ui table.parameters tr:nth-of-type(even) {
+    background: rgba(0, 0, 0, 0.2);
+  } */
+
+  .swagger-ui table.parameters tbody tr td,
+  .swagger-ui table.parameters tbody tr td:first-of-type,
+  .swagger-ui table.parameters td.response-col_links {
+    padding-left: 0.9em;
+  }
+
+  .swagger-ui table.parameters td::before {
+    display: block;
+    padding: 0.5em 0;
+    white-space: nowrap;
+    font-weight: bold;
+    border-left: 0.3em solid hotpink;
+    padding-left: 0.5em;
+    color: hotpink;
+    margin-left: -0.9em;
+    margin-bottom: 1em;
+  }
+
+  .swagger-ui .opblock.opblock-get table.parameters td::before { border-color: transparent; color: var(--get-color); }
+  .swagger-ui .opblock.opblock-post table.parameters td::before { border-color: transparent; color: var(--post-color); }
+  .swagger-ui .opblock.opblock-put table.parameters td::before { border-color: transparent; color: var(--put-color); }
+  .swagger-ui .opblock.opblock-patch table.parameters td::before { border-color: transparent; color: var(--patch-color); }
+  .swagger-ui .opblock.opblock-delete table.parameters td::before { border-color: transparent; color: var(--delete-color); }
 
   /* Label the data */
   .swagger-ui td.response-col_status::before { content: "Code"; }
