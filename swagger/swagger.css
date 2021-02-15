@@ -748,11 +748,9 @@ code {
     background: rgba(0, 0, 0, 0.2);
   } */
 
+  .swagger-ui table tbody tr td,
+  .swagger-ui table tbody tr td:first-of-type,
   .swagger-ui td.response-col_links {
-    padding-left: 0;
-  }
-
-  .swagger-ui table tbody tr td {
     padding-left: .9em;
   }
 
