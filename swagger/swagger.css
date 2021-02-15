@@ -120,7 +120,8 @@ body {
 
 .swagger-ui .opblock-tag > div {
   grid-area: 3 / 1 / 4 / 3;
-/*   margin-top: 1em; */
+
+  /*   margin-top: 1em; */
 }
 
 .swagger-ui .opblock-tag > div > small {
@@ -729,7 +730,7 @@ code {
   .swagger-ui table:not(.model),
   .swagger-ui table:not(.model) thead,
   .swagger-ui table:not(.model) tbody,
-  .swagger-ui :table:not(.model) th,
+  .swagger-ui table:not(.model) th,
   .swagger-ui table:not(.model) td,
   .swagger-ui table:not(.model) tr {
     display: block;
@@ -756,7 +757,7 @@ code {
   .swagger-ui table:not(.model) tbody tr td,
   .swagger-ui table:not(.model) tbody tr td:first-of-type,
   .swagger-ui table:not(.model) td.response-col_links {
-    padding-left: .9em;
+    padding-left: 0.9em;
   }
 
   .swagger-ui table:not(.model) td::before {
@@ -764,13 +765,13 @@ code {
     padding: 0.5em 0;
     white-space: nowrap;
     font-weight: bold;
-    border-left: .3em solid hotpink;
-    padding-left: .5em;
+    border-left: 0.3em solid hotpink;
+    padding-left: 0.5em;
     color: hotpink;
-    margin-left: -.9em;
+    margin-left: -0.9em;
     margin-bottom: 1em;
   }
-    
+
   .swagger-ui .opblock.opblock-get table:not(.model) td::before { border-color: transparent; color: var(--get-color); }
   .swagger-ui .opblock.opblock-post table:not(.model) td::before { border-color: transparent; color: var(--post-color); }
   .swagger-ui .opblock.opblock-put table:not(.model) td::before { border-color: transparent; color: var(--put-color); }
