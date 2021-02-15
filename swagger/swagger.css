@@ -636,8 +636,14 @@ select [disabled] {
   border-bottom: 2px solid;
   color: var(--main-text-color);
   outline: none;
-  border-left: 6px solid var(--main-text-color);
+  border-left: 6px solid;
 }
+
+.swagger-ui .opblock.opblock-get input:focus { border-color: var(--get-color); }
+.swagger-ui .opblock.opblock-post input:focus { border-color: var(--post-color); }
+.swagger-ui .opblock.opblock-put input:focus { border-color: var(--put-color); }
+.swagger-ui .opblock.opblock-patch input:focus { border-color: var(--patch-color); }
+.swagger-ui .opblock.opblock-delete input:focus { border-color: var(--delete-color); }
 
 .swagger-ui input[type=email]::placeholder,
 .swagger-ui input[type=password]::placeholder,
