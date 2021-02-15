@@ -162,6 +162,11 @@ footer .contact-email {
   margin-inline-end: 0px;
 }
 
+footer a {
+  text-decoration: none;
+  border-bottom: 1px solid;
+}
+
 .swagger-ui .opblock-tag small {
   color: rgb(200, 200, 200);
   font-family: 'Comfortaa', cursive;
