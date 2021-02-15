@@ -719,38 +719,21 @@ only screen and (max-width: 760px),
 		left: -9999px;
 	}
 	
-/* 	tr { border: 1px solid #ccc; } */
+	tr {}
 	
-	td { 
-		/* Behave  like a "row" */
-		border: none;
-/* 		border-bottom: 1px solid #eee;  */
-/* 		position: relative; */
-		padding-left: 50%; 
-	}
+	td {}
 	
 	td:before { 
-		/* Now like a table header */
-		position: absolute;
-		/* Top/left values mimic padding */
-		top: 6px;
-		left: 6px;
-		width: 45%; 
-		padding-right: 10px; 
+		display: block;
+    padding: .5em 0;
 		white-space: nowrap;
+    font-weight: bold;
 	}
 	
 	/*
 	Label the data
 	*/
-	td:nth-of-type(1):before { content: "First Name"; }
-	td:nth-of-type(2):before { content: "Last Name"; }
-	td:nth-of-type(3):before { content: "Job Title"; }
-	td:nth-of-type(4):before { content: "Favorite Color"; }
-	td:nth-of-type(5):before { content: "Wars of Trek?"; }
-	td:nth-of-type(6):before { content: "Secret Alias"; }
-	td:nth-of-type(7):before { content: "Date of Birth"; }
-	td:nth-of-type(8):before { content: "Dream Vacation City"; }
-	td:nth-of-type(9):before { content: "GPA"; }
-	td:nth-of-type(10):before { content: "Arbitrary Data"; }
+  td.response-col_status:before { content: "Code"; }
+  td.response-col_description:before { content: "Description"; }
+  td.response-col_links:before { content: "Links"; }
 }
