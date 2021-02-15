@@ -64,6 +64,9 @@ body {
   left: -1.5em;
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
+  border: none;
+  border-radius: 0;
+  margin: 0;
 }
 
 .swagger-ui .loading-container .loading::after {
