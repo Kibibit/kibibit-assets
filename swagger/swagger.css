@@ -787,5 +787,8 @@ code {
 
   /* .swagger-ui table.model th { display: table-} */
   .swagger-ui table.model td { display: table-cell; }
-  .swagger-ui table.model tr { display: table-row; }
+  .swagger-ui table.model tr {
+    display: table-row;
+    background: transparent;
+  }
 }
