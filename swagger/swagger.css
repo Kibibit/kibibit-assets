@@ -120,7 +120,7 @@ body {
 
 .swagger-ui .opblock-tag > div {
   grid-area: 3 / 1 / 4 / 3;
-/*   margin-top: 1em; */
+  margin-top: 1em;
 }
 
 .swagger-ui .opblock-tag > div > small {
@@ -160,11 +160,6 @@ footer .contact-email {
   margin-block-end: 1em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
-}
-
-footer a {
-  text-decoration: none;
-  border-bottom: 1px solid;
 }
 
 .swagger-ui .opblock-tag small {
@@ -726,40 +721,40 @@ code {
   only screen and (max-width: 760px),
   (min-device-width: 768px) and (max-device-width: 1024px) {
   /* Force table to not be like tables anymore */
-  .swagger-ui table:not(.model),
-  .swagger-ui table:not(.model) thead,
-  .swagger-ui table:not(.model) tbody,
-  .swagger-ui :table:not(.model) th,
-  .swagger-ui table:not(.model) td,
-  .swagger-ui table:not(.model) tr {
+  .swagger-ui table,
+  .swagger-ui thead,
+  .swagger-ui tbody,
+  .swagger-ui th,
+  .swagger-ui td,
+  .swagger-ui tr {
     display: block;
   }
 
   /* Hide table headers (but not display: none;, for accessibility) */
-  .swagger-ui table:not(.model) thead tr {
+  .swagger-ui thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
 
-  .swagger-ui table:not(.model) tr {
+  .swagger-ui tr {
     padding: 0 1em 1em;
     background: rgba(0, 0, 0, 0.2);
     margin: 0.5em 0;
     border-radius: var(--border-radius);
   }
 
-  /*   .swagger-ui table:not(.model) tr:nth-of-type(even) {
+  /*   .swagger-ui tr:nth-of-type(even) {
     background: rgba(0, 0, 0, 0.2);
   } */
 
-  .swagger-ui table:not(.model) tbody tr td,
-  .swagger-ui table:not(.model) tbody tr td:first-of-type,
-  .swagger-ui table:not(.model) td.response-col_links {
+  .swagger-ui table tbody tr td,
+  .swagger-ui table tbody tr td:first-of-type,
+  .swagger-ui td.response-col_links {
     padding-left: .9em;
   }
 
-  .swagger-ui table:not(.model) td::before {
+  .swagger-ui td::before {
     display: block;
     padding: 0.5em 0;
     white-space: nowrap;
@@ -771,11 +766,11 @@ code {
     margin-bottom: 1em;
   }
     
-  .swagger-ui .opblock.opblock-get table:not(.model) td::before { border-color: transparent; color: var(--get-color); }
-  .swagger-ui .opblock.opblock-post table:not(.model) td::before { border-color: transparent; color: var(--post-color); }
-  .swagger-ui .opblock.opblock-put table:not(.model) td::before { border-color: transparent; color: var(--put-color); }
-  .swagger-ui .opblock.opblock-patch table:not(.model) td::before { border-color: transparent; color: var(--patch-color); }
-  .swagger-ui .opblock.opblock-delete table:not(.model) td::before { border-color: transparent; color: var(--delete-color); }
+  .swagger-ui .opblock.opblock-get td::before { border-color: transparent; color: var(--get-color); }
+  .swagger-ui .opblock.opblock-post td::before { border-color: transparent; color: var(--post-color); }
+  .swagger-ui .opblock.opblock-put td::before { border-color: transparent; color: var(--put-color); }
+  .swagger-ui .opblock.opblock-patch td::before { border-color: transparent; color: var(--patch-color); }
+  .swagger-ui .opblock.opblock-delete td::before { border-color: transparent; color: var(--delete-color); }
 
   /* Label the data */
   .swagger-ui td.response-col_status::before { content: "Code"; }
