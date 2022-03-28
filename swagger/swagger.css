@@ -6,6 +6,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  
 
   --card-background-color: rgba(150, 150, 150, 0.2);
   --get-color: hsl(204, 86%, 53%);
@@ -33,6 +34,17 @@ body {
 .swagger-ui .loading-container {
   min-height: 250px;
   padding: 0;
+}
+
+.swagger-ui .model-box-control, .swagger-ui .models-control, .swagger-ui .opblock-summary-control {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.swagger-ui .model-box-control > svg.arrow,
+.swagger-ui .models-control > svg.arrow,
+.swagger-ui .opblock-summary-control > svg.arrow {
+  visibility: hidden;
 }
 
 .swagger-ui .loading-container .loading,
