@@ -31,7 +31,7 @@ body {
   font-family: 'Comfortaa', cursive;
 }
 
-.swagger-ui .opblock {
+.swagger-ui .opblock .opblock-summary {
   position: relative;
 }
 
