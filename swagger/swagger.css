@@ -31,6 +31,10 @@ body {
   font-family: 'Comfortaa', cursive;
 }
 
+.swagger-ui .dialog-ux .backdrop-ux {
+  background: rgba(255, 255, 255, .1);
+}
+
 .swagger-ui .dialog-ux .modal-ux {
   background: rgba(55, 55, 55, 1);
   background: url(https://thatkookooguy.github.io/https-assets/bg/abstract/bg.png);
