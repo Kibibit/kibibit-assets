@@ -54,6 +54,28 @@ body {
   grid-column-end: 3;
 }
 
+.swagger-ui .authorization__btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8%;
+  height: 100%;
+  margin-right: 8%;
+  opacity: 1;
+}
+
+.swagger-ui .opblock .opblock-summary:hover .view-line-link.copy-to-clipboard {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4%;
+  height: 100%;
+  margin-right: 0;
+  opacity: 1;
+  z-index: 500;
+  background: rgba(189, 0, 255, .3);
+}
+
 .swagger-ui .model-box-control > svg.arrow,
 .swagger-ui .models-control > svg.arrow,
 .swagger-ui .opblock-summary-control > svg.arrow {
