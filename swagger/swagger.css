@@ -58,7 +58,7 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  width: 8%;
+  width: 50px;
   height: 100%;
   margin-right: 8%;
   opacity: 1;
@@ -73,7 +73,7 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  width: 4%;
+  width: 25px;
   height: 100%;
   margin-right: 0;
   z-index: 500;
