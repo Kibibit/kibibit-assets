@@ -65,13 +65,17 @@ body {
 }
 
 .swagger-ui .opblock .opblock-summary:hover .view-line-link.copy-to-clipboard {
+  opacity: 1;
+}
+
+.swagger-ui .opblock .opblock-summary .view-line-link.copy-to-clipboard {
+  opacity: 0;
   position: absolute;
   top: 0;
   right: 0;
   width: 4%;
   height: 100%;
   margin-right: 0;
-  opacity: 1;
   z-index: 500;
   background: rgba(189, 0, 255, 0.2);
 }
