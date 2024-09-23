@@ -46,8 +46,13 @@ body {
   fill: white;
 }
 
-.swagger-ui .dialog-ux .modal-ux-content h4 {
+.swagger-ui .dialog-ux .modal-ux-content h4,
+.swagger-ui label {
   color: rgba(137, 0, 255);
+}
+
+.swagger-ui .dialog-ux .modal-ux-header {
+  border-bottom: 1px solid rgba(137, 0, 255);
 }
 
 .swagger-ui .opblock .opblock-summary {
