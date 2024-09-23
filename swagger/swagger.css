@@ -839,9 +839,9 @@ select [disabled] {
   color: var(--second-text-color);
 }
 
-.swagger-ui .scheme-container {
+/* .swagger-ui .scheme-container {
   background: var(--section-color);
-}
+} */
 
 .swagger-ui .btn.authorize {
   /* background-color: var(--put-color); */
