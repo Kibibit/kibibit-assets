@@ -73,7 +73,11 @@ body {
   margin-right: 0;
   opacity: 1;
   z-index: 500;
-  background: rgba(189, 0, 255, .3);
+  background: rgba(189, 0, 255, 0.2);
+}
+
+.swagger-ui .scheme-container {
+  background: rgba(189, 0, 255, 0.2);
 }
 
 .swagger-ui .model-box-control > svg.arrow,
