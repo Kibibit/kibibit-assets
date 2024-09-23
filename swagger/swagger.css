@@ -31,6 +31,25 @@ body {
   font-family: 'Comfortaa', cursive;
 }
 
+.swagger-ui .dialog-ux .modal-ux {
+  background: rgba(55, 55, 55, 1);
+  background: url(https://thatkookooguy.github.io/https-assets/bg/abstract/bg.png);
+  background-size: 200%;
+  background-attachment: fixed;
+  border-color: transparent;
+  color: white;
+}
+
+.swagger-ui .dialog-ux .modal-ux-header h3,
+.swagger-ui .dialog-ux .modal-ux-header .close-modal {
+  color: white;
+  fill: white;
+}
+
+.swagger-ui .dialog-ux .modal-ux-content h4 {
+  color: rgba(137, 0, 255);
+}
+
 .swagger-ui .opblock .opblock-summary {
   position: relative;
 }
