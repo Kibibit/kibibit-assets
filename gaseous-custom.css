@@ -1683,9 +1683,24 @@ button:not(.select2-selection__choice__remove):not(.ejs_menu_button):disabled {
     font-family: Commodore64;
     display: inline-block;
     padding: 10px;
-    font-size: 24pt;
+    font-size: 0;
     vertical-align: top;
     /*color: #edeffa;*/
+    color: #7c70da;
+}
+
+#loginform .bigbutton {
+    font-family: "Comfortaa", serif;
+}
+
+#loginwindow_header_label:before {
+    content: "kb-arcade";
+    font-family: Commodore64;
+    display: inline-block;
+    padding: 10px;
+    font-size: 24pt;
+    vertical-align: top;
+    /* color: #edeffa; */
     color: #7c70da;
 }
 
