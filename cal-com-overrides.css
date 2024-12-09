@@ -103,3 +103,10 @@ body .font-cal {
   font-family: "Comfortaa", serif;
   font-optical-sizing: auto;
 }
+
+body *,
+body :before,
+body :after {
+  font-family: "Comfortaa", serif;
+  font-optical-sizing: auto;
+}
