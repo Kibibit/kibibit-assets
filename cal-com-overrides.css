@@ -112,9 +112,9 @@ body :after {
 }
 
 b, strong {
-    color: white;
+    color: var(--cal-text-emphasis,#111827);
 }
 
 .text-default {
-    color: white;
+    color: var(--cal-text-emphasis,#111827);
 }
