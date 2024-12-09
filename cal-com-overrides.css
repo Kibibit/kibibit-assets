@@ -112,9 +112,9 @@ body :after {
 }
 
 b, strong {
-    color: var(--cal-brand, "white");
+    color: white;
 }
 
 .text-default {
-    color: var(--cal-brand-emphasis, #374151);
+    color: white;
 }
