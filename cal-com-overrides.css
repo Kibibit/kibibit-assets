@@ -110,3 +110,11 @@ body :after {
   font-family: "Comfortaa", serif;
   font-optical-sizing: auto;
 }
+
+b, strong {
+    color: var(--cal-brand, "white");
+}
+
+.text-default {
+    color: var(--cal-brand-emphasis, #374151);
+}
