@@ -14110,3 +14110,15 @@ b, strong {
 .text-default {
     color: var(--cal-text-emphasis,#111827);
 }
+
+/* if later on I want to add a kibibit logo to the top of the page: */
+main:before {
+    content: '';
+    display: block;
+    height: 5rem;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    /* background: white; */
+}
