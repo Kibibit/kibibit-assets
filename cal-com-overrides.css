@@ -14122,3 +14122,13 @@ main:before {
     top: 0;
     /* background: white; */
 }
+
+.sticky.top-0.z-10.w-full {
+    display: none;
+}
+
+aside.h-full {
+    max-height: 100vh !important;
+    top: 0;
+    padding: .5em 0;
+}
