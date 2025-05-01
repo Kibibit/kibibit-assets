@@ -29,53 +29,60 @@ async function annotateSwaggerWithCoverage() {
       const pathEl = block.querySelector('.opblock-summary-path');
       const methodEl = block.querySelector('.opblock-summary-method');
       if (!pathEl || !methodEl) return;
-
+  
       const path = pathEl.textContent.trim();
       const method = methodEl.textContent.trim().toLowerCase();
       const methodCoverage = report.paths?.[path]?.[method];
-      if (!methodCoverage || block.querySelector('.coverage-badge')) return;
-      
-      const badge = document.createElement('span');
-      badge.classList.add('coverage-badge');
-      
-      let label = '';
-      let color = 'gray';
-      
-      if (methodCoverage.status === 'full') {
-        label = '✔️ Covered';
-        color = 'green';
-      } else if (methodCoverage.status === 'partial') {
-        label = `🟡 Partial (${methodCoverage.percentage}%)`;
-        color = 'orange';
-      } else {
-        label = '❌ Not Covered';
-        color = 'red';
+      if (!methodCoverage) return;
+  
+      // ======= METHOD-LEVEL BADGE =======
+      if (!block.querySelector('.coverage-badge')) {
+        const badge = document.createElement('span');
+        badge.classList.add('coverage-badge');
+  
+        let label = '';
+        let color = 'gray';
+  
+        if (methodCoverage.status === 'full') {
+          label = '✔️ Covered';
+          color = 'green';
+        } else if (methodCoverage.status === 'partial') {
+          label = `🟡 Partial (${methodCoverage.percentage}%)`;
+          color = 'orange';
+        } else {
+          label = '❌ Not Covered';
+          color = 'red';
+        }
+  
+        badge.textContent = label;
+        badge.style.marginLeft = '8px';
+        badge.style.fontSize = '0.75rem';
+        badge.style.fontWeight = 'bold';
+        badge.style.color = color;
+        badge.title = `
+  Expected: ${methodCoverage.expectedResponses.join(', ')}
+  Seen: ${methodCoverage.seenResponses.join(', ')}
+  Unexpected: ${methodCoverage.unexpectedResponses?.join(', ') || 'None'}`.trim();
+  
+        pathEl.parentNode.appendChild(badge);
       }
-      
-      badge.textContent = label;
-      badge.style.marginLeft = '8px';
-      badge.style.fontSize = '0.75rem';
-      badge.style.fontWeight = 'bold';
-      badge.style.color = color;
-      
-      pathEl.parentNode.appendChild(badge);
-
-      // Add per-response coverage info
+  
+      // ======= RESPONSE-LEVEL BADGES =======
       const responseRows = block.querySelectorAll('.responses-wrapper .response');
       responseRows.forEach((row) => {
         const codeEl = row.querySelector('.response-col_status');
-        if (!codeEl) return;
-      
-        const statusCode = codeEl.textContent.trim();
         const container = row.querySelector('.response-col_description');
-        if (!container || container.querySelector('.response-coverage-badge')) return;
-      
-        let badge = document.createElement('span');
+        if (!codeEl || !container) return;
+  
+        const statusCode = codeEl.textContent.trim();
+        if (container.querySelector('.response-coverage-badge')) return;
+  
+        const badge = document.createElement('span');
         badge.classList.add('response-coverage-badge');
         badge.style.marginLeft = '8px';
         badge.style.fontSize = '0.75rem';
         badge.style.fontWeight = 'bold';
-      
+  
         if (methodCoverage.seenResponses?.includes(Number(statusCode))) {
           badge.textContent = '✔️ Covered';
           badge.style.color = 'green';
@@ -83,25 +90,24 @@ async function annotateSwaggerWithCoverage() {
           badge.textContent = '❌ Not Covered';
           badge.style.color = 'red';
         }
-      
+  
         container.appendChild(badge);
       });
-      
-      // Add undocumented responses if present
-      if (methodCoverage.unexpectedResponses?.length) {
+  
+      // ======= UNDOCUMENTED RESPONSES =======
+      if (methodCoverage.unexpectedResponses?.length && !block.querySelector('.undocumented-response-warning')) {
         const undocumentedContainer = document.createElement('div');
+        undocumentedContainer.classList.add('undocumented-response-warning');
         undocumentedContainer.style.marginTop = '10px';
         undocumentedContainer.style.fontSize = '0.8rem';
         undocumentedContainer.style.color = 'red';
         undocumentedContainer.style.fontWeight = 'bold';
-      
         undocumentedContainer.textContent =
           '❗ Undocumented responses seen: ' + methodCoverage.unexpectedResponses.join(', ');
-        
-        const responsesWrapper = block.querySelector('.responses-wrapper');
-        if (responsesWrapper && !block.querySelector('.undocumented-response-warning')) {
-          undocumentedContainer.classList.add('undocumented-response-warning');
-          responsesWrapper.appendChild(undocumentedContainer);
+  
+        const wrapper = block.querySelector('.responses-wrapper');
+        if (wrapper) {
+          wrapper.appendChild(undocumentedContainer);
         }
       }
     });
