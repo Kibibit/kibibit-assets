@@ -44,14 +44,14 @@ async function annotateSwaggerWithCoverage() {
         let color = 'gray';
   
         if (methodCoverage.status === 'full') {
-          label = '✔️ Covered';
-          color = 'green';
+          label = '🟢 Covered';
+          color = 'hsl(141, 53%, 53%)';
         } else if (methodCoverage.status === 'partial') {
-          label = `🟡 Partial (${methodCoverage.percentage}%)`;
+          label = `🟠 Partial (${methodCoverage.percentage}%)`;
           color = 'orange';
         } else {
           label = '❌ Not Covered';
-          color = 'red';
+          color = 'hsl(348, 100%, 61%)';
         }
   
         badge.textContent = label;
@@ -83,11 +83,11 @@ async function annotateSwaggerWithCoverage() {
         badge.style.marginTop = '4px';
       
         if (methodCoverage.seenResponses?.includes(Number(statusCode))) {
-          badge.textContent = '✔️ Covered';
-          badge.style.color = 'green';
+          badge.textContent = '🟢 Covered';
+          badge.style.color = 'hsl(141, 53%, 53%)';
         } else {
           badge.textContent = '❌ Not Covered';
-          badge.style.color = 'red';
+          badge.style.color = 'hsl(348, 100%, 61%)';
         }
       
         // Insert right after the status code element
