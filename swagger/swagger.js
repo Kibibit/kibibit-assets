@@ -1,5 +1,5 @@
 async function annotateSwaggerWithCoverage() {
-  const coverageUrl = '/api/swagger-coverage-report';
+  const coverageUrl = '/swagger-coverage-report';
   let report;
 
   try {
@@ -23,10 +23,8 @@ async function annotateSwaggerWithCoverage() {
     document.body.insertBefore(summary, document.body.firstChild);
   }
 
-  const interval = setInterval(() => {
+  function annotateBlocks() {
     const blocks = document.querySelectorAll('.opblock');
-    if (!blocks.length) return;
-
     blocks.forEach((block) => {
       const pathEl = block.querySelector('.opblock-summary-path');
       const methodEl = block.querySelector('.opblock-summary-method');
@@ -34,8 +32,10 @@ async function annotateSwaggerWithCoverage() {
 
       const path = pathEl.textContent.trim();
       const method = methodEl.textContent.trim().toLowerCase();
-
       const methodCoverage = report.paths?.[path]?.[method];
+
+      // Skip if badge already exists
+      if (block.querySelector('.coverage-badge')) return;
 
       const badge = document.createElement('span');
       badge.classList.add('coverage-badge');
@@ -56,14 +56,22 @@ async function annotateSwaggerWithCoverage() {
             ? 'gray'
             : 'red';
 
-      if (!block.querySelector('.coverage-badge')) {
-        pathEl.parentNode.appendChild(badge);
-      }
+      pathEl.parentNode.appendChild(badge);
     });
+  }
 
-    injectCoverageSummary(report);
-    clearInterval(interval);
-  }, 1000);
+  // Observe for DOM changes (e.g. when expanding endpoints)
+  const observer = new MutationObserver(() => {
+    annotateBlocks();
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+
+  injectCoverageSummary(report);
+  annotateBlocks(); // Initial run
 }
 
 function addCss(fileName) {
