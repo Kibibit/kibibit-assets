@@ -91,7 +91,8 @@ async function annotateSwaggerWithCoverage() {
         }
       
         // Insert right after the status code element
-        codeEl.parentNode?.insertBefore(badge, codeEl.nextSibling);
+        // codeEl.parentNode?.insertBefore(badge, codeEl.nextSibling);
+        codeEl.appendChild(badge);
       });
   
       // ======= UNDOCUMENTED RESPONSES =======
