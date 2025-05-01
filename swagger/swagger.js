@@ -1,3 +1,71 @@
+async function annotateSwaggerWithCoverage() {
+  const coverageUrl = '/swagger-coverage-report';
+  let report;
+
+  try {
+    const res = await fetch(coverageUrl);
+    if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
+    report = await res.json();
+  } catch (err) {
+    console.warn('Swagger coverage report unavailable:', err);
+    return;
+  }
+
+  function injectCoverageSummary(report) {
+    const summary = document.createElement('div');
+    summary.style.background = '#222';
+    summary.style.color = '#fff';
+    summary.style.padding = '10px';
+    summary.style.fontFamily = 'monospace';
+    summary.style.fontSize = '14px';
+    summary.style.textAlign = 'center';
+    summary.textContent = `API Test Coverage: ${report.coverage?.toFixed(2) ?? 0}% (${report.tested ?? 0}/${report.total ?? 0})`;
+    document.body.insertBefore(summary, document.body.firstChild);
+  }
+
+  const interval = setInterval(() => {
+    const blocks = document.querySelectorAll('.opblock');
+    if (!blocks.length) return;
+
+    blocks.forEach((block) => {
+      const pathEl = block.querySelector('.opblock-summary-path');
+      const methodEl = block.querySelector('.opblock-summary-method');
+      if (!pathEl || !methodEl) return;
+
+      const path = pathEl.textContent.trim();
+      const method = methodEl.textContent.trim().toLowerCase();
+
+      const methodCoverage = report.paths?.[path]?.[method];
+
+      const badge = document.createElement('span');
+      badge.classList.add('coverage-badge');
+      badge.textContent =
+        methodCoverage?.tested === true
+          ? '✔️ Covered'
+          : methodCoverage === undefined
+            ? '⚠️ Unknown'
+            : '❌ Not Covered';
+
+      badge.style.marginLeft = '8px';
+      badge.style.fontSize = '0.75rem';
+      badge.style.fontWeight = 'bold';
+      badge.style.color =
+        methodCoverage?.tested === true
+          ? 'green'
+          : methodCoverage === undefined
+            ? 'gray'
+            : 'red';
+
+      if (!block.querySelector('.coverage-badge')) {
+        pathEl.parentNode.appendChild(badge);
+      }
+    });
+
+    injectCoverageSummary(report);
+    clearInterval(interval);
+  }, 1000);
+}
+
 function addCss(fileName) {
 
   var head = document.head;
@@ -83,5 +151,6 @@ addMetaTag();
 
 window.addEventListener('DOMContentLoaded', (event) => {
   addThemeFooter();
+  annotateSwaggerWithCoverage();
 });
 
