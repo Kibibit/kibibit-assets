@@ -1,5 +1,5 @@
 async function annotateSwaggerWithCoverage() {
-  const coverageUrl = '/swagger-coverage-report';
+  const coverageUrl = '/api/swagger-coverage-report';
   let report;
 
   try {
