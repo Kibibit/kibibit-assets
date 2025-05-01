@@ -33,29 +33,31 @@ async function annotateSwaggerWithCoverage() {
       const path = pathEl.textContent.trim();
       const method = methodEl.textContent.trim().toLowerCase();
       const methodCoverage = report.paths?.[path]?.[method];
-
-      // Skip if badge already exists
-      if (block.querySelector('.coverage-badge')) return;
-
+      if (!methodCoverage || block.querySelector('.coverage-badge')) return;
+      
       const badge = document.createElement('span');
       badge.classList.add('coverage-badge');
-      badge.textContent =
-        methodCoverage?.tested === true
-          ? '✔️ Covered'
-          : methodCoverage === undefined
-            ? '⚠️ Unknown'
-            : '❌ Not Covered';
-
+      
+      let label = '';
+      let color = 'gray';
+      
+      if (methodCoverage.status === 'full') {
+        label = '✔️ Covered';
+        color = 'green';
+      } else if (methodCoverage.status === 'partial') {
+        label = `🟡 Partial (${methodCoverage.percentage}%)`;
+        color = 'orange';
+      } else {
+        label = '❌ Not Covered';
+        color = 'red';
+      }
+      
+      badge.textContent = label;
       badge.style.marginLeft = '8px';
       badge.style.fontSize = '0.75rem';
       badge.style.fontWeight = 'bold';
-      badge.style.color =
-        methodCoverage?.tested === true
-          ? 'green'
-          : methodCoverage === undefined
-            ? 'gray'
-            : 'red';
-
+      badge.style.color = color;
+      
       pathEl.parentNode.appendChild(badge);
     });
   }
