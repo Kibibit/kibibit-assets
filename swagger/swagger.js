@@ -71,18 +71,17 @@ async function annotateSwaggerWithCoverage() {
       const responseRows = block.querySelectorAll('.responses-wrapper .response');
       responseRows.forEach((row) => {
         const codeEl = row.querySelector('.response-col_status');
-        const container = row.querySelector('.response-col_description');
-        if (!codeEl || !container) return;
-  
+        if (!codeEl) return;
+      
         const statusCode = codeEl.textContent.trim();
-        if (container.querySelector('.response-coverage-badge')) return;
-  
-        const badge = document.createElement('span');
+        if (row.querySelector('.response-coverage-badge')) return;
+      
+        const badge = document.createElement('div');
         badge.classList.add('response-coverage-badge');
-        badge.style.marginLeft = '8px';
         badge.style.fontSize = '0.75rem';
         badge.style.fontWeight = 'bold';
-  
+        badge.style.marginTop = '4px';
+      
         if (methodCoverage.seenResponses?.includes(Number(statusCode))) {
           badge.textContent = '✔️ Covered';
           badge.style.color = 'green';
@@ -90,8 +89,9 @@ async function annotateSwaggerWithCoverage() {
           badge.textContent = '❌ Not Covered';
           badge.style.color = 'red';
         }
-  
-        container.appendChild(badge);
+      
+        // Insert right after the status code element
+        codeEl.parentNode?.appendChild(badge);
       });
   
       // ======= UNDOCUMENTED RESPONSES =======
