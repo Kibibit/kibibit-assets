@@ -60,6 +60,51 @@ async function annotateSwaggerWithCoverage() {
       
       pathEl.parentNode.appendChild(badge);
     });
+
+    // Add per-response coverage info
+    const responseRows = block.querySelectorAll('.responses-wrapper .response');
+    responseRows.forEach((row) => {
+      const codeEl = row.querySelector('.response-col_status');
+      if (!codeEl) return;
+    
+      const statusCode = codeEl.textContent.trim();
+      const container = row.querySelector('.response-col_description');
+      if (!container || container.querySelector('.response-coverage-badge')) return;
+    
+      let badge = document.createElement('span');
+      badge.classList.add('response-coverage-badge');
+      badge.style.marginLeft = '8px';
+      badge.style.fontSize = '0.75rem';
+      badge.style.fontWeight = 'bold';
+    
+      if (methodCoverage.seenResponses?.includes(Number(statusCode))) {
+        badge.textContent = '✔️ Covered';
+        badge.style.color = 'green';
+      } else {
+        badge.textContent = '❌ Not Covered';
+        badge.style.color = 'red';
+      }
+    
+      container.appendChild(badge);
+    });
+    
+    // Add undocumented responses if present
+    if (methodCoverage.unexpectedResponses?.length) {
+      const undocumentedContainer = document.createElement('div');
+      undocumentedContainer.style.marginTop = '10px';
+      undocumentedContainer.style.fontSize = '0.8rem';
+      undocumentedContainer.style.color = 'red';
+      undocumentedContainer.style.fontWeight = 'bold';
+    
+      undocumentedContainer.textContent =
+        '❗ Undocumented responses seen: ' + methodCoverage.unexpectedResponses.join(', ');
+      
+      const responsesWrapper = block.querySelector('.responses-wrapper');
+      if (responsesWrapper && !block.querySelector('.undocumented-response-warning')) {
+        undocumentedContainer.classList.add('undocumented-response-warning');
+        responsesWrapper.appendChild(undocumentedContainer);
+      }
+    }
   }
 
   // Observe for DOM changes (e.g. when expanding endpoints)
