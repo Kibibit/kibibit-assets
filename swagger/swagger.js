@@ -202,7 +202,7 @@ window.addEventListener('DOMContentLoaded', () => {
   addThemeFooter();
   fetchAndApplyCoverage();
 
-  setInterval(fetchAndApplyCoverage, 30_000); // Update every 30 seconds
+  setInterval(fetchAndApplyCoverage, 30000); // Update every 30 seconds
 
   const observer = new MutationObserver(() => {
     fetchAndApplyCoverage();
