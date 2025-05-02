@@ -12,6 +12,17 @@ async function annotateSwaggerWithCoverage() {
   }
 
   function injectCoverageSummary(report) {
+    const coverageText = `${report.coverage?.toFixed(2) ?? 0}% (${report.tested ?? 0}/${report.total ?? 0})`;
+    const headerElement = document.body.querySelector('.swagger-ui .topbar .topbar-wrapper');
+  
+    if (headerElement) {
+      headerElement.setAttribute('data-coverage', coverageText);
+    } else {
+      console.warn('Swagger topbar-wrapper not found');
+    }
+  }
+
+  function injectCoverageSummaryOld(report) {
     const summary = document.createElement('div');
     summary.style.background = '#222';
     summary.style.color = '#fff';
