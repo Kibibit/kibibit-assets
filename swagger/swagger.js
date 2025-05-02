@@ -18,7 +18,8 @@ async function annotateSwaggerWithCoverage() {
     if (headerElement) {
       headerElement.setAttribute('data-coverage', coverageText);
     } else {
-      console.warn('Swagger topbar-wrapper not found');
+      // not ready yet
+      console.verbose('Swagger topbar-wrapper not found');
     }
   }
 
