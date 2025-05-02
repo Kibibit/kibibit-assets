@@ -1,18 +1,16 @@
+let latestCoverageReport = null;
+
 async function fetchAndApplyCoverage() {
   const coverageUrl = '/api/swagger-coverage-report';
-  let report;
-
   try {
     const res = await fetch(coverageUrl);
     if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
-    report = await res.json();
+    latestCoverageReport = await res.json();
+    injectCoverageSummary(latestCoverageReport);
+    annotateBlocks(latestCoverageReport);
   } catch (err) {
     console.warn('Swagger coverage report unavailable:', err);
-    return;
   }
-
-  injectCoverageSummary(report);
-  annotateBlocks(report);
 }
 
 function injectCoverageSummary(report) {
@@ -38,11 +36,11 @@ function annotateBlocks(report) {
     const methodCoverage = report.paths?.[path]?.[method];
     if (!methodCoverage) return;
 
-    // ======= REMOVE OLD BADGES =======
+    // Remove old badges
     block.querySelectorAll('.coverage-badge, .response-coverage-badge, .undocumented-response-warning')
       .forEach(el => el.remove());
 
-    // ======= METHOD-LEVEL BADGE =======
+    // Method badge
     const badge = document.createElement('span');
     badge.classList.add('coverage-badge');
 
@@ -72,7 +70,7 @@ Unexpected: ${methodCoverage.unexpectedResponses?.join(', ') || 'None'}`.trim();
 
     pathEl.parentNode.appendChild(badge);
 
-    // ======= RESPONSE-LEVEL BADGES =======
+    // Response-level badges
     const responseRows = block.querySelectorAll('.responses-wrapper .response');
     responseRows.forEach((row) => {
       const codeEl = row.querySelector('.response-col_status');
@@ -97,7 +95,7 @@ Unexpected: ${methodCoverage.unexpectedResponses?.join(', ') || 'None'}`.trim();
       codeEl.appendChild(badge);
     });
 
-    // ======= UNDOCUMENTED RESPONSES =======
+    // Undocumented responses
     if (methodCoverage.unexpectedResponses?.length) {
       const undocumentedContainer = document.createElement('div');
       undocumentedContainer.classList.add('undocumented-response-warning');
@@ -201,11 +199,14 @@ addMetaTag();
 window.addEventListener('DOMContentLoaded', () => {
   addThemeFooter();
   fetchAndApplyCoverage();
+  setInterval(fetchAndApplyCoverage, 30_000); // Every 30 seconds
 
-  setInterval(fetchAndApplyCoverage, 30000); // Update every 30 seconds
-
+  // Only re-annotate UI when DOM changes (no re-fetch)
   const observer = new MutationObserver(() => {
-    fetchAndApplyCoverage();
+    if (latestCoverageReport) {
+      injectCoverageSummary(latestCoverageReport);
+      annotateBlocks(latestCoverageReport);
+    }
   });
 
   observer.observe(document.body, {
