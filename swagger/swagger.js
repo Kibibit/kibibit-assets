@@ -127,6 +127,7 @@ async function annotateSwaggerWithCoverage() {
 
   // Observe for DOM changes (e.g. when expanding endpoints)
   const observer = new MutationObserver(() => {
+    injectCoverageSummary(report);
     annotateBlocks();
   });
 
