@@ -131,8 +131,8 @@ async function annotateSwaggerWithCoverage() {
             badge.style.fontSize = '0.75rem';
             badge.style.fontWeight = 'bold';
             badge.style.marginTop = '4px';
-            badge.style.color = 'rgb(255, 56, 96)';
-            badge.textContent = '❗ Undocumented';
+            badge.style.color = '#FFB710';
+            badge.textContent = '⚠️ Undocumented';
       
             statusTd.appendChild(badge);
             tr.appendChild(statusTd);
