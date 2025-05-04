@@ -108,19 +108,57 @@ async function annotateSwaggerWithCoverage() {
       });
   
       // ======= UNDOCUMENTED RESPONSES =======
-      if (methodCoverage.unexpectedResponses?.length && !block.querySelector('.undocumented-response-warning')) {
-        const undocumentedContainer = document.createElement('div');
-        undocumentedContainer.classList.add('undocumented-response-warning');
-        undocumentedContainer.style.marginTop = '10px';
-        undocumentedContainer.style.fontSize = '0.8rem';
-        undocumentedContainer.style.color = 'red';
-        undocumentedContainer.style.fontWeight = 'bold';
-        undocumentedContainer.textContent =
-          '❗ Undocumented responses seen: ' + methodCoverage.unexpectedResponses.join(', ');
-  
-        const wrapper = block.querySelector('.responses-wrapper');
-        if (wrapper) {
-          wrapper.appendChild(undocumentedContainer);
+      if (methodCoverage.unexpectedResponses?.length && !block.querySelector('.undocumented-response-row')) {
+        const responsesInner = block.querySelector('.responses-inner');
+        const responsesTable = block.querySelector('.responses-table');
+      
+        if (responsesInner && responsesTable) {
+          const tbody = responsesTable.querySelector('tbody');
+          if (!tbody) return;
+      
+          methodCoverage.unexpectedResponses.forEach(code => {
+            const tr = document.createElement('tr');
+            tr.classList.add('response', 'undocumented-response-row');
+            tr.dataset.code = code;
+      
+            // Status column
+            const statusTd = document.createElement('td');
+            statusTd.classList.add('response-col_status');
+            statusTd.textContent = code;
+      
+            const badge = document.createElement('div');
+            badge.classList.add('response-coverage-badge');
+            badge.style.fontSize = '0.75rem';
+            badge.style.fontWeight = 'bold';
+            badge.style.marginTop = '4px';
+            badge.style.color = 'rgb(255, 56, 96)';
+            badge.textContent = '❗ Undocumented';
+      
+            statusTd.appendChild(badge);
+            tr.appendChild(statusTd);
+      
+            // Description column
+            const descTd = document.createElement('td');
+            descTd.classList.add('response-col_description');
+            const descInner = document.createElement('div');
+            descInner.classList.add('response-col_description__inner');
+            const markdown = document.createElement('div');
+            markdown.classList.add('renderedMarkdown');
+            const p = document.createElement('p');
+            p.textContent = 'This status code was returned by the server but is not documented in the API spec.';
+            markdown.appendChild(p);
+            descInner.appendChild(markdown);
+            descTd.appendChild(descInner);
+            tr.appendChild(descTd);
+      
+            // Links column
+            const linksTd = document.createElement('td');
+            linksTd.classList.add('response-col_links');
+            linksTd.innerHTML = '<i>No links</i>';
+            tr.appendChild(linksTd);
+      
+            tbody.appendChild(tr);
+          });
         }
       }
     });
