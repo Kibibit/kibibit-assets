@@ -1,0 +1,38 @@
+/* Kibibit Theme Variables - shared between reports */
+:root {
+  --main-bg-color: #373737;
+  --card-background-color: rgba(150, 150, 150, 0.2);
+  --get-color: hsl(204, 86%, 53%);
+  --post-color: hsl(141, 53%, 53%);
+  --dark-post-color: hsl(141, 71%, 35%);
+  --lighter-put-color: hsl(48, 100%, 67%);
+  --put-color: #fca130;
+  --patch-color: #50e3c2;
+  --delete-color: hsl(348, 100%, 61%);
+  --dark-delete-color: hsl(348, 63%, 48%);
+  --section-color: rgba(26, 153, 70, 0.5);
+  --placeholder-color: rgba(255, 255, 255, 0.5);
+  --main-text-color: whitesmoke;
+  --second-text-color: #212121;
+  --darker-shade: rgba(0, 0, 0, 0.2);
+  --border-radius: 4px;
+  --code-background: #282a36;
+  --bold-text-color: #c0f;
+  --bold-text-color-alt: hotpink;
+  --secondary-text-color: rgb(200, 200, 200);
+  
+  /* Test report specific colors */
+  --pass-color: #28a745;
+  --fail-color: #dc3545;
+  --pending-color: #ffc107;
+  --todo-color: #17a2b8;
+  
+  /* Coverage specific colors */
+  --high-color: rgb(77, 146, 33);
+  --medium-color: #f9cd0b;
+  --low-color: #C21F39;
+  --cstat-no-color: #F6C6CE;
+  --cline-no-color: #FCE1E5;
+  --cline-yes-color: rgb(230, 245, 208);
+  --cstat-yes-color: rgb(161, 215, 106);
+} 
