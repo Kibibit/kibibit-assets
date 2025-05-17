@@ -207,28 +207,80 @@
    * Add a footer with organization name
    */
   function addFooter() {
-    // Create footer if not in jest-stare (which already has one)
-    if (!document.querySelector('.footer')) {
-      const footer = document.createElement('div');
-      footer.className = 'footer';
-
-      const container = document.createElement('div');
-      container.className = 'container';
-      container.textContent = `© ${ new Date().getFullYear() } ${
-        config.organizationName
-      }`;
-
-      footer.appendChild(container);
-      document.body.appendChild(footer);
-    } else {
-      // Update existing footer
-      const container = document.querySelector('.footer .container');
-      if (container) {
-        container.textContent = `© ${ new Date().getFullYear() } ${
-          config.organizationName
-        }`;
-      }
+    // Remove existing footer if found
+    const existingFooter = document.querySelector('.footer');
+    if (existingFooter) {
+      existingFooter.remove();
     }
+  
+    // Create new footer
+    const footer = document.createElement('div');
+    footer.className = 'footer';
+  
+    const container = document.createElement('div');
+    container.className = 'container';
+    container.innerHTML = `
+      <div class="created-by">
+        <a href="https://github.com/kibibit" target="_blank">Theme</a> created by 
+        <a href="https://github.com/kibibit" target="_blank">
+          <div id="footer-animated-logo" class="kb-logo"><span class="letter">k</span>
+  
+            <div class="shape-animation shape-one to-red">
+              <div class="shape shape1"></div>
+              <div class="shape shape2"></div>
+            </div>
+  
+            <div class="shape-animation shape-zero">
+              <div class="shape shape1"></div>
+              <div class="shape shape2"></div>
+            </div>
+  
+            <div class="shape-animation shape-one to-blue middle">
+              <div class="shape shape1"></div>
+              <div class="shape shape2"></div>
+            </div>
+  
+            <div class="shape-animation shape-zero">
+              <div class="shape shape1"></div>
+              <div class="shape shape2"></div>
+            </div>
+  
+            <div class="shape-animation shape-one to-yellow">
+              <div class="shape shape1"></div>
+              <div class="shape shape2"></div>
+            </div>
+            <span class="letter">t</span>
+  
+            <div class="k1b1b0t-mouth-container">
+              <div class="k1b1b0t-mouth">[<span class="mo-an">||||</span>]</div>
+            </div>
+          </div>
+          opensrc
+        </a>
+      </div>
+      <div class="contact-email">
+        <a href="mailto:thatkookooguy@kibibit.io">thatkookooguy@kibibit.io</a>
+      </div>
+    `;
+  
+    footer.appendChild(container);
+    document.body.appendChild(footer);
+  
+    // Inject Kibibit logo CSS
+    if (!document.querySelector('link[href="https://kibibit.io/kibibit-logo/kb-logo.css"]')) {
+      const logoStyles = document.createElement('link');
+      logoStyles.rel = 'stylesheet';
+      logoStyles.href = 'https://kibibit.io/kibibit-logo/kb-logo.css';
+      document.head.appendChild(logoStyles);
+    }
+  
+    // Animate logo
+    window.kibibitLogoTimer = setInterval(() => {
+      const logo = footer.querySelector('#footer-animated-logo');
+      if (logo) {
+        logo.classList.toggle('full-logo');
+      }
+    }, 5000);
   }
 
   /**
