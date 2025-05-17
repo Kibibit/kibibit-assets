@@ -237,7 +237,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .cover-empty {
   height: 12px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* Source code view */
@@ -380,7 +380,7 @@ table.coverage td.text {
 }
 
 .high .cover-fill {
-  background-color: #006556;
+  background-color: #03D1B2;
 }
 
 .medium .chart {
@@ -388,7 +388,7 @@ table.coverage td.text {
 }
 
 .medium .cover-fill {
-  background-color: #FFB710;
+  background-color: #c78b00;
 }
 
 .low .chart {
@@ -396,7 +396,7 @@ table.coverage td.text {
 }
 
 .low .cover-fill {
-  background-color: #FF6684;
+  background-color: #ff0033;
 }
 
 /* File details header */
