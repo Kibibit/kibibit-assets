@@ -9,7 +9,7 @@
 (function() {
   // Configuration options - customize these values
   const config = {
-    projectName: 'kb-tests', // Project name to display in the header
+    projectName: document.body?.getAttribute('data-project-name') || 'kb-tests', // Project name to display in the header
     organizationLogo: null, // URL to logo image or null to use default emoji
     organizationName: 'kibibit', // Organization name for footer
     enableBackButton: false, // Add a back button to coverage report
