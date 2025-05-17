@@ -6,7 +6,11 @@
  * jest-stare test report and Istanbul coverage report.
  */
 
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
+  runCustomThemeScript();
+});
+
+function runCustomThemeScript() {
   // Configuration options - customize these values
   const config = {
     projectName: document.body?.getAttribute('data-project-name') || 'kb-tests', // Project name to display in the header
@@ -339,4 +343,4 @@
   } else {
     init();
   }
-})();
+}
