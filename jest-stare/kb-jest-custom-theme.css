@@ -1,0 +1,296 @@
+/* Kibibit Custom Theme for jest-stare */
+@import url('https://kibibit.io/kibibit-assets/jest-stare/kb-jest-theme-variables.css');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Righteous&family=Bungee+Hairline&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/hack-font/3.3.0/web/hack.min.css');
+
+:root {
+  --main-bg-color: #373737;
+  --card-background-color: rgba(150, 150, 150, 0.2);
+  --get-color: hsl(204, 86%, 53%);
+  --post-color: hsl(141, 53%, 53%);
+  --dark-post-color: hsl(141, 71%, 35%);
+  --lighter-put-color: hsl(48, 100%, 67%);
+  --put-color: #fca130;
+  --patch-color: #50e3c2;
+  --delete-color: hsl(348, 100%, 61%);
+  --dark-delete-color: hsl(348, 63%, 48%);
+  --section-color: rgba(26, 153, 70, 0.5);
+  --placeholder-color: rgba(255, 255, 255, 0.5);
+  --main-text-color: whitesmoke;
+  --second-text-color: #212121;
+  --darker-shade: rgba(0, 0, 0, 0.2);
+  --border-radius: 4px;
+  --code-background: rgb(51, 51, 51);
+  --bold-text-color: #c0f;
+  --bold-text-color-alt: hotpink;
+  --secondary-text-color: rgb(200, 200, 200);
+  
+  /* Jest specific colors */
+  --pass-color: #28a745;
+  --fail-color: #dc3545;
+  --pending-color: #ffc107;
+  --todo-color: #17a2b8;
+}
+
+body {
+  background: var(--main-bg-color);
+  background-image: url('https://thatkookooguy.github.io/https-assets/bg/abstract/bg.png');
+  background-size: 200%;
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Comfortaa', cursive;
+  color: var(--main-text-color);
+  margin-bottom: 60px;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+/* Navbar styling */
+.navbar-dark.bg-dark {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+  font-family: 'Righteous', cursive;
+  color: var(--bold-text-color) !important;
+}
+
+.navbar-nav .nav-link {
+  color: var(--main-text-color) !important;
+}
+
+.navbar-nav .nav-link.active {
+  color: var(--bold-text-color) !important;
+}
+
+/* Container styling */
+.container {
+  padding: 60px 15px 0;
+}
+
+main.container {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 25px;
+  margin-top: 80px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Comfortaa', cursive;
+  font-weight: 700;
+  color: var(--bold-text-color);
+}
+
+/* Fix text-muted on dark backgrounds */
+.text-muted {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Add spacing between canvas and title */
+canvas[id$="-canvas"] {
+  margin-bottom: 15px;
+}
+
+/* Column spacing for better layout */
+.col-lg-4 {
+  margin-bottom: 30px;
+}
+
+/* Card and result items */
+.list-group-item {
+  background-color: var(--card-background-color) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--main-text-color);
+}
+
+/* Fix list-group hover color */
+.list-group-item:hover,
+.list-group-item:focus,
+a.list-group-item:hover,
+a.list-group-item:focus {
+  color: var(--main-text-color) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Override bootstrap bg-white class */
+.bg-white {
+  background-color: var(--card-background-color) !important;
+  color: var(--main-text-color) !important;
+}
+
+/* Fix badge styling - transparent border and centered text */
+.badge {
+  border: 2px solid transparent !important;
+  margin: 0 0.15em;
+  width: 35px;
+  height: 30px;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Code blocks */
+pre, code {
+  font-family: 'Hack', monospace;
+  font-size: 14px;
+  background-color: var(--code-background);
+  border-radius: var(--border-radius);
+  color: var(--main-text-color);
+  padding: 0.2em 0.4em;
+}
+
+/* Test status colors */
+.summary-test-label.pass {
+  color: var(--pass-color);
+}
+
+.summary-test-label.fail {
+  color: var(--fail-color);
+}
+
+.summary-test-label.pending {
+  color: var(--pending-color);
+}
+
+.summary-test-label.todo {
+  color: var(--todo-color);
+}
+
+/* Toggle switches - improved styling */
+.onoff-switch {
+  margin: 0 0.5em;
+}
+
+.onoff-switch-label {
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Apply Comfortaa font to toggle switch text */
+.off-switch-inner:before, 
+.off-switch-inner:after {
+  font-family: 'Comfortaa', cursive !important;
+  font-weight: 700 !important;
+}
+
+.pass.off-switch-inner:before {
+  background-color: var(--pass-color);
+}
+
+.fail.off-switch-inner:before {
+  background-color: var(--fail-color);
+}
+
+.pending.off-switch-inner:before {
+  background-color: var(--pending-color);
+}
+
+.todo.off-switch-inner:before {
+  background-color: var(--todo-color);
+}
+
+/* Footer styling */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: var(--main-text-color);
+  backdrop-filter: blur(10px);
+}
+
+/* Accordion customization */
+.card {
+  background-color: var(--card-background-color) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 10px;
+  border-radius: var(--border-radius);
+}
+
+.card-header {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-header h5 button {
+  color: var(--main-text-color) !important;
+  text-decoration: none;
+}
+
+/* Only style top-level card bodies */
+#accordion > .card > .card-body {
+  background-color: var(--card-background-color) !important;
+  color: var(--main-text-color) !important;
+}
+
+/* Test result specific styling */
+.passed-test > .card {
+  border-left: 4px solid var(--pass-color) !important;
+}
+
+.failed-test > .card {
+  border-left: 4px solid var(--fail-color) !important;
+}
+
+.pending-test > .card {
+  border-left: 4px solid var(--pending-color) !important;
+}
+
+.todo-test > .card {
+  border-left: 4px solid var(--todo-color) !important;
+}
+
+/* Inner test result cards should have subtle styling */
+.passed-test .card-body .card,
+.failed-test .card-body .card,
+.pending-test .card-body .card,
+.todo-test .card-body .card {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Progress bar */
+.progress {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.progress-bar-animated {
+  background-color: var(--bold-text-color);
+}
+
+/* Table styling */
+table {
+  color: var(--main-text-color) !important;
+}
+
+/* Organization logo placeholder - can be customized */
+.navbar::before {
+  content: "";
+  background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50%" x="50%" dominant-baseline="middle" text-anchor="middle" font-size="90">🧪</text></svg>');
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  margin-right: 10px;
+  background-size: contain;
+}
+
+/* Image snapshot diffs */
+.image-snapshot-diff {
+  background-color: var(--code-background);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  main.container {
+    margin-top: 70px;
+  }
+} 
