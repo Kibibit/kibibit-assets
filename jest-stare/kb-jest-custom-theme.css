@@ -49,25 +49,25 @@ html {
   min-height: 100%;
 }
 
-.media-body.pb-3.mb-0.small.lh-125.border-bottom.overflow-auto {
+[class$="-test"] .card-body .media-body.pb-3.mb-0.small.lh-125.border-bottom.overflow-auto {
   display: flex;
   flex-grow: 1;
   padding-left: calc(32px + 0.5em);
 }
 
-img.mr-2.rounded {
+[class$="-test"] .card-body img.mr-2.rounded {
   width: 32px;
   height: 32px;
   position: absolute;
 }
 
-.media.text-muted.pt-3 {
+[class$="-test"] .card-body .media.text-muted.pt-3 {
   display: flex;
   width: 100%;
   position: relative;
 }
 
-span.d-block.mb-2 {
+[class$="-test"] .card-body span.d-block.mb-2 {
   display: none !important;
 }
 
