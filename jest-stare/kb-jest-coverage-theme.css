@@ -145,6 +145,7 @@ h1, h2, h3, h4, h5, h6 {
   border-collapse: collapse;
   border-radius: var(--border-radius);
   overflow: hidden;
+  font-size: 0.8em;
 }
 
 .coverage-summary thead {
@@ -199,7 +200,7 @@ h1, h2, h3, h4, h5, h6 {
 /* File path styling */
 .file {
   font-family: 'Hack', monospace;
-  font-size: 14px;
+  font-size: 0.8em;
 }
 
 /* Coverage percentage styling */
