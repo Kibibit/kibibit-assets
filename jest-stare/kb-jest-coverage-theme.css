@@ -1,0 +1,421 @@
+/* Kibibit Custom Theme for Istanbul Coverage */
+@import url('https://kibibit.io/kibibit-assets/jest-stare/kb-jest-theme-variables.css');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Righteous&family=Bungee+Hairline&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/hack-font/3.3.0/web/hack.min.css');
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: auto;
+  background: var(--main-bg-color);
+  background-image: url('https://thatkookooguy.github.io/https-assets/bg/abstract/bg.png');
+  background-size: 200%;
+  background-attachment: fixed;
+  font-family: 'Comfortaa', cursive;
+  color: var(--main-text-color);
+}
+
+.footer {
+  position: static;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  line-height: 60px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: var(--main-text-color);
+  backdrop-filter: blur(10px);
+}
+
+table.coverage td.line-coverage span.cline-any,
+table.coverage td.line-count a {
+  line-height: 1.5;
+}
+
+/* Header and Navigation Bar */
+.wrapper::before {
+  content: "";
+  display: block;
+  height: 60px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+/* Project Logo and Title */
+.pad1::before {
+  content: "Coverage Report";
+  font-family: 'Righteous', cursive;
+  color: var(--bold-text-color);
+  font-size: 1.5rem;
+  position: fixed;
+  top: 16px;
+  left: 60px;
+  z-index: 101;
+}
+
+/* Organization logo placeholder - can be customized */
+.pad1::after {
+  content: "";
+  background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50%" x="50%" dominant-baseline="middle" text-anchor="middle" font-size="90">🧪</text></svg>');
+  width: 32px;
+  height: 32px;
+  position: fixed;
+  top: 14px;
+  left: 20px;
+  z-index: 101;
+  background-size: contain;
+}
+
+/* Back button to tests report */
+.back-to-tests {
+  position: fixed;
+  top: 18px;
+  right: 20px;
+  z-index: 101;
+  color: var(--main-text-color);
+  text-decoration: none;
+}
+
+.back-to-tests:hover {
+  color: var(--bold-text-color);
+}
+
+/* Main content wrapper */
+.wrapper {
+  width: 100%;
+  padding-top: 80px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.pad1 {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 25px;
+  margin: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Comfortaa', cursive;
+  font-weight: 700;
+  color: var(--bold-text-color);
+}
+
+.clearfix {
+  clear: both;
+}
+
+/* Search Box */
+#fileSearch {
+  background-color: var(--card-background-color);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--main-text-color);
+  padding: 8px;
+  border-radius: var(--border-radius);
+  width: 100%;
+  max-width: 300px;
+}
+
+.quiet {
+  color: var(--secondary-text-color);
+}
+
+.high, .cline-yes {
+  background: #006556;
+}
+
+.medium {
+  background: #FFB710;
+}
+
+.low, .cline-no {
+  background: #FF6684;
+}
+
+/* Coverage Summary Table */
+.coverage-summary {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.coverage-summary thead {
+  background-color: var(--darker-shade);
+}
+
+.coverage-summary th {
+  padding: 12px;
+  text-align: left;
+  color: var(--bold-text-color);
+}
+
+.coverage-summary td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--main-text-color);
+}
+
+/* Ensure all text in the table is readable */
+.coverage-summary table, 
+.coverage-summary td, 
+.coverage-summary th,
+.coverage-summary span,
+.coverage-summary div {
+  color: var(--main-text-color);
+}
+
+/* File links should be visible */
+.coverage-summary .file {
+  color: var(--main-text-color);
+}
+
+.coverage-summary tr:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.coverage-summary tr:last-child td {
+  border-bottom: none;
+}
+
+/* Links styling */
+.coverage-summary a {
+  color: var(--main-text-color);
+  text-decoration: none;
+}
+
+.coverage-summary a:hover {
+  color: var(--bold-text-color);
+  text-decoration: underline;
+}
+
+/* File path styling */
+.file {
+  font-family: 'Hack', monospace;
+  font-size: 14px;
+}
+
+/* Coverage percentage styling */
+.strong {
+  font-weight: bold;
+  color: var(--main-text-color);
+}
+
+.pct {
+  font-weight: bold;
+  color: var(--main-text-color);
+}
+
+/* Coverage bars */
+.chart {
+  height: 12px;
+  margin: 5px 0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cover-fill {
+  height: 12px;
+}
+
+.cover-empty {
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Source code view */
+pre.prettyprint {
+  font-family: 'Hack', monospace;
+  background-color: #282a36; /* Dracula background */
+  border-radius: var(--border-radius);
+  margin: 0;
+  padding: 15px;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+/* Dracula theme colors for code */
+.com { color: #6272a4 !important; } /* Comments */
+.str, .string { color: #f1fa8c !important; } /* Strings */
+.kwd, .keyword { color: #ff79c6 !important; } /* Keywords */
+.typ, .type { color: #8be9fd !important; } /* Types */
+.lit, .literal { color: #bd93f9 !important; } /* Literals */
+.pun, .punctuation { color: #f8f8f2 !important; } /* Punctuation */
+.pln { color: #f8f8f2 !important; } /* Plain text */
+.tag { color: #ff79c6 !important; } /* Tags */
+.atn { color: #50fa7b !important; } /* Attributes */
+.atv { color: #f1fa8c !important; } /* Attribute values */
+.dec { color: #bd93f9 !important; } /* Declarations */
+.var { color: #8be9fd !important; } /* Variables */
+.fun { color: #50fa7b !important; } /* Functions */
+
+/* Coverage styles with Dracula-inspired colors */
+.cline-yes {
+  background-color: rgba(80, 250, 123, 0.2); /* Dracula green with transparency */
+  color: #f8f8f2; /* Dracula foreground */
+}
+
+.cline-no {
+  background-color: rgba(255, 85, 85, 0.2); /* Dracula red with transparency */
+  color: #f8f8f2; /* Dracula foreground */
+}
+
+.cstat-yes {
+  background-color: rgba(80, 250, 123, 0.3); /* Dracula green with more opacity */
+  color: #f8f8f2; /* Dracula foreground */
+}
+
+.cstat-no {
+  background-color: rgba(255, 85, 85, 0.3); /* Dracula red with more opacity */
+  color: #f8f8f2; /* Dracula foreground */
+}
+
+.cbranch-no {
+  background-color: rgba(255, 85, 85, 0.3); /* Dracula red with more opacity */
+  color: #f8f8f2; /* Dracula foreground */
+}
+
+/* Highlighted elements */
+.highlighted {
+  background-color: rgba(255, 121, 198, 0.3) !important; /* Dracula pink */
+  color: #f8f8f2 !important; /* Dracula foreground */
+}
+
+/* Fix alignment for source coverage */
+table.coverage {
+  border-spacing: 0;
+  width: 100%;
+}
+
+.wrapper > pre {
+  margin: 20px;
+}
+
+table.coverage tr {
+  display: flex;
+}
+
+table.coverage tr .line-count,
+table.coverage tr .line-coverage {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+table.coverage tr .text {
+  width: 10px;
+  flex-grow: 1;
+}
+
+table.coverage tr .text .prettyprint {
+  overflow-x: scroll;
+}
+
+table.coverage td.line-count,
+table.coverage td.line-coverage {
+  font-family: 'Hack', monospace;
+  font-size: 14px;
+  text-align: right;
+  border-right: 1px solid rgba(248, 248, 242, 0.2); /* Dracula foreground with transparency */
+  color: #6272a4; /* Dracula comment color for line numbers */
+  background-color: #282a36; /* Dracula background */
+  padding: 0 5px;
+  min-width: 35px;
+}
+
+table.coverage td.text {
+  font-family: 'Hack', monospace;
+  font-size: 14px;
+  padding-left: 10px;
+  color: #f8f8f2; /* Dracula foreground */
+  line-height: 1.5;
+}
+
+/* Missing branch indicators */
+.missing-if-branch {
+  display: inline-block;
+  margin-right: 5px;
+  border-radius: 3px;
+  position: relative;
+  padding: 0 4px;
+  background: #44475a; /* Dracula selection */
+  color: #f1fa8c; /* Dracula yellow */
+}
+
+/* High, Medium, Low classes */
+.high, .cline-yes {
+  background: #006556;
+  color: white !important;
+}
+
+.medium {
+  background: #FFB710;
+  color: black !important;
+}
+
+.low, .cline-no {
+  background: #FF6684;
+  color: white !important;
+}
+
+/* High, Medium, Low classes need to inherit text colors */
+.high .chart {
+  border-color: #006556;
+}
+
+.high .cover-fill {
+  background-color: #006556;
+}
+
+.medium .chart {
+  border-color: #FFB710;
+}
+
+.medium .cover-fill {
+  background-color: #FFB710;
+}
+
+.low .chart {
+  border-color: #FF6684;
+}
+
+.low .cover-fill {
+  background-color: #FF6684;
+}
+
+/* File details header */
+.file-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Responsive design */
+@media only screen and (max-width: 640px) {
+  .col3 { 
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .coverage-summary th,
+  .coverage-summary td {
+    padding: 8px;
+    font-size: 12px;
+  }
+  
+  .pad1 {
+    padding: 15px;
+    margin: 10px;
+  }
+  
+  .pad1::before {
+    left: 50px;
+  }
+} 
