@@ -70,7 +70,7 @@ html {
 
 /* Container styling */
 .container {
-  padding: 60px 15px 0;
+  padding: 0 15px;
 }
 
 main.container {
