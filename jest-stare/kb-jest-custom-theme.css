@@ -54,6 +54,14 @@ html {
   padding-left: calc(32px + 0.5em);
 }
 
+[class$="-test"] .card-body .media-body.pb-3.mb-0.small.lh-125.border-bottom.overflow-auto > div:nth-of-type(1) {
+  height: 32px;
+}
+
+[class$="-test"] .card-body .media-body.pb-3.mb-0.small.lh-125.border-bottom.overflow-auto small.mt-3 {
+  margin-top: 0 !important;
+}
+
 [class$="-test"] .card-body .media-body.pb-3.mb-0.small.lh-125.border-bottom.overflow-auto > div:nth-of-type(2) {
   margin: 1em 1em 1em 0;
 }
