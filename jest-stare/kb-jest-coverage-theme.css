@@ -26,7 +26,7 @@ body, html {
   height: 120px;
   line-height: 60px;
   background-color: rgba(0, 0, 0, 0.5);
-  color: var(--main-text-color);
+  color: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(10px);
 }
 
