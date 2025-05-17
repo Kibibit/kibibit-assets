@@ -49,6 +49,28 @@ html {
   min-height: 100%;
 }
 
+.media-body.pb-3.mb-0.small.lh-125.border-bottom.overflow-auto {
+  display: flex;
+  flex-grow: 1;
+  padding-left: calc(32px + 0.5em);
+}
+
+img.mr-2.rounded {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+}
+
+.media.text-muted.pt-3 {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+span.d-block.mb-2 {
+  display: none !important;
+}
+
 /* Navbar styling */
 .navbar-dark.bg-dark {
   background-color: rgba(0, 0, 0, 0.5) !important;
