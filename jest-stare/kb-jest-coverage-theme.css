@@ -409,7 +409,7 @@ table.coverage td.text {
   .coverage-summary [data-col="functions_raw"],
   .coverage-summary [data-col="lines"],
   .coverage-summary [data-col="lines_raw"],
-  .coverage-summary td:nth-child(n + 3) {
+  .coverage-summary td:nth-child(n + 5) {
     display: none;
   }
 }
