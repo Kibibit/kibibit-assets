@@ -42,7 +42,6 @@ body {
   flex-direction: column;
   font-family: 'Comfortaa', cursive;
   color: var(--main-text-color);
-  margin-bottom: 60px;
 }
 
 html {
@@ -198,10 +197,10 @@ pre, code {
 
 /* Footer styling */
 .footer {
-  position: absolute;
+  position: static;
   bottom: 0;
   width: 100%;
-  height: 60px;
+  height: 120px;
   line-height: 60px;
   background-color: rgba(0, 0, 0, 0.5);
   color: var(--main-text-color);
