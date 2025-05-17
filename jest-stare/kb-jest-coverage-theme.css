@@ -195,10 +195,15 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: none;
 }
 
+.medium .coverage-summary a {
+  color: black;
+}
+
 /* Links styling */
 .coverage-summary a {
   color: var(--main-text-color);
   text-decoration: none;
+  transition: all 250ms;
 }
 
 .coverage-summary a:hover {
