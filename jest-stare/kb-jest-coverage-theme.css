@@ -15,6 +15,10 @@ body, html {
   color: var(--main-text-color);
 }
 
+.coverage-summary td.pic {
+  min-width: 100px !important;
+}
+
 .footer {
   position: static;
   bottom: 0;
