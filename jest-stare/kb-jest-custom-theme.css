@@ -82,6 +82,10 @@ html {
   display: none !important;
 }
 
+h6.display-6 {
+    font-size: 1.4rem;
+}
+
 /* Navbar styling */
 .navbar-dark.bg-dark {
   background-color: rgba(0, 0, 0, 0.5) !important;
