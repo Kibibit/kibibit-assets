@@ -325,13 +325,15 @@ body {
 }
 
 footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  background: var(--second-text-color);
-  color: white;
-  padding: 1em;
-  font-family: 'Comfortaa', cursive;
+  position: static;
+  bottom: 0;
+  width: 100%;
+  height: 90px;
+  line-height: 65px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  font-size: 14px;
 }
 
 footer .created-by {
@@ -341,7 +343,7 @@ footer .created-by {
 footer .created-by,
 footer .contact-email {
   display: block;
-  margin-block-start: 1em;
+  margin-block-start: 0px;
   margin-block-end: 1em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
