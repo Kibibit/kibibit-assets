@@ -336,6 +336,17 @@ footer {
   font-size: 14px;
 }
 
+.footer a {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration-line: none;
+  transition: all 250ms;
+}
+
+.footer a:hover {
+  color: rgba(255, 255, 255, 1);
+  text-decoration-line: underline;
+}
+
 footer .created-by {
   margin-inline-end: 45px;
 }
