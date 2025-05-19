@@ -239,7 +239,7 @@ pre, code {
   bottom: 0;
   width: 100%;
   height: 90px;
-  line-height: 65px;
+  line-height: initial !important;
   background-color: rgba(0, 0, 0, 0.5);
   color: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(10px);
@@ -251,6 +251,7 @@ pre, code {
   height: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 1em;
   margin: 0;
   display: flex;
