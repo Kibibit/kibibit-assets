@@ -524,6 +524,7 @@ a:active {
   /* ffdd57 */
   background-color: var(--second-text-color);
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .swagger-ui .info .title {
