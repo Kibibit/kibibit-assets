@@ -325,6 +325,9 @@ body {
 }
 
 footer {
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
   position: static;
   bottom: 0;
   width: 100%;
@@ -336,13 +339,13 @@ footer {
   font-size: 14px;
 }
 
-.footer a {
+footer a {
   color: rgba(255, 255, 255, 0.6);
   text-decoration-line: none;
   transition: all 250ms;
 }
 
-.footer a:hover {
+footer a:hover {
   color: rgba(255, 255, 255, 1);
   text-decoration-line: underline;
 }
