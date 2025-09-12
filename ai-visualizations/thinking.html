@@ -23,9 +23,10 @@
     .cell:hover{outline:2px solid #fff3; cursor:crosshair}
     .explain{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.55}
     .tooltip{position:fixed; pointer-events:none; background:#0b0d12; color:#e9edf1; border:1px solid #2a3142; padding:8px 10px; border-radius:10px; font-size:12px; box-shadow:0 6px 24px #0007; opacity:0; transform:translateY(-6px); transition:opacity .12s ease, transform .12s ease}
-    .legend{display:flex; gap:10px; margin-top:6px; flex-wrap:wrap}
-    .legend-item{display:flex; align-items:center; gap:4px; font-size:12px; color:var(--muted)}
+    .legend{display:flex; flex-direction:column; align-items:flex-start; gap:6px; margin:8px auto 0; padding-left:0}
+    .legend-item{display:flex; align-items:center; justify-content:flex-start; gap:6px; font-size:12px; color:var(--muted)}
     .legend-swatch{width:14px; height:14px; border-radius:3px}
+    .chart svg{display:block; margin:0 auto}
   </style>
   <base target="_parent">
   <meta name="color-scheme" content="dark">
@@ -86,7 +87,7 @@
     const width = margin.left + models.length * cellSize + margin.right;
     const height = margin.top + timeBuckets.length * rowHeight + margin.bottom;
     const svg = container.append('svg').attr('width', width).attr('height', height);
-    svg.append('rect').attr('width', width).attr('height', height).attr('fill','var(--panel)').attr('stroke','var(--grid)');
+    svg.append('rect').attr('width', width).attr('height', height).attr('fill','transparent').attr('stroke','none');
     const g = svg.append('g').attr('transform',`translate(${margin.left},${margin.top})`);
     const y = d3.scaleBand().domain(d3.range(timeBuckets.length)).range([0, timeBuckets.length * rowHeight]).paddingInner(0.08);
     const x = d3.scaleBand().domain(d3.range(models.length)).range([0, models.length * cellSize]).paddingInner(0.08);
@@ -127,6 +128,16 @@
       .attr('class','legend-item');
     rows.append('div').attr('class','legend-swatch').style('background',k=>scales.colors[k]);
     rows.append('span').text(k=>scales.labels[k]);
+    const svgEl = document.querySelector('#chart svg');
+    if(svgEl){
+      const w = parseFloat(svgEl.getAttribute('width'));
+      if(!Number.isNaN(w)){
+        legend.style('width', w+'px');
+        legend.style('margin-left','auto');
+        legend.style('margin-right','auto');
+        legend.style('padding-left', margin.left + 'px');
+      }
+    }
   }
   document.getElementById('exp').innerHTML = dataset.explain;
   render();
