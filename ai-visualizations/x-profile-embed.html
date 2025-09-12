@@ -35,62 +35,64 @@
 <div id="app" class="card"><div class="loader">Loading…</div></div>
 <script>
 (async function(){
-  const NITTERS = [
-    "https://nitter.net",
-    "https://nitter.privacydev.net",
-    "https://nitter.pufe.org",
-    "https://nitter.poast.org",
-    "https://nitter.fdn.fr",
-    "https://nitter.cz"
-  ];
-  const LAST_OK_KEY = "xpc_last_nitter";
-
   const qs = new URLSearchParams(location.search);
-  const user = (qs.get("u") || "openai").replace(/^@/,'');
-  const theme = (qs.get("theme") || "light");
-  const compact = qs.has("compact");
-  const refresh = Math.max(0, parseInt(qs.get("refresh")||"0",10));
+  const user = (qs.get("u") || "openai").replace(/^@/,'');      // ?u=handle
+  const theme = (qs.get("theme") || "light");                    // ?theme=dark|light
+  const compact = qs.has("compact");                             // ?compact
+  const refresh = Math.max(0, parseInt(qs.get("refresh")||"0",10)); // ?refresh=120
+  const nitter = qs.get("nitter") || "https://nitter.net";       // override instance if needed
+  // Cache TTL (default = 1 week = 7*24*60*60 seconds)
   const ttlSec = Math.max(30, parseInt(qs.get("ttl")||"",10) || 604800);
+  const CACHE_NS = "xpcache_v1";                                  // namespace for this widget
+  const LRU_LIMIT = 10;
 
   document.documentElement.setAttribute("data-theme", theme);
   const app = document.getElementById("app");
   if (compact) app.classList.add("compact");
 
-  // Proxy fetch with fallback
-  async function fetchViaProxies(url, timeoutMs=9000){
-    const withTimeout = (p) => Promise.race([
-      p,
-      new Promise((_,rej)=>setTimeout(()=>rej(new Error("timeout")), timeoutMs))
-    ]);
-    const attempts = [
-      () => fetch(`https://r.jina.ai/http://${url.replace(/^https?:\/\//,'')}`),
-      () => fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`),
-      () => fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`).then(r=>r.ok?r.json().then(j=>new Response(j.contents||"",{status:200})):r),
-      () => fetch(`https://thingproxy.freeboard.io/fetch/${url}`)
-    ];
-    for (const tryFn of attempts) {
-      try {
-        const res = await withTimeout(tryFn());
-        if (res.ok) return await res.text();
-      } catch {}
+  // ---------- Cache (LRU + TTL) ----------
+  function now(){ return Date.now(); }
+  function kFor(u, nitterBase){ return `${CACHE_NS}:${nitterBase}:${u.toLowerCase()}`; }
+  function readJSON(k){ try{ return JSON.parse(localStorage.getItem(k)||"null"); }catch{ return null; } }
+  function writeJSON(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} }
+  function touchLRU(k){
+    const idxKey = `${CACHE_NS}:index`;
+    const idx = readJSON(idxKey) || [];
+    const filtered = idx.filter(x=>x!==k);
+    filtered.unshift(k);
+    while (filtered.length > LRU_LIMIT) {
+      const drop = filtered.pop();
+      if (drop) localStorage.removeItem(drop);
     }
-    throw new Error("All proxies failed");
+    writeJSON(idxKey, filtered);
+  }
+  function getCache(u, nitterBase){
+    const key = kFor(u, nitterBase);
+    const entry = readJSON(key);
+    if (!entry) return null;
+    if ((now() - entry.ts) > ttlSec*1000) return null; // expired
+    // Update LRU order on read
+    touchLRU(key);
+    return entry.data;
+  }
+  function setCache(u, nitterBase, data){
+    const key = kFor(u, nitterBase);
+    writeJSON(key, { ts: now(), data });
+    touchLRU(key);
   }
 
-  async function pickNitterBase() {
-    const override = qs.get("nitter");
-    if (override) return override;
-    const last = localStorage.getItem(LAST_OK_KEY);
-    const list = last ? [last, ...NITTERS.filter(n=>n!==last)] : NITTERS;
-    for (const base of list) {
-      try {
-        await fetchViaProxies(`${base}/about`, 5000);
-        localStorage.setItem(LAST_OK_KEY, base);
-        return base;
-      } catch {}
+  // ---------- Fetch helpers ----------
+  const prox = async (url) => {
+    try {
+      const r = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(url), {cache:"no-cache"});
+      if (r.ok) return await r.text();
+      throw 0;
+    } catch {
+      const r2 = await fetch("https://r.jina.ai/http://" + url.replace(/^https?:\/\//,''));
+      if (!r2.ok) throw new Error("proxy fail");
+      return await r2.text();
     }
-    return NITTERS[0];
-  }
+  };
 
   function parseProfile(html, user){
     let display = user;
@@ -100,6 +102,7 @@
     const bio = bioMatch ? bioMatch[1].replace(/<[^>]+>/g,'').trim() : "";
     return { display, bio };
   }
+
   function parseLatest(rss, user){
     const xml = new DOMParser().parseFromString(rss, "application/xml");
     const item = xml.querySelector("item");
@@ -112,6 +115,7 @@
     }
     return { postTitle, postLink, postISO };
   }
+
   function renderCard({display, user, bio, avatar, postTitle, postLink, postISO, profileURL}){
     const postDate = postISO ? new Date(postISO).toLocaleString() : "";
     app.innerHTML = `
@@ -134,7 +138,7 @@
           </svg>
           Follow
         </a>
-        <a class="chip" id="nitterLink" href="#" target="_blank" rel="noopener">
+        <a class="chip" href="${profileURL}" target="_blank" rel="noopener">
           <img src="https://nitter.net/logo.png" class="kb-logo" alt="Nitter">
           Nitter
         </a>
@@ -142,67 +146,50 @@
     `;
   }
 
-  async function fetchFresh(base){
-    const profileURL = `${base}/${user}`;
-    const rssURL = `${base}/${user}/rss`;
-    const [html, rss] = await Promise.all([
-      fetchViaProxies(profileURL),
-      fetchViaProxies(rssURL)
-    ]);
+  async function fetchFresh(user, nitterBase){
+    const profileURL = `${nitterBase}/${user}`;
+    const rssURL = `${nitterBase}/${user}/rss`;
+    const [html, rss] = await Promise.all([prox(profileURL), prox(rssURL)]);
     const { display, bio } = parseProfile(html, user);
     const { postTitle, postLink, postISO } = parseLatest(rss, user);
     const avatar = `https://unavatar.io/twitter/${encodeURIComponent(user)}`;
     return { display, user, bio, avatar, postTitle, postLink, postISO, profileURL };
   }
 
-  // Cache helpers
-  const CACHE_NS = "xpcache_v1"; const LRU_LIMIT = 10;
-  const now = ()=>Date.now();
-  const keyFor = (u, nbase)=>`${CACHE_NS}:${nbase}:${u.toLowerCase()}`;
-  const readJSON = (k)=>{ try{return JSON.parse(localStorage.getItem(k)||"null");}catch{return null;} };
-  const writeJSON = (k,v)=>{ try{localStorage.setItem(k, JSON.stringify(v));}catch{} };
-  function touchLRU(k){
-    const idxKey = `${CACHE_NS}:index`;
-    const idx = readJSON(idxKey) || [];
-    const filtered = idx.filter(x=>x!==k); filtered.unshift(k);
-    while (filtered.length>LRU_LIMIT){ const drop=filtered.pop(); if(drop) localStorage.removeItem(drop); }
-    writeJSON(idxKey, filtered);
-  }
-  function getCache(u, nbase){
-    const k = keyFor(u,nbase); const entry = readJSON(k);
-    if(!entry) return null; if((now()-entry.ts) > ttlSec*1000) return null;
-    touchLRU(k); return entry.data;
-  }
-  function setCache(u,nbase,data){
-    const k=keyFor(u,nbase); writeJSON(k,{ts:now(), data}); touchLRU(k);
+  // ---------- Flow ----------
+  // 1) Try cache first (instant render)
+  const cached = getCache(user, nitter);
+  if (cached){
+    renderCard(cached);
+  } else {
+    app.innerHTML = `<div class="loader">Loading…</div>`;
   }
 
-  // flow
-  const base = await pickNitterBase();
-  const cached = getCache(user, base);
-  if (cached) renderCard(cached); else app.innerHTML = `<div class="loader">Loading…</div>`;
-
+  // 2) If no cache or cache is old (we always refresh in the background),
+  //    fetch fresh and update + store.
   try{
-    const data = await fetchFresh(base);
+    const data = await fetchFresh(user, nitter);
     renderCard(data);
-    setCache(user, base, data);
-    const linkEl = document.getElementById("nitterLink");
-    if (linkEl) linkEl.href = data.profileURL;
+    setCache(user, nitter, data);
   }catch(e){
-    if (!cached) app.innerHTML = `<div class="loader" style="color:#b91c1c">Failed to load. Try again later.</div>`;
+    // If cache already rendered, keep it; else show error
+    if (!cached){
+      app.innerHTML = `<div class="loader">Failed to load. Try again later.</div>`;
+    }
     console.error(e);
   }
 
+  // 3) Optional periodic refresh while focused
   if (refresh > 0){
-    setInterval(async ()=>{
+    setInterval(async () => {
       if (document.hasFocus && document.hasFocus()){
         try{
-          const data = await fetchFresh(base);
+          const data = await fetchFresh(user, nitter);
           renderCard(data);
-          setCache(user, base, data);
-        }catch{}
+          setCache(user, nitter, data);
+        }catch(e){ console.error(e); }
       }
-    }, refresh*1000);
+    }, refresh * 1000);
   }
 })();
 </script>
