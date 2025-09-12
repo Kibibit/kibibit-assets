@@ -10,9 +10,24 @@
       --bg:#0e0f12; --panel:#151821; --ink:#e9edf1; --muted:#a7b0be;
       --grid:#202533; --ok:#2bb673; --mid:#b5d56a; --warn:#f1c40f; --bad:#c0392b; --none:#404b5a;
     }
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: transparent;
+      color: var(--ink);
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      /* font-family: "Comfortaa", cursive; */
+
+      display: flex;
+    }
     *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0; font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--ink)}
     .wrap{max-width:1400px; margin:24px auto; padding:0 16px}
     .card{background:transparent; border:0; border-radius:0; padding:0}
     .panelTitle{display:none}
@@ -23,24 +38,21 @@
     .cell:hover{outline:2px solid #fff3; cursor:crosshair}
     .explain{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.55}
     .tooltip{position:fixed; pointer-events:none; background:#0b0d12; color:#e9edf1; border:1px solid #2a3142; padding:8px 10px; border-radius:10px; font-size:12px; box-shadow:0 6px 24px #0007; opacity:0; transform:translateY(-6px); transition:opacity .12s ease, transform .12s ease}
-    .legend{display:flex; gap:10px; margin-top:6px; flex-wrap:wrap}
-    .legend-item{display:flex; align-items:center; gap:4px; font-size:12px; color:var(--muted)}
+    .legend{display:flex; flex-direction:column; align-items:flex-start; gap:6px; margin:8px auto 0; padding-left:0}
+    .legend-item{display:flex; align-items:center; justify-content:flex-start; gap:6px; font-size:12px; color:var(--muted)}
     .legend-swatch{width:14px; height:14px; border-radius:3px}
+    .chart svg{display:block; margin:0 auto}
+    .chart, svg{background:transparent !important}
   </style>
   <base target="_parent">
-  <meta name="color-scheme" content="dark">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <style>html,body,.wrap{background:transparent}</style>
-  <script>try{if(window.top!==window.self){document.documentElement.style.background='transparent';}}catch(e){}</script>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
+    <div class="card" style="transform: translate(-105px, -21px);">
       <div id="chart" class="chart"></div>
       <div class="legend" id="legend"></div>
       <div class="explain" id="exp" style="display:none"></div>
     </div>
-  </div>
   <div class="tooltip" id="tt"></div>
   <script>
   const timeBuckets = [
@@ -89,7 +101,6 @@
     const width = margin.left + models.length * cellSize + margin.right;
     const height = margin.top + timeBuckets.length * rowHeight + margin.bottom;
     const svg = container.append('svg').attr('width', width).attr('height', height);
-    svg.append('rect').attr('width', width).attr('height', height).attr('fill','var(--panel)').attr('stroke','var(--grid)');
     const g = svg.append('g').attr('transform',`translate(${margin.left},${margin.top})`);
     const y = d3.scaleBand().domain(d3.range(timeBuckets.length)).range([0, timeBuckets.length * rowHeight]).paddingInner(0.08);
     const x = d3.scaleBand().domain(d3.range(models.length)).range([0, models.length * cellSize]).paddingInner(0.08);
@@ -130,6 +141,16 @@
       .attr('class','legend-item');
     rows.append('div').attr('class','legend-swatch').style('background',k=>scales.colors[k]);
     rows.append('span').text(k=>labels[k]);
+    const svgEl = document.querySelector('#chart svg');
+    if(svgEl){
+      const w = parseFloat(svgEl.getAttribute('width'));
+      if(!Number.isNaN(w)){
+        legend.style('width', w+'px');
+        legend.style('margin-left','auto');
+        legend.style('margin-right','auto');
+        legend.style('padding-left', margin.left + 'px');
+      }
+    }
   }
   document.getElementById('exp').innerHTML = dataset.explain;
   render();
