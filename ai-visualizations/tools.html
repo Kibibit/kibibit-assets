@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tool Calling — Real‑World Reliability</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    :root{
+      --bg:#0e0f12; --panel:#151821; --ink:#e9edf1; --muted:#a7b0be;
+      --grid:#202533; --ok:#2bb673; --mid:#b5d56a; --warn:#f1c40f; --bad:#c0392b; --none:#404b5a;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:var(--bg); color:var(--ink)}
+    .wrap{max-width:1400px; margin:24px auto; padding:0 16px}
+    .card{background:transparent; border:0; border-radius:0; padding:0}
+    .panelTitle{display:none}
+    .chart{width:100%; overflow:auto}
+    .axis text{fill:var(--muted); font-size:11px}
+    .axis line, .axis path{stroke:var(--grid)}
+    .cell{stroke:var(--bg); stroke-width:1}
+    .cell:hover{outline:2px solid #fff3; cursor:crosshair}
+    .explain{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.55}
+    .tooltip{position:fixed; pointer-events:none; background:#0b0d12; color:#e9edf1; border:1px solid #2a3142; padding:8px 10px; border-radius:10px; font-size:12px; box-shadow:0 6px 24px #0007; opacity:0; transform:translateY(-6px); transition:opacity .12s ease, transform .12s ease}
+    .legend{display:flex; gap:10px; margin-top:6px; flex-wrap:wrap}
+    .legend-item{display:flex; align-items:center; gap:4px; font-size:12px; color:var(--muted)}
+    .legend-swatch{width:14px; height:14px; border-radius:3px}
+  </style>
+  <base target="_parent">
+  <meta name="color-scheme" content="dark">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <style>html,body,.wrap{background:transparent}</style>
+  <script>try{if(window.top!==window.self){document.documentElement.style.background='transparent';}}catch(e){}</script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div id="chart" class="chart"></div>
+      <div class="legend" id="legend"></div>
+      <div class="explain" id="exp" style="display:none"></div>
+    </div>
+  </div>
+  <div class="tooltip" id="tt"></div>
+  <script>
+  const timeBuckets = [
+    '2022 Q1','2022 Q2','2022 Q3','2022 Q4',
+    '2023 Q1','2023 Q2','2023 Q3','2023 Q4',
+    '2024 Q1','2024 Q2','2024 Q3','2024 Q4',
+    '2025 Q1','2025 Q2','2025 Q3','2025 Q4',
+  ];
+  const models = ['OpenAI','DeepSeek','Claude','Gemini','Grok','Llama','Kimi K2'];
+  function fill(from, val){ const arr = new Array(timeBuckets.length).fill(0); for(let i=from;i<timeBuckets.length;i++) arr[i]=val; return arr; }
+  const labels = {0:'Unreliable',1:'Risky',2:'Mostly OK',3:'Production‑grade'};
+  const dataset = {
+    data: {
+      'OpenAI': (function(){ const a=fill(0,0); a[5]=2; a[12]=2; a[13]=3; a[14]=3; a[15]=3; return a; })(),
+      'DeepSeek': (function(){ const a=fill(0,0); a[10]=1; a[12]=2; a[13]=2; a[14]=2; a[15]=2; return a; })(),
+      'Claude': (function(){ const a=fill(0,0); a[7]=2; a[9]=3; for(let i=10;i<a.length;i++) a[i]=3; return a; })(),
+      'Gemini': (function(){ const a=fill(0,0); a[8]=1; a[10]=2; a[12]=2; a[15]=2; return a; })(),
+      'Grok': (function(){ const a=fill(0,0); a[12]=1; a[15]=1; return a; })(),
+      'Llama': (function(){ const a=fill(0,0); a[9]=1; a[12]=2; a[15]=2; return a; })(),
+      'Kimi K2': (function(){ const a=fill(0,0); a[14]=3; a[15]=3; return a; })()
+    },
+    explain: `<p>Tool calling is measured by <b>reliability</b>, not just raw support.</p>
+      <p><b>Claude</b> led from 2023–2024 with production‑grade calls. <b>Kimi K2</b> in 2025 was the first open model to match this level, though it was slower. <b>GPT‑5</b> (Theo’s review) became the new benchmark.</p>
+      <ul>
+        <li><b>Compounding errors:</b> even small drops per call make multi‑tool sessions fail.</li>
+        <li><b>Other quirks:</b> syntax drift or malformed calls plague some competitors.</li>
+      </ul>`
+  };
+  const cellSize = 28, rowHeight = 22;
+  const margin = {top: 80, right: 22, bottom: 20, left: 172};
+  const tt = d3.select('#tt');
+  const scales = { colors:{0:'var(--bad)',1:'var(--warn)',2:'var(--mid)',3:'var(--ok)'}, labels };
+  function colorFor(v){ return scales.colors[v] || 'var(--none)'; }
+  function render(){
+    const data = dataset.data;
+    const container = d3.select('#chart');
+    container.selectAll('*').remove();
+    const flat = [];
+    timeBuckets.forEach((t, r) => {
+      models.forEach((m, c) => {
+        const row = (data[m] || new Array(timeBuckets.length).fill(0));
+        const value = row[r] ?? 0;
+        flat.push({ tIndex:r, cIndex:c, time:t, model:m, value });
+      });
+    });
+    const width = margin.left + models.length * cellSize + margin.right;
+    const height = margin.top + timeBuckets.length * rowHeight + margin.bottom;
+    const svg = container.append('svg').attr('width', width).attr('height', height);
+    svg.append('rect').attr('width', width).attr('height', height).attr('fill','var(--panel)').attr('stroke','var(--grid)');
+    const g = svg.append('g').attr('transform',`translate(${margin.left},${margin.top})`);
+    const y = d3.scaleBand().domain(d3.range(timeBuckets.length)).range([0, timeBuckets.length * rowHeight]).paddingInner(0.08);
+    const x = d3.scaleBand().domain(d3.range(models.length)).range([0, models.length * cellSize]).paddingInner(0.08);
+    g.append('g').selectAll('line.h').data(d3.range(timeBuckets.length+1)).join('line')
+      .attr('x1',0).attr('x2',models.length * cellSize).attr('y1',d=>d*rowHeight).attr('y2',d=>d*rowHeight)
+      .attr('stroke','var(--grid)').attr('stroke-width',d=>d%4===0?1.2:0.6).attr('opacity',.85);
+    g.append('g').selectAll('line.v').data(d3.range(models.length+1)).join('line')
+      .attr('y1',0).attr('y2',timeBuckets.length * rowHeight).attr('x1',d=>d*cellSize).attr('x2',d=>d*cellSize)
+      .attr('stroke','var(--grid)').attr('stroke-width',0.6).attr('opacity',.6);
+    g.selectAll('rect.cell').data(flat).join('rect')
+      .attr('class','cell')
+      .attr('x',d=>x(d.cIndex)).attr('y',d=>y(d.tIndex))
+      .attr('width',x.bandwidth()).attr('height',y.bandwidth()).attr('rx',4).attr('ry',4)
+      .attr('fill',d=>colorFor(d.value))
+      .on('mousemove', (event,d)=>{
+        tt.html(`<strong>${d.model}</strong><br/>${d.time}<br/>${labels[d.value]}`)
+          .style('left',(event.clientX+12)+'px').style('top',(event.clientY+12)+'px')
+          .style('opacity',1).style('transform','translateY(0)');
+      })
+      .on('mouseout',()=> tt.style('opacity',0).style('transform','translateY(-6px)'));
+    svg.append('g').attr('class','axis')
+      .attr('transform', `translate(${margin.left-10},${margin.top})`)
+      .call(d3.axisLeft(d3.scaleBand().domain(timeBuckets).range([0, timeBuckets.length * rowHeight])).tickSize(0));
+    svg.append('g').attr('class','axis')
+      .attr('transform', `translate(${margin.left},${margin.top-10})`)
+      .call(d3.axisTop(d3.scaleBand().domain(models).range([0, models.length * cellSize])).tickSize(0))
+      .selectAll('text').style('text-anchor','start').attr('transform','rotate(-34)').attr('dx','0.6em').attr('dy','-0.2em');
+    const scroller=document.getElementById('chart');
+    scroller.addEventListener('wheel',(e)=>{if(e.shiftKey){e.preventDefault();scroller.scrollLeft+=(e.deltaY>0?60:-60);}}, {passive:false});
+  }
+  function renderLegend(){
+    const legend = d3.select('#legend');
+    legend.selectAll('*').remove();
+    const keys = Object.keys(labels).map(Number).sort((a,b)=>a-b);
+    const rows = legend.selectAll('div.legend-item')
+      .data(keys)
+      .join('div')
+      .attr('class','legend-item');
+    rows.append('div').attr('class','legend-swatch').style('background',k=>scales.colors[k]);
+    rows.append('span').text(k=>labels[k]);
+  }
+  document.getElementById('exp').innerHTML = dataset.explain;
+  render();
+  renderLegend();
+  </script>
+</body>
+</html>
+
+
