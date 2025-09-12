@@ -23,12 +23,12 @@
   .latest{ border-top:1px solid var(--hair); padding-top:10px; margin-top:10px; }
   .meta{ color:var(--muted); font-size:12px; margin-top:6px; }
   .actions{ margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; }
-  .chip{ background:var(--chip); border:1px solid var(--hair); border-radius:999px; padding:6px 10px; font-weight:600; }
+  .chip{ background:var(--chip); border:1px solid var(--hair); border-radius:999px; padding:6px 10px; font-weight:600; display:flex; align-items:center; }
+  .chip svg{ flex-shrink:0; }
   .loader{ color:var(--muted); padding:10px 0 }
   /* compact mode */
   .compact .bio{ display:none }
   .compact .latest{ display:none }
-  .compact .chip.follow{ padding:6px 12px }
 </style>
 </head>
 <body>
@@ -39,8 +39,8 @@
   const user = (qs.get("u") || "openai").replace(/^@/,'');      // ?u=handle
   const theme = (qs.get("theme") || "light");                    // ?theme=dark|light
   const compact = qs.has("compact");                             // ?compact
-  const refresh = Math.max(0, parseInt(qs.get("refresh")||"0",10)); // ?refresh=120 (seconds), 0 = no auto refresh
-  const nitter = qs.get("nitter") || "https://nitter.net";       // swap if your favorite instance differs
+  const refresh = Math.max(0, parseInt(qs.get("refresh")||"0",10)); // ?refresh=120 (seconds)
+  const nitter = qs.get("nitter") || "https://nitter.net";       // override instance if needed
 
   document.documentElement.setAttribute("data-theme", theme);
   const app = document.getElementById("app");
@@ -74,7 +74,7 @@
       const bioMatch = html.match(/<div class="profile-bio">([\s\S]*?)<\/div>/);
       const bio = bioMatch ? bioMatch[1].replace(/<[^>]+>/g,'').trim() : "";
 
-      // avatar (unavatar is robust & fast)
+      // avatar
       const avatar = `https://unavatar.io/twitter/${encodeURIComponent(user)}`;
 
       // latest post
@@ -102,8 +102,22 @@
           ${postDate ? `<div class="meta">${postDate}</div>` : ""}
         </div>
         <div class="actions">
-          <a class="chip follow" href="https://x.com/${user}" target="_blank" rel="noopener">Follow</a>
-          <a class="chip" href="${profileURL}" target="_blank" rel="noopener">Nitter</a>
+          <a class="chip follow" href="https://x.com/${user}" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 24 24"
+                 width="14" height="14" fill="currentColor" style="margin-right:6px">
+              <title>X</title>
+              <path d="M22.162 0H26l-7.344 8.377L27.5 24h-7.31l-5.652-8.377L8.29 24H2l7.377-8.377L0 0h7.49l5.198 7.648L22.162 0Zm-3.158 21.646h2.035L9.432 2.354H7.308l11.696 19.292Z"/>
+            </svg>
+            Follow
+          </a>
+          <a class="chip" href="${profileURL}" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 width="14" height="14" fill="currentColor" style="margin-right:6px">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+              <text x="12" y="16" text-anchor="middle" font-size="10" fill="currentColor" font-family="sans-serif">N</text>
+            </svg>
+            Nitter
+          </a>
         </div>
       `;
     }catch(e){
