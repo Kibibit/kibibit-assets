@@ -12,7 +12,7 @@
   [data-theme="dark"]{
     --bg:#0b0b0c; --fg:#f1f5f9; --muted:#94a3b8; --hair:#1f2937; --link:#e5e7eb; --chip:#111827;
   }
-  html,body{margin:0; background:var(--bg); color:var(--fg); font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;}
+  html,body{margin:0; background: transparent; color:var(--fg); font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;}
   a{color:var(--link); text-decoration:none} a:hover{text-decoration:underline}
   .card{ max-width:520px; border:1px solid var(--hair); border-radius:12px; padding:14px; }
   .row{ display:flex; gap:12px; align-items:flex-start; }
@@ -103,19 +103,11 @@
         </div>
         <div class="actions">
           <a class="chip follow" href="https://x.com/${user}" target="_blank" rel="noopener">
-            <svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 24 24"
-                 width="14" height="14" fill="currentColor" style="margin-right:6px">
-              <title>X</title>
-              <path d="M22.162 0H26l-7.344 8.377L27.5 24h-7.31l-5.652-8.377L8.29 24H2l7.377-8.377L0 0h7.49l5.198 7.648L22.162 0Zm-3.158 21.646h2.035L9.432 2.354H7.308l11.696 19.292Z"/>
-            </svg>
+            <img src="https://simpleicons.org/icons/x.svg">
             Follow
           </a>
           <a class="chip" href="${profileURL}" target="_blank" rel="noopener">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                 width="14" height="14" fill="currentColor" style="margin-right:6px">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
-              <text x="12" y="16" text-anchor="middle" font-size="10" fill="currentColor" font-family="sans-serif">N</text>
-            </svg>
+            <img src="https://nitter.net/logo.png">
             Nitter
           </a>
         </div>
