@@ -14,25 +14,21 @@
     --banner-bg:#fff8e5;
     --banner-border:#f4d98c;
     --banner-accent:#8a6d1f;
-    --green:#22c55e;   /* ok */
-    --yellow:#f59e0b;  /* minor */
-    --orange:#f97316;  /* major */
-    --red:#ef4444;     /* critical */
-    --blue:#3b82f6;    /* info/maintenance */
+    --green:#22c55e;
+    --yellow:#f59e0b;
+    --orange:#f97316;
+    --red:#ef4444;
+    --blue:#3b82f6;
   }
   *{ box-sizing:border-box }
-  html,body{ background:var(--bg); color:var(--fg); font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"; }
+  html,body{ background:var(--bg); color:var(--fg); font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial; }
   a{ color:inherit; text-decoration:none; }
   a:hover{ text-decoration:underline; }
 
   .wrap{ max-width:920px; margin:0 auto; padding:24px 20px 60px; }
 
-  /* Header */
-  .top{
-    display:flex; align-items:center; justify-content:flex-start;
-    padding:8px 0 14px; border-bottom:1px solid var(--hair);
-    margin-bottom:16px;
-  }
+  .top{ display:flex; align-items:center; justify-content:flex-start;
+    padding:8px 0 14px; border-bottom:1px solid var(--hair); margin-bottom:16px; }
   .brand{ font-weight:700; font-size:28px; letter-spacing:.2px; }
 
   .crumb{ color:var(--muted); font-size:14px; margin:12px 0 4px; }
@@ -40,31 +36,20 @@
   .title{ font-size:22px; font-weight:700; margin:10px 0 6px; }
   .range{ color:var(--muted); font-size:14px; }
 
-  /* Banner */
-  .banner{
-    background:var(--banner-bg); border:1px solid var(--banner-border); border-radius:10px;
-    padding:16px 18px; margin:16px 0 24px; display:none;
-  }
+  .banner{ background:var(--banner-bg); border:1px solid var(--banner-border);
+    border-radius:10px; padding:16px 18px; margin:16px 0 24px; display:none; }
   .banner h3{ margin:0 0 10px; font-size:16px; color:var(--banner-accent); font-weight:700; }
   .banner strong{ display:block; margin:2px 0 6px; }
 
-  /* Loader */
-  .loader{
-    display:flex; align-items:center; gap:10px; color:var(--muted);
-    padding:16px 0;
-  }
+  .loader{ display:flex; align-items:center; gap:10px; color:var(--muted); padding:16px 0; }
   .dot{ width:8px; height:8px; border-radius:50%; background:#d1d5db; animation:b 1s infinite ease-in-out; }
   .dot:nth-child(2){ animation-delay:.15s }
   .dot:nth-child(3){ animation-delay:.3s }
   @keyframes b { 0%,80%,100%{ transform:scale(0.6); opacity:.5 } 40%{ transform:scale(1); opacity:1 } }
 
-  /* History section */
   .month{ margin-top:26px; font-weight:700; }
-  .row{
-    position:relative; display:grid; grid-template-columns:70px 10px 1fr 90px;
-    gap:16px; padding:14px 0; border-bottom:1px solid var(--hair);
-    transition: background .15s ease;
-  }
+  .row{ display:grid; grid-template-columns:70px 10px 1fr 90px; gap:16px;
+    padding:14px 0; border-bottom:1px solid var(--hair); transition:background .15s; }
   .row:hover{ background:var(--hover); }
   .date-col{ text-align:right; color:var(--muted); font-weight:600; padding-top:3px; }
   .date-col .dow{ color:var(--muted); font-weight:500; margin-left:4px; }
@@ -86,18 +71,10 @@
 </head>
 <body>
 <div class="wrap" id="app">
-  <div class="top">
-    <div class="brand">OpenAI</div>
-  </div>
-
+  <div class="top"><div class="brand">OpenAI</div></div>
   <div class="crumb">OpenAI / History</div>
-  <div class="title-row">
-    <div class="title">History</div>
-    <div class="range" id="range"></div>
-  </div>
-
+  <div class="title-row"><div class="title">History</div><div class="range" id="range"></div></div>
   <div id="banner" class="banner"></div>
-
   <div id="history">
     <div class="loader" id="loader">
       <div class="dot"></div><div class="dot"></div><div class="dot"></div>
@@ -108,7 +85,6 @@
 
 <script>
 (async function(){
-  // --- proxy helper (no caching) ---
   const proxiedText = async (url) => {
     try {
       const r = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(url), {cache:"no-cache"});
@@ -120,12 +96,10 @@
       return await r2.text();
     }
   };
-
   const monthName = (d) => d.toLocaleString(undefined, { month: "long" });
   const weekdayShort = (d) => d.toLocaleString(undefined, { weekday: "short" });
   const timeHM = (d) => d.toLocaleString(undefined, { hour: "numeric", minute: "2-digit" });
 
-  // Severity from RSS text only (heuristic)
   function inferSeverity(text){
     const t = text.toLowerCase();
     if (/(maintenance|scheduled maintenance)/.test(t)) return "info";
@@ -136,76 +110,69 @@
     return "minor";
   }
 
-  const historyEl = document.getElementById("history");
-  const bannerEl  = document.getElementById("banner");
-  const loaderEl  = document.getElementById("loader");
-
-  try{
-    const rssText = await proxiedText("https://status.openai.com/feed.rss");
-    const xml = new DOMParser().parseFromString(rssText, "application/xml");
-    const items = Array.from(xml.querySelectorAll("item")).map(it => {
-      const title = it.querySelector("title")?.textContent ?? "";
-      const link  = it.querySelector("link")?.textContent ?? "#";
-      const desc  = it.querySelector("description")?.textContent ?? "";
-      const pub   = new Date(it.querySelector("pubDate")?.textContent ?? Date.now());
-      return { title, link, desc, pub, sev: inferSeverity(`${title} ${desc}`) };
-    });
-
-    if (!items.length) throw new Error("No items in feed");
-
-    // header range
-    const first = items[items.length - 1].pub, last = items[0].pub;
-    const pretty = (d)=> d.toLocaleString(undefined,{ month:"short", year:"numeric" });
-    document.getElementById("range").textContent = `${pretty(first)} – ${pretty(last)}`;
-
-    // banner (only if latest isn't clearly OK)
-    const latest = items[0];
-    if (!/resolved|recovered|operational/i.test(latest.desc)){
-      bannerEl.style.display = "";
-      bannerEl.innerHTML = `
-        <h3>We’re currently experiencing issues</h3>
-        <strong>${latest.title}</strong>
-        <div>${latest.desc}</div>
-      `;
-    } else {
-      bannerEl.style.display = "none";
-      bannerEl.innerHTML = "";
-    }
-
-    // build history
-    historyEl.innerHTML = ""; // remove loader
-    let currentMonth = "";
-    items.forEach(it => {
-      const m = monthName(it.pub);
-      if (m !== currentMonth){
-        currentMonth = m;
-        const h = document.createElement("div");
-        h.className = "month";
-        h.textContent = currentMonth;
-        historyEl.appendChild(h);
-      }
-
-      const row = document.createElement("div");
-      row.className = "row";
-      row.innerHTML = `
-        <div class="date-col">${String(it.pub.getDate()).padStart(2,"0")} <span class="dow">${weekdayShort(it.pub)}</span></div>
-        <div class="sev ${it.sev}"></div>
-        <div class="content">
-          <a class="name" href="${it.link}" target="_blank" rel="noopener">${it.title}</a>
-          <div class="desc">${it.desc}</div>
-        </div>
-        <div class="time">${timeHM(it.pub)}</div>
-      `;
-      historyEl.appendChild(row);
-    });
-
-  } catch(err){
-    // show error but keep layout tidy
-    historyEl.innerHTML = `<div class="loader" style="color:#b91c1c">
-      Failed to load incidents. Try reloading.
+  async function renderStatus(){
+    const historyEl = document.getElementById("history");
+    const bannerEl  = document.getElementById("banner");
+    historyEl.innerHTML = `<div class="loader">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <span>Refreshing…</span>
     </div>`;
-    console.error(err);
+    try{
+      const rssText = await proxiedText("https://status.openai.com/feed.rss");
+      const xml = new DOMParser().parseFromString(rssText, "application/xml");
+      const items = Array.from(xml.querySelectorAll("item")).map(it => {
+        const title = it.querySelector("title")?.textContent ?? "";
+        const link  = it.querySelector("link")?.textContent ?? "#";
+        const desc  = it.querySelector("description")?.textContent ?? "";
+        const pub   = new Date(it.querySelector("pubDate")?.textContent ?? Date.now());
+        return { title, link, desc, pub, sev: inferSeverity(`${title} ${desc}`) };
+      });
+
+      if (!items.length) throw new Error("No items");
+
+      // header range
+      const first = items[items.length - 1].pub, last = items[0].pub;
+      const pretty = (d)=> d.toLocaleString(undefined,{ month:"short", year:"numeric" });
+      document.getElementById("range").textContent = `${pretty(first)} – ${pretty(last)}`;
+
+      // banner
+      const latest = items[0];
+      if (!/resolved|recovered|operational/i.test(latest.desc)){
+        bannerEl.style.display = "";
+        bannerEl.innerHTML = `<h3>We’re currently experiencing issues</h3>
+          <strong>${latest.title}</strong><div>${latest.desc}</div>`;
+      } else { bannerEl.style.display="none"; bannerEl.innerHTML=""; }
+
+      // history
+      historyEl.innerHTML = "";
+      let currentMonth = "";
+      items.forEach(it=>{
+        const m = monthName(it.pub);
+        if (m !== currentMonth){
+          currentMonth = m;
+          const h=document.createElement("div"); h.className="month"; h.textContent=m;
+          historyEl.appendChild(h);
+        }
+        const row=document.createElement("div");
+        row.className="row";
+        row.innerHTML=`<div class="date-col">${String(it.pub.getDate()).padStart(2,"0")} <span class="dow">${weekdayShort(it.pub)}</span></div>
+          <div class="sev ${it.sev}"></div>
+          <div class="content"><a class="name" href="${it.link}" target="_blank" rel="noopener">${it.title}</a>
+          <div class="desc">${it.desc}</div></div>
+          <div class="time">${timeHM(it.pub)}</div>`;
+        historyEl.appendChild(row);
+      });
+    }catch(e){
+      historyEl.innerHTML=`<div class="loader" style="color:#b91c1c">Failed to load. Try again later.</div>`;
+      console.error(e);
+    }
   }
+
+  // first load
+  await renderStatus();
+
+  // auto-refresh every 2 min when focused
+  setInterval(()=>{ if (document.hasFocus()) renderStatus(); }, 120000);
 })();
 </script>
 </body>
