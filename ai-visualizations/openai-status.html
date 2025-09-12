@@ -38,13 +38,20 @@
       color: var(--yellow-text);
       font-weight: 600;
     }
-    .banner strong { display: block; margin-bottom: .25rem; }
 
     /* Incident list */
     .incidents { list-style: none; padding: 0; margin: 0; }
     .incidents li {
+      display: flex;
+      align-items: flex-start;
       padding: .75rem 0;
       border-bottom: 1px solid var(--light-border);
+    }
+    .bar {
+      width: 6px;
+      border-radius: 3px;
+      margin-right: .75rem;
+      flex-shrink: 0;
     }
     .incidents a {
       color: #0056b3;
@@ -58,6 +65,13 @@
       color: var(--gray);
       margin-top: .25rem;
     }
+
+    /* Severity colors */
+    .ok    { background: #2ecc71; } /* green */
+    .minor { background: #f1c40f; } /* yellow */
+    .major { background: #e67e22; } /* orange */
+    .critical { background: #e74c3c; } /* red */
+    .info  { background: #3498db; } /* blue */
   </style>
 </head>
 <body>
@@ -69,6 +83,16 @@
   <ul class="incidents" id="history"></ul>
 
   <script>
+    function getSeverityClass(text) {
+      const t = text.toLowerCase();
+      if (t.includes("degraded") || t.includes("elevated")) return "minor";
+      if (t.includes("partial") || t.includes("outage")) return "major";
+      if (t.includes("critical") || t.includes("not displaying") || t.includes("down")) return "critical";
+      if (t.includes("maintenance")) return "info";
+      if (t.includes("resolved") || t.includes("recovered")) return "ok";
+      return "minor"; // default
+    }
+
     async function loadStatus() {
       const feedUrl = "https://status.openai.com/feed.rss";
       const proxied = "https://api.allorigins.win/raw?url=" + encodeURIComponent(feedUrl);
@@ -93,16 +117,21 @@
         <div>${desc}</div>
       `;
 
-      // History
+      // History with severity bars
       const list = document.getElementById("history");
-      items.slice(0, 6).forEach(item => {
+      items.slice(0, 8).forEach(item => {
         const title = item.querySelector("title").textContent;
         const link = item.querySelector("link").textContent;
+        const desc = item.querySelector("description").textContent;
         const date = new Date(item.querySelector("pubDate").textContent).toLocaleString();
+        const severity = getSeverityClass(title + " " + desc);
         list.innerHTML += `
           <li>
-            <a href="${link}" target="_blank">${title}</a>
-            <span class="date">${date}</span>
+            <div class="bar ${severity}"></div>
+            <div>
+              <a href="${link}" target="_blank">${title}</a>
+              <span class="date">${date}</span>
+            </div>
           </li>`;
       });
     }
