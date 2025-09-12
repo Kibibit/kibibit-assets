@@ -14,9 +14,9 @@
     --banner-bg:#fff8e5;
     --banner-border:#f4d98c;
     --banner-accent:#8a6d1f;
-    --green:#22c55e;   /* ok (operational) */
-    --yellow:#f59e0b;  /* minor (degraded/elevated/delays) */
-    --orange:#f97316;  /* major (partial/major outage) */
+    --green:#22c55e;   /* ok */
+    --yellow:#f59e0b;  /* minor */
+    --orange:#f97316;  /* major */
     --red:#ef4444;     /* critical */
     --blue:#3b82f6;    /* info/maintenance */
   }
@@ -29,15 +29,11 @@
 
   /* Header */
   .top{
-    display:flex; align-items:center; justify-content:space-between;
+    display:flex; align-items:center; justify-content:flex-start;
     padding:8px 0 14px; border-bottom:1px solid var(--hair);
     margin-bottom:16px;
   }
   .brand{ font-weight:700; font-size:28px; letter-spacing:.2px; }
-  .subbtn{
-    padding:8px 12px; border:1px solid var(--hair); border-radius:8px;
-    background:#fff; color:#111; font-weight:500;
-  }
 
   .crumb{ color:var(--muted); font-size:14px; margin:12px 0 4px; }
   .title-row{ display:flex; align-items:center; justify-content:space-between; }
@@ -47,10 +43,20 @@
   /* Banner */
   .banner{
     background:var(--banner-bg); border:1px solid var(--banner-border); border-radius:10px;
-    padding:16px 18px; margin:16px 0 24px;
+    padding:16px 18px; margin:16px 0 24px; display:none;
   }
   .banner h3{ margin:0 0 10px; font-size:16px; color:var(--banner-accent); font-weight:700; }
   .banner strong{ display:block; margin:2px 0 6px; }
+
+  /* Loader */
+  .loader{
+    display:flex; align-items:center; gap:10px; color:var(--muted);
+    padding:16px 0;
+  }
+  .dot{ width:8px; height:8px; border-radius:50%; background:#d1d5db; animation:b 1s infinite ease-in-out; }
+  .dot:nth-child(2){ animation-delay:.15s }
+  .dot:nth-child(3){ animation-delay:.3s }
+  @keyframes b { 0%,80%,100%{ transform:scale(0.6); opacity:.5 } 40%{ transform:scale(1); opacity:1 } }
 
   /* History section */
   .month{ margin-top:26px; font-weight:700; }
@@ -82,7 +88,6 @@
 <div class="wrap" id="app">
   <div class="top">
     <div class="brand">OpenAI</div>
-    <a class="subbtn" href="https://status.openai.com/" target="_blank" rel="noopener">Subscribe to updates</a>
   </div>
 
   <div class="crumb">OpenAI / History</div>
@@ -91,20 +96,20 @@
     <div class="range" id="range"></div>
   </div>
 
-  <div id="banner" class="banner" style="display:none"></div>
+  <div id="banner" class="banner"></div>
 
-  <div id="history"></div>
+  <div id="history">
+    <div class="loader" id="loader">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <span>Loading incidents…</span>
+    </div>
+  </div>
 </div>
 
 <script>
 (async function(){
-  // ------- Utilities -------
-  const cacheTTLms = 15*60*1000; // 15 minutes
-  const getCache = (k)=>{ try{ const v=JSON.parse(localStorage.getItem(k)||"null"); if(!v) return null; if(Date.now()-v.t>cacheTTLms) return null; return v.d; }catch{ return null; } };
-  const setCache = (k,d)=>{ try{ localStorage.setItem(k, JSON.stringify({t:Date.now(), d})); }catch{} };
-
+  // --- proxy helper (no caching) ---
   const proxiedText = async (url) => {
-    // Try AllOrigins first, then Jina reader
     try {
       const r = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(url), {cache:"no-cache"});
       if (r.ok) return await r.text();
@@ -120,8 +125,8 @@
   const weekdayShort = (d) => d.toLocaleString(undefined, { weekday: "short" });
   const timeHM = (d) => d.toLocaleString(undefined, { hour: "numeric", minute: "2-digit" });
 
-  // baseline inference (used while we upgrade with peak severity)
-  function inferFromText(text){
+  // Severity from RSS text only (heuristic)
+  function inferSeverity(text){
     const t = text.toLowerCase();
     if (/(maintenance|scheduled maintenance)/.test(t)) return "info";
     if (/(outage|not displaying|unavailable|cannot|can't|down|critical)/.test(t)) return "critical";
@@ -131,118 +136,76 @@
     return "minor";
   }
 
-  // Parse peak severity from incident page HTML
-  function inferPeakSeverityFromHTML(html){
-    const t = html.toLowerCase();
+  const historyEl = document.getElementById("history");
+  const bannerEl  = document.getElementById("banner");
+  const loaderEl  = document.getElementById("loader");
 
-    // Some incident pages list a timeline with severity pills / labels.
-    // We check for strongest tokens first.
-    if (/(critical|severe)\b/.test(t) || /\bmajor outage\b/.test(t) || /service unavailable/.test(t)) return "critical";
-    if (/\b(partial outage|major incident)\b/.test(t)) return "major";
-    if (/\b(degraded|elevated|increased error|delays|latency|rate limit)\b/.test(t)) return "minor";
-    if (/\bmaintenance\b/.test(t)) return "info";
-    if (/\boperational\b/.test(t)) return "ok";
-    // Fallback to baseline if nothing obvious
-    return null;
-  }
+  try{
+    const rssText = await proxiedText("https://status.openai.com/feed.rss");
+    const xml = new DOMParser().parseFromString(rssText, "application/xml");
+    const items = Array.from(xml.querySelectorAll("item")).map(it => {
+      const title = it.querySelector("title")?.textContent ?? "";
+      const link  = it.querySelector("link")?.textContent ?? "#";
+      const desc  = it.querySelector("description")?.textContent ?? "";
+      const pub   = new Date(it.querySelector("pubDate")?.textContent ?? Date.now());
+      return { title, link, desc, pub, sev: inferSeverity(`${title} ${desc}`) };
+    });
 
-  // Concurrency limiter
-  async function mapLimit(items, limit, mapper){
-    const results = new Array(items.length);
-    let i = 0; let active = 0; let resolveAll, rejectAll;
-    const done = new Promise((res,rej)=>{ resolveAll=res; rejectAll=rej; });
+    if (!items.length) throw new Error("No items in feed");
 
-    const next = ()=>{
-      if (i >= items.length && active === 0) return resolveAll(results);
-      while (active < limit && i < items.length){
-        const idx = i++; active++;
-        Promise.resolve(mapper(items[idx], idx))
-          .then(v=>{ results[idx]=v; active--; next(); })
-          .catch(e=>{ results[idx]=undefined; active--; next(); });
+    // header range
+    const first = items[items.length - 1].pub, last = items[0].pub;
+    const pretty = (d)=> d.toLocaleString(undefined,{ month:"short", year:"numeric" });
+    document.getElementById("range").textContent = `${pretty(first)} – ${pretty(last)}`;
+
+    // banner (only if latest isn't clearly OK)
+    const latest = items[0];
+    if (!/resolved|recovered|operational/i.test(latest.desc)){
+      bannerEl.style.display = "";
+      bannerEl.innerHTML = `
+        <h3>We’re currently experiencing issues</h3>
+        <strong>${latest.title}</strong>
+        <div>${latest.desc}</div>
+      `;
+    } else {
+      bannerEl.style.display = "none";
+      bannerEl.innerHTML = "";
+    }
+
+    // build history
+    historyEl.innerHTML = ""; // remove loader
+    let currentMonth = "";
+    items.forEach(it => {
+      const m = monthName(it.pub);
+      if (m !== currentMonth){
+        currentMonth = m;
+        const h = document.createElement("div");
+        h.className = "month";
+        h.textContent = currentMonth;
+        historyEl.appendChild(h);
       }
-    };
-    next(); return done;
+
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML = `
+        <div class="date-col">${String(it.pub.getDate()).padStart(2,"0")} <span class="dow">${weekdayShort(it.pub)}</span></div>
+        <div class="sev ${it.sev}"></div>
+        <div class="content">
+          <a class="name" href="${it.link}" target="_blank" rel="noopener">${it.title}</a>
+          <div class="desc">${it.desc}</div>
+        </div>
+        <div class="time">${timeHM(it.pub)}</div>
+      `;
+      historyEl.appendChild(row);
+    });
+
+  } catch(err){
+    // show error but keep layout tidy
+    historyEl.innerHTML = `<div class="loader" style="color:#b91c1c">
+      Failed to load incidents. Try reloading.
+    </div>`;
+    console.error(err);
   }
-
-  // ------- Fetch RSS -------
-  const rssText = await proxiedText("https://status.openai.com/feed.rss");
-  const xml = new DOMParser().parseFromString(rssText, "application/xml");
-  const items = Array.from(xml.querySelectorAll("item")).map(it => {
-    const title = it.querySelector("title")?.textContent ?? "";
-    const link  = it.querySelector("link")?.textContent ?? "#";
-    const desc  = it.querySelector("description")?.textContent ?? "";
-    const pub   = new Date(it.querySelector("pubDate")?.textContent ?? Date.now());
-    return { title, link, desc, pub, sev: inferFromText(`${title} ${desc}`) };
-  });
-
-  if (!items.length){ document.getElementById("history").textContent = "Unable to load status."; return; }
-
-  // Header range
-  const first = items[items.length - 1].pub, last = items[0].pub;
-  const pretty = (d)=> d.toLocaleString(undefined,{ month:"short", year:"numeric" });
-  document.getElementById("range").textContent = `${pretty(first)} – ${pretty(last)}`;
-
-  // Banner (show only if latest doesn't read as OK)
-  const latest = items[0];
-  if (!/resolved|recovered|operational/i.test(latest.desc)){
-    const b = document.getElementById("banner");
-    b.style.display = "";
-    b.innerHTML = `
-      <h3>We’re currently experiencing issues</h3>
-      <strong>${latest.title}</strong>
-      <div>${latest.desc}</div>
-    `;
-  }
-
-  // Render history quickly (with baseline colors), then upgrade colors
-  const container = document.getElementById("history");
-  let currentMonth = "";
-  const rowEls = []; // keep refs to update severity later
-
-  items.forEach((it, idx) => {
-    const m = monthName(it.pub);
-    if (m !== currentMonth){
-      currentMonth = m;
-      const h = document.createElement("div");
-      h.className = "month";
-      h.textContent = currentMonth;
-      container.appendChild(h);
-    }
-
-    const row = document.createElement("div");
-    row.className = "row";
-    row.innerHTML = `
-      <div class="date-col">${String(it.pub.getDate()).padStart(2,"0")} <span class="dow">${weekdayShort(it.pub)}</span></div>
-      <div class="sev ${it.sev}"></div>
-      <div class="content">
-        <a class="name" href="${it.link}" target="_blank" rel="noopener">${it.title}</a>
-        <div class="desc">${it.desc}</div>
-      </div>
-      <div class="time">${timeHM(it.pub)}</div>
-    `;
-    container.appendChild(row);
-    rowEls[idx] = row;
-  });
-
-  // Upgrade colors using incident pages (peak severity)
-  await mapLimit(items, 4, async (it, idx) => {
-    const cacheKey = "incidentPeak:"+it.link;
-    let sev = getCache(cacheKey);
-    if (!sev){
-      try{
-        const html = await proxiedText(it.link);
-        sev = inferPeakSeverityFromHTML(html) || it.sev;
-        setCache(cacheKey, sev);
-      }catch{
-        sev = it.sev;
-      }
-    }
-    const bar = rowEls[idx]?.querySelector(".sev");
-    if (bar){
-      bar.classList.remove("ok","minor","major","critical","info");
-      bar.classList.add(sev);
-    }
-  });
 })();
 </script>
 </body>
