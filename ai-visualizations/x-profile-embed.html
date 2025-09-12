@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>X Person Card</title>
+<style>
+  :root{
+    --bg:#fff; --fg:#0b0b0c; --muted:#6b7280; --hair:#e5e7eb; --link:#111;
+    --chip:#f3f4f6;
+  }
+  [data-theme="dark"]{
+    --bg:#0b0b0c; --fg:#f1f5f9; --muted:#94a3b8; --hair:#1f2937; --link:#e5e7eb; --chip:#111827;
+  }
+  html,body{margin:0; background:var(--bg); color:var(--fg); font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;}
+  a{color:var(--link); text-decoration:none} a:hover{text-decoration:underline}
+  .card{ max-width:520px; border:1px solid var(--hair); border-radius:12px; padding:14px; }
+  .row{ display:flex; gap:12px; align-items:flex-start; }
+  .avatar{ width:56px; height:56px; border-radius:50%; object-fit:cover; background:var(--hair); }
+  .name{ font-weight:700; font-size:16px; }
+  .handle{ color:var(--muted); }
+  .bio{ margin:6px 0 10px; color:var(--fg) }
+  .latest{ border-top:1px solid var(--hair); padding-top:10px; margin-top:10px; }
+  .meta{ color:var(--muted); font-size:12px; margin-top:6px; }
+  .actions{ margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; }
+  .chip{ background:var(--chip); border:1px solid var(--hair); border-radius:999px; padding:6px 10px; font-weight:600; }
+  .loader{ color:var(--muted); padding:10px 0 }
+  /* compact mode */
+  .compact .bio{ display:none }
+  .compact .latest{ display:none }
+  .compact .chip.follow{ padding:6px 12px }
+</style>
+</head>
+<body>
+<div id="app" class="card"><div class="loader">Loading…</div></div>
+<script>
+(async function(){
+  const qs = new URLSearchParams(location.search);
+  const user = (qs.get("u") || "openai").replace(/^@/,'');      // ?u=handle
+  const theme = (qs.get("theme") || "light");                    // ?theme=dark|light
+  const compact = qs.has("compact");                             // ?compact
+  const refresh = Math.max(0, parseInt(qs.get("refresh")||"0",10)); // ?refresh=120 (seconds), 0 = no auto refresh
+  const nitter = qs.get("nitter") || "https://nitter.net";       // swap if your favorite instance differs
+
+  document.documentElement.setAttribute("data-theme", theme);
+  const app = document.getElementById("app");
+  if (compact) app.classList.add("compact");
+
+  const prox = async (url) => {
+    try {
+      const r = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(url), {cache:"no-cache"});
+      if (r.ok) return await r.text();
+      throw 0;
+    } catch {
+      const r2 = await fetch("https://r.jina.ai/http://" + url.replace(/^https?:\/\//,''));
+      if (!r2.ok) throw new Error("proxy fail");
+      return await r2.text();
+    }
+  };
+
+  async function render(){
+    app.innerHTML = `<div class="loader">Loading…</div>`;
+    try{
+      const profileURL = `${nitter}/${user}`;
+      const rssURL = `${nitter}/${user}/rss`;
+
+      const [html, rss] = await Promise.all([prox(profileURL), prox(rssURL)]);
+      // display name
+      let display = user;
+      const titleMatch = html.match(/<title>([^<]+) \/ /);
+      if (titleMatch) display = titleMatch[1].trim();
+
+      // bio
+      const bioMatch = html.match(/<div class="profile-bio">([\s\S]*?)<\/div>/);
+      const bio = bioMatch ? bioMatch[1].replace(/<[^>]+>/g,'').trim() : "";
+
+      // avatar (unavatar is robust & fast)
+      const avatar = `https://unavatar.io/twitter/${encodeURIComponent(user)}`;
+
+      // latest post
+      const xml = new DOMParser().parseFromString(rss, "application/xml");
+      const item = xml.querySelector("item");
+      let postTitle = "", postLink = `https://x.com/${user}`, postDate = "";
+      if (item){
+        postTitle = item.querySelector("title")?.textContent || "";
+        postLink  = item.querySelector("link")?.textContent || postLink;
+        const pub = item.querySelector("pubDate")?.textContent;
+        postDate  = pub ? new Date(pub).toLocaleString() : "";
+      }
+
+      app.innerHTML = `
+        <div class="row">
+          <img class="avatar" src="${avatar}" alt="${display} avatar" referrerpolicy="no-referrer">
+          <div>
+            <div class="name">${display}</div>
+            <div class="handle">@${user}</div>
+          </div>
+        </div>
+        <div class="bio">${bio}</div>
+        <div class="latest">
+          <a href="${postLink}" target="_blank" rel="noopener">${postTitle || "View profile"}</a>
+          ${postDate ? `<div class="meta">${postDate}</div>` : ""}
+        </div>
+        <div class="actions">
+          <a class="chip follow" href="https://x.com/${user}" target="_blank" rel="noopener">Follow</a>
+          <a class="chip" href="${profileURL}" target="_blank" rel="noopener">Nitter</a>
+        </div>
+      `;
+    }catch(e){
+      console.error(e);
+      app.innerHTML = `<div class="loader">Failed to load. Try again later.</div>`;
+    }
+  }
+
+  await render();
+  if (refresh > 0){
+    setInterval(() => { if (document.hasFocus && document.hasFocus()) render(); }, refresh * 1000);
+  }
+})();
+</script>
+</body>
+</html>
