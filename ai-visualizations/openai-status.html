@@ -1,143 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>OpenAI Status (Unofficial)</title>
-  <style>
-    :root {
-      --yellow-bg: #fff8e5;
-      --yellow-border: #f4d98c;
-      --yellow-text: #8a6d1f;
-      --gray: #666;
-      --light-border: #eee;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>OpenAI Status (Unofficial)</title>
+<style>
+  :root{
+    --bg:#fff;
+    --fg:#0b0b0c;
+    --muted:#6b7280;
+    --hair:#e5e7eb;
+    --hover:#f8fafc;
+    --banner-bg:#fff8e5;
+    --banner-border:#f4d98c;
+    --banner-accent:#8a6d1f;
+    --green:#22c55e;   /* operational */
+    --yellow:#f59e0b;  /* degraded / elevated / delays */
+    --orange:#f97316;  /* partial/major outage */
+    --red:#ef4444;     /* critical/outage */
+    --blue:#3b82f6;    /* maintenance/info */
+  }
+  *{ box-sizing:border-box }
+  html,body{ background:var(--bg); color:var(--fg); font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"; }
+  a{ color:inherit; text-decoration:none; }
+  a:hover{ text-decoration:underline; }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #fff;
-      color: #111;
-      max-width: 720px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      line-height: 1.5;
-    }
+  .wrap{ max-width:920px; margin:0 auto; padding:24px 20px 60px; }
 
-    h2, h3 { margin: 1rem 0 .5rem; font-weight: 600; }
+  /* Header */
+  .top{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 0 14px; border-bottom:1px solid var(--hair);
+    margin-bottom:16px;
+  }
+  .brand{ font-weight:700; font-size:28px; letter-spacing:.2px; }
+  .subbtn{
+    padding:8px 12px; border:1px solid var(--hair); border-radius:8px;
+    background:#fff; color:#111; font-weight:500;
+  }
 
-    /* Banner */
-    .banner {
-      background: var(--yellow-bg);
-      border: 1px solid var(--yellow-border);
-      border-radius: 8px;
-      padding: 1rem 1.25rem;
-      margin-bottom: 2rem;
-    }
-    .banner h2 {
-      margin: 0 0 .5rem;
-      font-size: 1rem;
-      color: var(--yellow-text);
-      font-weight: 600;
-    }
+  /* Breadcrumb + title */
+  .crumb{ color:var(--muted); font-size:14px; margin:12px 0 4px; }
+  .title-row{ display:flex; align-items:center; justify-content:space-between; }
+  .title{ font-size:22px; font-weight:700; margin:10px 0 6px; }
+  .range{ color:var(--muted); font-size:14px; }
 
-    /* Incident list */
-    .incidents { list-style: none; padding: 0; margin: 0; }
-    .incidents li {
-      display: flex;
-      align-items: flex-start;
-      padding: .75rem 0;
-      border-bottom: 1px solid var(--light-border);
-    }
-    .bar {
-      width: 6px;
-      border-radius: 3px;
-      margin-right: .75rem;
-      flex-shrink: 0;
-      align-self: normal;
-    }
-    .incidents a {
-      color: #0056b3;
-      font-weight: 500;
-      text-decoration: none;
-    }
-    .incidents a:hover { text-decoration: underline; }
-    .date {
-      display: block;
-      font-size: .8rem;
-      color: var(--gray);
-      margin-top: .25rem;
-    }
+  /* Banner */
+  .banner{
+    background:var(--banner-bg); border:1px solid var(--banner-border); border-radius:10px;
+    padding:16px 18px; margin:16px 0 24px;
+  }
+  .banner h3{ margin:0 0 10px; font-size:16px; color:var(--banner-accent); font-weight:700; }
+  .banner strong{ display:block; margin:2px 0 6px; }
 
-    /* Severity colors */
-    .ok    { background: #2ecc71; } /* green */
-    .minor { background: #f1c40f; } /* yellow */
-    .major { background: #e67e22; } /* orange */
-    .critical { background: #e74c3c; } /* red */
-    .info  { background: #3498db; } /* blue */
-  </style>
+  /* History section */
+  .month{ margin-top:26px; font-weight:700; }
+  .row{
+    position:relative; display:grid; grid-template-columns:70px 10px 1fr 90px;
+    gap:16px; padding:14px 0; border-bottom:1px solid var(--hair);
+  }
+  .row:hover{ background:var(--hover); }
+  .date-col{ text-align:right; color:var(--muted); font-weight:600; padding-top:3px; }
+  .date-col .dow{ color:var(--muted); font-weight:500; margin-left:4px; }
+  .sev{ width:6px; border-radius:3px; margin-left:4px; }
+  .sev.ok{ background:var(--green); }
+  .sev.minor{ background:var(--yellow); }
+  .sev.major{ background:var(--orange); }
+  .sev.critical{ background:var(--red); }
+  .sev.info{ background:var(--blue); }
+  .content .name{ font-weight:700; }
+  .content .desc{ color:var(--muted); margin-top:4px; }
+  .time{ text-align:right; color:var(--muted); white-space:nowrap; padding-top:3px; }
+
+  /* Small screens */
+  @media (max-width:640px){
+    .row{ grid-template-columns:56px 8px 1fr 64px; gap:12px; }
+    .title{ font-size:20px; }
+  }
+</style>
 </head>
 <body>
-  <div class="banner" id="current">
-    Loading current status…
+<div class="wrap" id="app">
+  <div class="top">
+    <div class="brand">OpenAI</div>
+    <a class="subbtn" href="https://status.openai.com/" target="_blank" rel="noopener">Subscribe to updates</a>
   </div>
 
-  <h3>Recent Incidents</h3>
-  <ul class="incidents" id="history"></ul>
+  <div class="crumb">OpenAI / History</div>
+  <div class="title-row">
+    <div class="title">History</div>
+    <div class="range" id="range"></div>
+  </div>
 
-  <script>
-    function getSeverityClass(text) {
-      const t = text.toLowerCase();
-      if (t.includes("degraded") || t.includes("elevated")) return "minor";
-      if (t.includes("partial") || t.includes("outage")) return "major";
-      if (t.includes("critical") || t.includes("not displaying") || t.includes("down")) return "critical";
-      if (t.includes("maintenance")) return "info";
-      if (t.includes("resolved") || t.includes("recovered")) return "ok";
-      return "minor"; // default
+  <div id="banner" class="banner" style="display:none"></div>
+
+  <div id="history"></div>
+</div>
+
+<script>
+(async function(){
+  // ---- helpers ----
+  const proxied = async (url) => {
+    // Try AllOrigins (raw) first, then fall back to Jina reader (text proxy)
+    try {
+      const r = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(url), {cache:"no-cache"});
+      if (r.ok) return await r.text();
+      throw new Error("AllOrigins failed");
+    } catch(e) {
+      const r2 = await fetch("https://r.jina.ai/http://" + url.replace(/^https?:\/\//,''));
+      if (!r2.ok) throw new Error("proxy failed");
+      return await r2.text();
+    }
+  };
+
+  const monthName = (d) => d.toLocaleString(undefined, { month: "long" });
+  const weekdayShort = (d) => d.toLocaleString(undefined, { weekday: "short" });
+  const timeHM = (d) => d.toLocaleString(undefined, { hour: "numeric", minute: "2-digit" });
+
+  // Severity inference from title+description (heuristic tuned to incident.io copy)
+  function severity(text){
+    const t = text.toLowerCase();
+    if (/(maintenance|scheduled maintenance)/.test(t)) return "info";
+    if (/(outage|unavailable|not displaying|cannot|can't|down|major outage)/.test(t)) return "critical";
+    if (/(partial outage|major incident|widespread)/.test(t)) return "major";
+    if (/(degraded|elevated|delays|slow|latency|rate limit|errors?)/.test(t)) return "minor";
+    if (/(resolved|recovered|operational)/.test(t)) return "ok"; // final state messages
+    return "minor";
+  }
+
+  // ---- fetch + parse feed ----
+  const xmlText = await proxied("https://status.openai.com/feed.rss");
+  const xml = new DOMParser().parseFromString(xmlText, "application/xml");
+  const items = Array.from(xml.querySelectorAll("item")).map(it => {
+    const title = it.querySelector("title")?.textContent ?? "";
+    const link  = it.querySelector("link")?.textContent ?? "#";
+    const desc  = it.querySelector("description")?.textContent ?? "";
+    const pub   = new Date(it.querySelector("pubDate")?.textContent ?? Date.now());
+    return { title, link, desc, pub, sev: severity(`${title} ${desc}`) };
+  });
+
+  if (!items.length){ document.getElementById("history").textContent = "Unable to load status."; return; }
+
+  // ---- header date range ----
+  const first = items[items.length - 1].pub, last = items[0].pub;
+  const pretty = (d)=> d.toLocaleString(undefined,{ month:"short", year:"numeric" });
+  document.getElementById("range").textContent = `${pretty(first)} – ${pretty(last)}`;
+
+  // ---- banner (show only if latest doesn't look 'OK') ----
+  const latest = items[0];
+  if (!/resolved|recovered|operational/i.test(latest.desc)){
+    const b = document.getElementById("banner");
+    b.style.display = "";
+    b.innerHTML = `
+      <h3>We’re currently experiencing issues</h3>
+      <strong>${latest.title}</strong>
+      <div>${latest.desc}</div>
+    `;
+  }
+
+  // ---- group by month and render like the real History page ----
+  const container = document.getElementById("history");
+  let currentMonth = "";
+  items.forEach((it, idx) => {
+    const m = monthName(it.pub);
+    if (m !== currentMonth){
+      currentMonth = m;
+      const h = document.createElement("div");
+      h.className = "month";
+      h.textContent = currentMonth;
+      container.appendChild(h);
     }
 
-    async function loadStatus() {
-      const feedUrl = "https://status.openai.com/feed.rss";
-      const proxied = "https://api.allorigins.win/raw?url=" + encodeURIComponent(feedUrl);
-
-      const xmlText = await (await fetch(proxied)).text();
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(xmlText, "application/xml");
-      const items = Array.from(xml.querySelectorAll("item"));
-
-      if (!items.length) {
-        document.getElementById("current").innerText = "Could not load status.";
-        return;
-      }
-
-      // First item as banner
-      const latest = items[0];
-      const title = latest.querySelector("title").textContent;
-      const desc = latest.querySelector("description").textContent;
-      document.getElementById("current").innerHTML = `
-        <h2>We’re currently experiencing issues</h2>
-        <strong>${title}</strong>
-        <div>${desc}</div>
-      `;
-
-      // History with severity bars
-      const list = document.getElementById("history");
-      items.slice(0, 8).forEach(item => {
-        const title = item.querySelector("title").textContent;
-        const link = item.querySelector("link").textContent;
-        const desc = item.querySelector("description").textContent;
-        const date = new Date(item.querySelector("pubDate").textContent).toLocaleString();
-        const severity = getSeverityClass(title + " " + desc);
-        list.innerHTML += `
-          <li>
-            <div class="bar ${severity}"></div>
-            <div>
-              <a href="${link}" target="_blank">${title}</a>
-              <span class="date">${date}</span>
-            </div>
-          </li>`;
-      });
-    }
-
-    loadStatus();
-  </script>
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML = `
+      <div class="date-col">${String(it.pub.getDate()).padStart(2,"0")} <span class="dow">${weekdayShort(it.pub)}</span></div>
+      <div class="sev ${it.sev}"></div>
+      <div class="content">
+        <a class="name" href="${it.link}" target="_blank" rel="noopener">${it.title}</a>
+        <div class="desc">${it.desc}</div>
+      </div>
+      <div class="time">${timeHM(it.pub)}</div>
+    `;
+    container.appendChild(row);
+  });
+})();
+</script>
 </body>
 </html>
