@@ -14,11 +14,11 @@
     --banner-bg:#fff8e5;
     --banner-border:#f4d98c;
     --banner-accent:#8a6d1f;
-    --green:#22c55e;   /* operational */
-    --yellow:#f59e0b;  /* degraded / elevated / delays */
-    --orange:#f97316;  /* partial/major outage */
-    --red:#ef4444;     /* critical/outage */
-    --blue:#3b82f6;    /* maintenance/info */
+    --green:#22c55e;   /* ok (operational) */
+    --yellow:#f59e0b;  /* minor (degraded/elevated/delays) */
+    --orange:#f97316;  /* major (partial/major outage) */
+    --red:#ef4444;     /* critical */
+    --blue:#3b82f6;    /* info/maintenance */
   }
   *{ box-sizing:border-box }
   html,body{ background:var(--bg); color:var(--fg); font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"; }
@@ -39,7 +39,6 @@
     background:#fff; color:#111; font-weight:500;
   }
 
-  /* Breadcrumb + title */
   .crumb{ color:var(--muted); font-size:14px; margin:12px 0 4px; }
   .title-row{ display:flex; align-items:center; justify-content:space-between; }
   .title{ font-size:22px; font-weight:700; margin:10px 0 6px; }
@@ -58,11 +57,12 @@
   .row{
     position:relative; display:grid; grid-template-columns:70px 10px 1fr 90px;
     gap:16px; padding:14px 0; border-bottom:1px solid var(--hair);
+    transition: background .15s ease;
   }
   .row:hover{ background:var(--hover); }
   .date-col{ text-align:right; color:var(--muted); font-weight:600; padding-top:3px; }
   .date-col .dow{ color:var(--muted); font-weight:500; margin-left:4px; }
-  .sev{ width:6px; border-radius:3px; margin-left:4px; }
+  .sev{ width:6px; border-radius:3px; margin-left:4px; background:var(--yellow); }
   .sev.ok{ background:var(--green); }
   .sev.minor{ background:var(--yellow); }
   .sev.major{ background:var(--orange); }
@@ -72,7 +72,6 @@
   .content .desc{ color:var(--muted); margin-top:4px; }
   .time{ text-align:right; color:var(--muted); white-space:nowrap; padding-top:3px; }
 
-  /* Small screens */
   @media (max-width:640px){
     .row{ grid-template-columns:56px 8px 1fr 64px; gap:12px; }
     .title{ font-size:20px; }
@@ -99,9 +98,13 @@
 
 <script>
 (async function(){
-  // ---- helpers ----
-  const proxied = async (url) => {
-    // Try AllOrigins (raw) first, then fall back to Jina reader (text proxy)
+  // ------- Utilities -------
+  const cacheTTLms = 15*60*1000; // 15 minutes
+  const getCache = (k)=>{ try{ const v=JSON.parse(localStorage.getItem(k)||"null"); if(!v) return null; if(Date.now()-v.t>cacheTTLms) return null; return v.d; }catch{ return null; } };
+  const setCache = (k,d)=>{ try{ localStorage.setItem(k, JSON.stringify({t:Date.now(), d})); }catch{} };
+
+  const proxiedText = async (url) => {
+    // Try AllOrigins first, then Jina reader
     try {
       const r = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(url), {cache:"no-cache"});
       if (r.ok) return await r.text();
@@ -117,36 +120,69 @@
   const weekdayShort = (d) => d.toLocaleString(undefined, { weekday: "short" });
   const timeHM = (d) => d.toLocaleString(undefined, { hour: "numeric", minute: "2-digit" });
 
-  // Severity inference from title+description (heuristic tuned to incident.io copy)
-  function severity(text){
+  // baseline inference (used while we upgrade with peak severity)
+  function inferFromText(text){
     const t = text.toLowerCase();
     if (/(maintenance|scheduled maintenance)/.test(t)) return "info";
-    if (/(outage|unavailable|not displaying|cannot|can't|down|major outage)/.test(t)) return "critical";
-    if (/(partial outage|major incident|widespread)/.test(t)) return "major";
+    if (/(outage|not displaying|unavailable|cannot|can't|down|critical)/.test(t)) return "critical";
+    if (/(partial outage|major (?:incident|outage)|widespread)/.test(t)) return "major";
     if (/(degraded|elevated|delays|slow|latency|rate limit|errors?)/.test(t)) return "minor";
-    if (/(resolved|recovered|operational)/.test(t)) return "ok"; // final state messages
+    if (/(resolved|recovered|operational)/.test(t)) return "ok";
     return "minor";
   }
 
-  // ---- fetch + parse feed ----
-  const xmlText = await proxied("https://status.openai.com/feed.rss");
-  const xml = new DOMParser().parseFromString(xmlText, "application/xml");
+  // Parse peak severity from incident page HTML
+  function inferPeakSeverityFromHTML(html){
+    const t = html.toLowerCase();
+
+    // Some incident pages list a timeline with severity pills / labels.
+    // We check for strongest tokens first.
+    if (/(critical|severe)\b/.test(t) || /\bmajor outage\b/.test(t) || /service unavailable/.test(t)) return "critical";
+    if (/\b(partial outage|major incident)\b/.test(t)) return "major";
+    if (/\b(degraded|elevated|increased error|delays|latency|rate limit)\b/.test(t)) return "minor";
+    if (/\bmaintenance\b/.test(t)) return "info";
+    if (/\boperational\b/.test(t)) return "ok";
+    // Fallback to baseline if nothing obvious
+    return null;
+  }
+
+  // Concurrency limiter
+  async function mapLimit(items, limit, mapper){
+    const results = new Array(items.length);
+    let i = 0; let active = 0; let resolveAll, rejectAll;
+    const done = new Promise((res,rej)=>{ resolveAll=res; rejectAll=rej; });
+
+    const next = ()=>{
+      if (i >= items.length && active === 0) return resolveAll(results);
+      while (active < limit && i < items.length){
+        const idx = i++; active++;
+        Promise.resolve(mapper(items[idx], idx))
+          .then(v=>{ results[idx]=v; active--; next(); })
+          .catch(e=>{ results[idx]=undefined; active--; next(); });
+      }
+    };
+    next(); return done;
+  }
+
+  // ------- Fetch RSS -------
+  const rssText = await proxiedText("https://status.openai.com/feed.rss");
+  const xml = new DOMParser().parseFromString(rssText, "application/xml");
   const items = Array.from(xml.querySelectorAll("item")).map(it => {
     const title = it.querySelector("title")?.textContent ?? "";
     const link  = it.querySelector("link")?.textContent ?? "#";
     const desc  = it.querySelector("description")?.textContent ?? "";
     const pub   = new Date(it.querySelector("pubDate")?.textContent ?? Date.now());
-    return { title, link, desc, pub, sev: severity(`${title} ${desc}`) };
+    return { title, link, desc, pub, sev: inferFromText(`${title} ${desc}`) };
   });
 
   if (!items.length){ document.getElementById("history").textContent = "Unable to load status."; return; }
 
-  // ---- header date range ----
+  // Header range
   const first = items[items.length - 1].pub, last = items[0].pub;
   const pretty = (d)=> d.toLocaleString(undefined,{ month:"short", year:"numeric" });
   document.getElementById("range").textContent = `${pretty(first)} – ${pretty(last)}`;
 
-  // ---- banner (show only if latest doesn't look 'OK') ----
+  // Banner (show only if latest doesn't read as OK)
   const latest = items[0];
   if (!/resolved|recovered|operational/i.test(latest.desc)){
     const b = document.getElementById("banner");
@@ -158,9 +194,11 @@
     `;
   }
 
-  // ---- group by month and render like the real History page ----
+  // Render history quickly (with baseline colors), then upgrade colors
   const container = document.getElementById("history");
   let currentMonth = "";
+  const rowEls = []; // keep refs to update severity later
+
   items.forEach((it, idx) => {
     const m = monthName(it.pub);
     if (m !== currentMonth){
@@ -183,6 +221,27 @@
       <div class="time">${timeHM(it.pub)}</div>
     `;
     container.appendChild(row);
+    rowEls[idx] = row;
+  });
+
+  // Upgrade colors using incident pages (peak severity)
+  await mapLimit(items, 4, async (it, idx) => {
+    const cacheKey = "incidentPeak:"+it.link;
+    let sev = getCache(cacheKey);
+    if (!sev){
+      try{
+        const html = await proxiedText(it.link);
+        sev = inferPeakSeverityFromHTML(html) || it.sev;
+        setCache(cacheKey, sev);
+      }catch{
+        sev = it.sev;
+      }
+    }
+    const bar = rowEls[idx]?.querySelector(".sev");
+    if (bar){
+      bar.classList.remove("ok","minor","major","critical","info");
+      bar.classList.add(sev);
+    }
   });
 })();
 </script>
