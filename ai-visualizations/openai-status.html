@@ -4,21 +4,69 @@
   <meta charset="UTF-8" />
   <title>OpenAI Status (Unofficial)</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; }
-    .banner { background: #fff8e5; border: 1px solid #f4d98c; padding: 1rem; border-radius: 6px; }
-    .banner h2 { margin: 0 0 .5rem; color: #c78100; }
-    ul { list-style: none; padding: 0; }
-    li { margin: .75rem 0; padding: .75rem; border-bottom: 1px solid #eee; }
-    .date { font-size: .8rem; color: #666; }
+    :root {
+      --yellow-bg: #fff8e5;
+      --yellow-border: #f4d98c;
+      --yellow-text: #8a6d1f;
+      --gray: #666;
+      --light-border: #eee;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #fff;
+      color: #111;
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      line-height: 1.5;
+    }
+
+    h2, h3 { margin: 1rem 0 .5rem; font-weight: 600; }
+
+    /* Banner */
+    .banner {
+      background: var(--yellow-bg);
+      border: 1px solid var(--yellow-border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .banner h2 {
+      margin: 0 0 .5rem;
+      font-size: 1rem;
+      color: var(--yellow-text);
+      font-weight: 600;
+    }
+    .banner strong { display: block; margin-bottom: .25rem; }
+
+    /* Incident list */
+    .incidents { list-style: none; padding: 0; margin: 0; }
+    .incidents li {
+      padding: .75rem 0;
+      border-bottom: 1px solid var(--light-border);
+    }
+    .incidents a {
+      color: #0056b3;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .incidents a:hover { text-decoration: underline; }
+    .date {
+      display: block;
+      font-size: .8rem;
+      color: var(--gray);
+      margin-top: .25rem;
+    }
   </style>
 </head>
 <body>
-  <div class="banner">
-    <h2>OpenAI Status</h2>
-    <div id="current">Loading...</div>
+  <div class="banner" id="current">
+    Loading current status…
   </div>
+
   <h3>Recent Incidents</h3>
-  <ul id="history"></ul>
+  <ul class="incidents" id="history"></ul>
 
   <script>
     async function loadStatus() {
@@ -31,26 +79,30 @@
       const items = Array.from(xml.querySelectorAll("item"));
 
       if (!items.length) {
-        document.getElementById("current").innerText = "Could not load feed.";
+        document.getElementById("current").innerText = "Could not load status.";
         return;
       }
 
-      // First item = current banner
+      // First item as banner
       const latest = items[0];
       const title = latest.querySelector("title").textContent;
       const desc = latest.querySelector("description").textContent;
-      document.getElementById("current").innerHTML =
-        `<strong>${title}</strong><br>${desc}`;
+      document.getElementById("current").innerHTML = `
+        <h2>We’re currently experiencing issues</h2>
+        <strong>${title}</strong>
+        <div>${desc}</div>
+      `;
 
-      // Rest as history
+      // History
       const list = document.getElementById("history");
       items.slice(0, 6).forEach(item => {
         const title = item.querySelector("title").textContent;
         const link = item.querySelector("link").textContent;
         const date = new Date(item.querySelector("pubDate").textContent).toLocaleString();
-        list.innerHTML += `<li>
+        list.innerHTML += `
+          <li>
             <a href="${link}" target="_blank">${title}</a>
-            <div class="date">${date}</div>
+            <span class="date">${date}</span>
           </li>`;
       });
     }
