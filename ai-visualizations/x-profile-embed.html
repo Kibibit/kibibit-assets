@@ -12,9 +12,9 @@
   [data-theme="dark"]{
     --bg:#0b0b0c; --fg:#f1f5f9; --muted:#94a3b8; --hair:#1f2937; --link:#e5e7eb; --chip:#111827;
   }
-  html,body{margin:0; background: transparent; color:var(--fg); font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;}
+  html,body{margin:0; background:transparent; color:var(--fg); font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial;}
   a{color:var(--link); text-decoration:none} a:hover{text-decoration:underline}
-  .card{ max-width:520px; border:1px solid var(--hair); border-radius:12px; padding:14px; background: var(--bg); }
+  .card{ max-width:520px; border:1px solid var(--hair); border-radius:12px; padding:14px; background:var(--bg); }
   .row{ display:flex; gap:12px; align-items:flex-start; }
   .avatar{ width:56px; height:56px; border-radius:50%; object-fit:cover; background:var(--hair); }
   .name{ font-weight:700; font-size:16px; }
@@ -24,9 +24,8 @@
   .meta{ color:var(--muted); font-size:12px; margin-top:6px; }
   .actions{ margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; }
   .chip{ background:var(--chip); border:1px solid var(--hair); border-radius:999px; padding:6px 10px; font-weight:600; display:flex; align-items:center; }
-  .chip svg{ flex-shrink:0; }
+  .chip svg, .chip img{ flex-shrink:0; }
   .loader{ color:var(--muted); padding:10px 0 }
-  /* compact mode */
   .compact .bio{ display:none }
   .compact .latest{ display:none }
   .kb-logo { height: 1.2em; margin-right: 0.5em; fill: var(--fg); }
@@ -40,13 +39,48 @@
   const user = (qs.get("u") || "openai").replace(/^@/,'');      // ?u=handle
   const theme = (qs.get("theme") || "light");                    // ?theme=dark|light
   const compact = qs.has("compact");                             // ?compact
-  const refresh = Math.max(0, parseInt(qs.get("refresh")||"0",10)); // ?refresh=120 (seconds)
+  const refresh = Math.max(0, parseInt(qs.get("refresh")||"0",10)); // ?refresh=120
   const nitter = qs.get("nitter") || "https://nitter.net";       // override instance if needed
+  const ttlSec = Math.max(30, parseInt(qs.get("ttl")||"600",10)); // ?ttl=seconds (default 600 = 10m)
+  const CACHE_NS = "xpcache_v1";                                  // namespace for this widget
+  const LRU_LIMIT = 10;
 
   document.documentElement.setAttribute("data-theme", theme);
   const app = document.getElementById("app");
   if (compact) app.classList.add("compact");
 
+  // ---------- Cache (LRU + TTL) ----------
+  function now(){ return Date.now(); }
+  function kFor(u, nitterBase){ return `${CACHE_NS}:${nitterBase}:${u.toLowerCase()}`; }
+  function readJSON(k){ try{ return JSON.parse(localStorage.getItem(k)||"null"); }catch{ return null; } }
+  function writeJSON(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} }
+  function touchLRU(k){
+    const idxKey = `${CACHE_NS}:index`;
+    const idx = readJSON(idxKey) || [];
+    const filtered = idx.filter(x=>x!==k);
+    filtered.unshift(k);
+    while (filtered.length > LRU_LIMIT) {
+      const drop = filtered.pop();
+      if (drop) localStorage.removeItem(drop);
+    }
+    writeJSON(idxKey, filtered);
+  }
+  function getCache(u, nitterBase){
+    const key = kFor(u, nitterBase);
+    const entry = readJSON(key);
+    if (!entry) return null;
+    if ((now() - entry.ts) > ttlSec*1000) return null; // expired
+    // Update LRU order on read
+    touchLRU(key);
+    return entry.data;
+  }
+  function setCache(u, nitterBase, data){
+    const key = kFor(u, nitterBase);
+    writeJSON(key, { ts: now(), data });
+    touchLRU(key);
+  }
+
+  // ---------- Fetch helpers ----------
   const prox = async (url) => {
     try {
       const r = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(url), {cache:"no-cache"});
@@ -59,70 +93,102 @@
     }
   };
 
-  async function render(){
-    app.innerHTML = `<div class="loader">Loading…</div>`;
-    try{
-      const profileURL = `${nitter}/${user}`;
-      const rssURL = `${nitter}/${user}/rss`;
-
-      const [html, rss] = await Promise.all([prox(profileURL), prox(rssURL)]);
-      // display name
-      let display = user;
-      const titleMatch = html.match(/<title>([^<]+) \/ /);
-      if (titleMatch) display = titleMatch[1].trim();
-
-      // bio
-      const bioMatch = html.match(/<div class="profile-bio">([\s\S]*?)<\/div>/);
-      const bio = bioMatch ? bioMatch[1].replace(/<[^>]+>/g,'').trim() : "";
-
-      // avatar
-      const avatar = `https://unavatar.io/twitter/${encodeURIComponent(user)}`;
-
-      // latest post
-      const xml = new DOMParser().parseFromString(rss, "application/xml");
-      const item = xml.querySelector("item");
-      let postTitle = "", postLink = `https://x.com/${user}`, postDate = "";
-      if (item){
-        postTitle = item.querySelector("title")?.textContent || "";
-        postLink  = item.querySelector("link")?.textContent || postLink;
-        const pub = item.querySelector("pubDate")?.textContent;
-        postDate  = pub ? new Date(pub).toLocaleString() : "";
-      }
-
-      app.innerHTML = `
-        <div class="row">
-          <img class="avatar" src="${avatar}" alt="${display} avatar" referrerpolicy="no-referrer">
-          <div>
-            <div class="name">${display}</div>
-            <div class="handle">@${user}</div>
-          </div>
-        </div>
-        <div class="bio">${bio}</div>
-        <div class="latest">
-          <a href="${postLink}" target="_blank" rel="noopener">${postTitle || "View profile"}</a>
-          ${postDate ? `<div class="meta">${postDate}</div>` : ""}
-        </div>
-        <div class="actions">
-          <a class="chip follow" href="https://x.com/${user}" target="_blank" rel="noopener">
-            <!-- <img src="https://simpleicons.org/icons/x.svg" class="kb-logo"> -->
-            <svg class="kb-logo" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>X</title><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
-            Follow
-          </a>
-          <a class="chip" href="${profileURL}" target="_blank" rel="noopener">
-            <img src="https://nitter.net/logo.png" class="kb-logo">
-            Nitter
-          </a>
-        </div>
-      `;
-    }catch(e){
-      console.error(e);
-      app.innerHTML = `<div class="loader">Failed to load. Try again later.</div>`;
-    }
+  function parseProfile(html, user){
+    let display = user;
+    const titleMatch = html.match(/<title>([^<]+) \/ /);
+    if (titleMatch) display = titleMatch[1].trim();
+    const bioMatch = html.match(/<div class="profile-bio">([\s\S]*?)<\/div>/);
+    const bio = bioMatch ? bioMatch[1].replace(/<[^>]+>/g,'').trim() : "";
+    return { display, bio };
   }
 
-  await render();
+  function parseLatest(rss, user){
+    const xml = new DOMParser().parseFromString(rss, "application/xml");
+    const item = xml.querySelector("item");
+    let postTitle = "", postLink = `https://x.com/${user}`, postISO = "";
+    if (item){
+      postTitle = item.querySelector("title")?.textContent || "";
+      postLink  = item.querySelector("link")?.textContent || postLink;
+      const pub = item.querySelector("pubDate")?.textContent;
+      postISO  = pub ? new Date(pub).toISOString() : "";
+    }
+    return { postTitle, postLink, postISO };
+  }
+
+  function renderCard({display, user, bio, avatar, postTitle, postLink, postISO, profileURL}){
+    const postDate = postISO ? new Date(postISO).toLocaleString() : "";
+    app.innerHTML = `
+      <div class="row">
+        <img class="avatar" src="${avatar}" alt="${display} avatar" referrerpolicy="no-referrer">
+        <div>
+          <div class="name">${display}</div>
+          <div class="handle">@${user}</div>
+        </div>
+      </div>
+      <div class="bio">${bio || ""}</div>
+      <div class="latest">
+        <a href="${postLink}" target="_blank" rel="noopener">${postTitle || "View profile"}</a>
+        ${postDate ? `<div class="meta">${postDate}</div>` : ""}
+      </div>
+      <div class="actions">
+        <a class="chip follow" href="https://x.com/${user}" target="_blank" rel="noopener">
+          <svg class="kb-logo" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>X</title>
+            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+          </svg>
+          Follow
+        </a>
+        <a class="chip" href="${profileURL}" target="_blank" rel="noopener">
+          <img src="https://nitter.net/logo.png" class="kb-logo" alt="Nitter">
+          Nitter
+        </a>
+      </div>
+    `;
+  }
+
+  async function fetchFresh(user, nitterBase){
+    const profileURL = `${nitterBase}/${user}`;
+    const rssURL = `${nitterBase}/${user}/rss`;
+    const [html, rss] = await Promise.all([prox(profileURL), prox(rssURL)]);
+    const { display, bio } = parseProfile(html, user);
+    const { postTitle, postLink, postISO } = parseLatest(rss, user);
+    const avatar = `https://unavatar.io/twitter/${encodeURIComponent(user)}`;
+    return { display, user, bio, avatar, postTitle, postLink, postISO, profileURL };
+  }
+
+  // ---------- Flow ----------
+  // 1) Try cache first (instant render)
+  const cached = getCache(user, nitter);
+  if (cached){
+    renderCard(cached);
+  } else {
+    app.innerHTML = `<div class="loader">Loading…</div>`;
+  }
+
+  // 2) If no cache or cache is old (we always refresh in the background),
+  //    fetch fresh and update + store.
+  try{
+    const data = await fetchFresh(user, nitter);
+    renderCard(data);
+    setCache(user, nitter, data);
+  }catch(e){
+    // If cache already rendered, keep it; else show error
+    if (!cached){
+      app.innerHTML = `<div class="loader">Failed to load. Try again later.</div>`;
+    }
+    console.error(e);
+  }
+
+  // 3) Optional periodic refresh while focused
   if (refresh > 0){
-    setInterval(() => { if (document.hasFocus && document.hasFocus()) render(); }, refresh * 1000);
+    setInterval(async () => {
+      if (document.hasFocus && document.hasFocus()){
+        try{
+          const data = await fetchFresh(user, nitter);
+          renderCard(data);
+          setCache(user, nitter, data);
+        }catch(e){ console.error(e); }
+      }
+    }, refresh * 1000);
   }
 })();
 </script>
