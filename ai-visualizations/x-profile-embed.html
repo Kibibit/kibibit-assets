@@ -171,13 +171,7 @@
           }
           throw 0;
         } catch {
-          const r2 = await fetch(
-            "https://r.jina.ai/http://" + url.replace(/^https?:\/\//, '')
-          );
-
-          if (!r2.ok) throw new Error("proxy fail");
-
-          return await r2.text();
+          throw 0;
         }
       };
 
