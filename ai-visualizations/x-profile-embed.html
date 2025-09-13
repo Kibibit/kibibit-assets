@@ -166,6 +166,18 @@
       const CACHE_NS = "xpcache_v1";                                  // namespace for this widget
       const LRU_LIMIT = 10;
 
+      const defaultCache = {
+        'andrewyng': {"ts": Date.now(),"data":{"display":"andrewyng","user":"andrewyng","bio":"Co-Founder of Coursera; Stanford CS adjunct faculty. Former head of Baidu AI Group/Google Brain. #ai #machinelearning, #deeplearning #MOOCs","avatar":"https://unavatar.io/twitter/andrewyng","profileURL":"https://nitter.net/andrewyng"}},
+        'officiallogank': {"ts":Date.now(),"data":{"display":"OfficialLoganK","user":"OfficialLoganK","bio":"Lead product for @GoogleAIStudio + the Gemini API. My views!","avatar":"https://unavatar.io/twitter/OfficialLoganK","profileURL":"https://nitter.net/OfficialLoganK"}},
+        'openai': {"ts":Date.now(),"data":{"display":"OpenAI","user":"OpenAI","bio":"OpenAI’s mission is to ensure that artificial general intelligence benefits all of humanity. We’re hiring: openai.com/jobs","avatar":"https://unavatar.io/twitter/OpenAI","profileURL":"https://nitter.net/OpenAI"}},
+        'sama': {"ts":Date.now(),"data":{"display":"sama","user":"sama","bio":"AI is cool i guess","avatar":"https://unavatar.io/twitter/sama","profileURL":"https://nitter.net/sama"}},
+        'theo': {"ts":Date.now(),"data":{"display":"theo","user":"theo","bio":"Full time CEO @t3dotchat. Part time YouTuber, investor, and developer","avatar":"https://unavatar.io/twitter/theo","profileURL":"https://nitter.net/theo"}}
+      };
+
+      Object.entries(defaultCache).forEach(([key, value]) => {
+        setCache(key, "https://nitter.net", value.data);
+      });
+
       document.documentElement.setAttribute("data-theme", theme);
       if (expand) document.documentElement.setAttribute("data-expand", "true");
       const app = document.getElementById("app");
