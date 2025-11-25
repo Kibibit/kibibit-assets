@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
+
+body .font-cal {
+  font-family: "Comfortaa", serif;
+  font-optical-sizing: auto;
+}
+
+body *,
+body :before,
+body :after {
+  font-family: "Comfortaa", serif;
+  font-optical-sizing: auto;
+}
+
+b, strong {
+    color: var(--cal-text-emphasis,#111827);
+}
+
+.text-default {
+    color: var(--cal-text-emphasis,#111827);
+}
+
+/* if later on I want to add a kibibit logo to the top of the page: */
+main:before {
+    content: '';
+    display: block;
+    height: 5rem;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    /* background: white; */
+}
+
+.sticky.top-0.z-10.w-full {
+    display: none;
+}
+
+aside.h-full {
+    max-height: 100vh !important;
+    top: 0 !important;
+    padding: .5em 0;
+}
