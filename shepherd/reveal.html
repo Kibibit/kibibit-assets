@@ -1,0 +1,986 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shepherd — Investor Pitch</title>
+    <meta
+      name="description"
+      content="Shepherd turns successful AI-assisted engineering work into reusable team playbooks."
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css"
+      id="theme"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    />
+
+    <style>
+      :root {
+        --bg: #07111f;
+        --bg-soft: #0f172a;
+        --card: rgba(17, 24, 39, 0.72);
+        --card-border: rgba(56, 189, 248, 0.22);
+        --text: #f8fafc;
+        --muted: #cbd5e1;
+        --subtle: #94a3b8;
+        --accent: #38bdf8;
+        --accent-2: #34d399;
+        --quote: #f8d68b;
+        --danger: #fb7185;
+      }
+
+      .reveal {
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        font-size: 30px;
+        color: var(--muted);
+      }
+
+      .reveal-viewport {
+        background:
+          radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 38rem),
+          radial-gradient(circle at 82% 8%, rgba(52, 211, 153, 0.12), transparent 32rem),
+          var(--bg);
+      }
+
+      .reveal .slides {
+        text-align: left;
+      }
+
+      .reveal section {
+        height: 100%;
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4 {
+        color: var(--text);
+        font-family: inherit;
+        font-weight: 800;
+        letter-spacing: -0.035em;
+        line-height: 1.08;
+        text-transform: none;
+        text-shadow: none;
+        margin: 0 0 0.5em;
+      }
+
+      .reveal h1 {
+        font-size: 2.35em;
+        font-weight: 900;
+      }
+
+      .reveal h2 {
+        font-size: 1.62em;
+      }
+
+      .reveal h3 {
+        font-size: 1.18em;
+      }
+
+      .reveal p {
+        line-height: 1.5;
+        margin: 0 0 0.7em;
+      }
+
+      .reveal strong {
+        color: var(--text);
+      }
+
+      .reveal a {
+        color: var(--accent);
+      }
+
+      .reveal ul,
+      .reveal ol {
+        margin: 0 0 0.6em 1.1em;
+      }
+
+      .reveal li {
+        margin-bottom: 0.32em;
+        line-height: 1.42;
+      }
+
+      .reveal .eyebrow {
+        color: var(--accent-2);
+        font-size: 0.62em;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin: 0 0 0.9em;
+        display: block;
+      }
+
+      .reveal .slide-number {
+        background: transparent;
+        color: var(--subtle);
+        font-size: 16px;
+      }
+
+      .reveal .lede {
+        color: var(--muted);
+        font-size: 1.08em;
+        max-width: 22em;
+      }
+
+      .reveal .muted {
+        color: var(--subtle);
+      }
+
+      .reveal .accent {
+        color: var(--accent);
+      }
+
+      .reveal .accent-2 {
+        color: var(--accent-2);
+      }
+
+      /* Layout helpers */
+      .grid {
+        display: grid;
+        gap: 0.7em;
+      }
+      .grid.cols-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .grid.cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .grid.cols-4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        border-radius: 18px;
+        padding: 0.8em 0.95em;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+      }
+
+      .card h3 {
+        margin: 0 0 0.25em;
+        font-size: 0.92em;
+      }
+
+      .card p {
+        font-size: 0.78em;
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .stat {
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        border-radius: 18px;
+        padding: 0.75em 0.85em;
+        text-align: left;
+      }
+
+      .stat .num {
+        color: var(--accent);
+        font-size: 2.05em;
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        display: block;
+        margin-bottom: 0.18em;
+      }
+
+      .stat .num.green {
+        color: var(--accent-2);
+      }
+      .stat .num.warn {
+        color: var(--quote);
+      }
+      .stat .num.danger {
+        color: var(--danger);
+      }
+
+      .stat .label {
+        color: var(--subtle);
+        font-size: 0.62em;
+        line-height: 1.35;
+        display: block;
+      }
+
+      .pill {
+        display: inline-block;
+        background: rgba(56, 189, 248, 0.12);
+        border: 1px solid var(--card-border);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 0.22em 0.7em;
+        font-size: 0.7em;
+        font-weight: 600;
+        margin: 0 0.35em 0.4em 0;
+      }
+
+      .loop {
+        display: flex;
+        align-items: stretch;
+        gap: 0.5em;
+        flex-wrap: wrap;
+      }
+      .loop .step {
+        flex: 1;
+        min-width: 5.5em;
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        padding: 0.7em 0.6em;
+        text-align: center;
+        position: relative;
+      }
+      .loop .step .k {
+        color: var(--accent-2);
+        font-size: 0.62em;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 0.3em;
+      }
+      .loop .step .v {
+        color: var(--text);
+        font-size: 0.82em;
+        font-weight: 600;
+      }
+
+      .compare {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.7em;
+      }
+      .compare .bad {
+        border-color: rgba(251, 113, 133, 0.3);
+      }
+      .compare .good {
+        border-color: rgba(52, 211, 153, 0.35);
+      }
+      .compare .tag {
+        font-size: 0.62em;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 0.4em;
+      }
+      .compare .bad .tag {
+        color: var(--danger);
+      }
+      .compare .good .tag {
+        color: var(--accent-2);
+      }
+
+      .reveal blockquote {
+        background: transparent;
+        border: 0;
+        border-left: 4px solid var(--quote);
+        color: var(--text);
+        font-size: 1.05em;
+        font-weight: 650;
+        width: auto;
+        box-shadow: none;
+        padding: 0.1em 0 0.1em 0.7em;
+        margin: 0 0 0.7em;
+        font-style: normal;
+      }
+
+      .title-slide .brand {
+        font-size: 0.8em;
+        font-weight: 900;
+        letter-spacing: 0.02em;
+        color: var(--text);
+      }
+      .title-slide .brand .dot {
+        color: var(--accent);
+      }
+
+      .footnote {
+        color: var(--subtle);
+        font-size: 0.6em;
+        margin-top: 0.6em;
+      }
+
+      .reveal section.section-divider h2 {
+        font-size: 2.1em;
+      }
+
+      .small {
+        font-size: 0.82em;
+      }
+      .xsmall {
+        font-size: 0.72em;
+      }
+
+      .reveal .row {
+        display: flex;
+        gap: 0.8em;
+        align-items: flex-start;
+      }
+      .reveal .row > div {
+        flex: 1;
+      }
+
+      .price {
+        text-align: center;
+      }
+      .price .name {
+        color: var(--accent-2);
+        font-size: 0.68em;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        display: block;
+        margin-bottom: 0.3em;
+      }
+      .price .amt {
+        color: var(--text);
+        font-size: 1.4em;
+        font-weight: 900;
+        display: block;
+      }
+      .price .acv {
+        color: var(--subtle);
+        font-size: 0.62em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ===================== SLIDE 1 — TITLE / INSIGHT ===================== -->
+        <section class="title-slide" data-auto-animate>
+          <span class="brand">Shepherd<span class="dot">.</span></span>
+          <h1 data-id="t" style="margin-top: 0.4em">
+            AI coding has powerful individual tools.<br />
+            <span class="accent">Teams still lack a shared operating layer.</span>
+          </h1>
+          <p class="lede" style="max-width: 30em">
+            Shepherd turns successful AI-assisted engineering work into
+            <strong>reusable team playbooks.</strong>
+          </p>
+          <p style="margin-top: 1.4em">
+            <strong>Neil Kalman</strong> &nbsp;·&nbsp;
+            <span class="muted">Founder / CEO</span><br />
+            <span class="muted small"
+              >Software architect &amp; Developer Experience leader · Israel</span
+            >
+          </p>
+          <aside class="notes">
+            I'm Neil. A lot of my work has been around the systems that make
+            engineering teams move faster and safer: tooling, automation,
+            standards, testing, security, CI/CD, and developer experience. When
+            AI coding tools entered the workflow, I saw the same pattern again.
+            The individual tools became powerful very quickly, but the team layer
+            around them did not catch up. A developer can have a great AI session,
+            solve a real problem, and then that work disappears into a private
+            chat. The team does not learn from it. The next developer repeats the
+            same context. The manager cannot measure what worked. Shepherd is
+            built for that gap.
+          </aside>
+        </section>
+
+        <!-- ===================== SLIDE 2 — PROBLEM ===================== -->
+        <section>
+          <span class="eyebrow">Problem</span>
+          <h2>AI work is happening, but teams are losing the value.</h2>
+          <div class="grid cols-4" style="margin: 0.7em 0">
+            <div class="stat">
+              <span class="num danger">80%</span>
+              <span class="label">repeat similar prompts, debugging steps, or context</span>
+            </div>
+            <div class="stat">
+              <span class="num warn">64%</span>
+              <span class="label">say AI work is scattered across chats, sessions, and tools</span>
+            </div>
+            <div class="stat">
+              <span class="num">13%</span>
+              <span class="label">can answer leadership with clear measured data</span>
+            </div>
+            <div class="stat">
+              <span class="num green">46%</span>
+              <span class="label">already asked to justify AI cost, usage, or impact <span class="muted">(+18% expect to be)</span></span>
+            </div>
+          </div>
+          <blockquote>
+            Useful AI work disappears. Teams repeat the same context. Managers
+            cannot explain impact, quality, cost, or reuse.
+          </blockquote>
+          <p class="footnote">
+            June 2026 customer-discovery survey · 56 respondents · 39–40 core
+            workflow responses
+          </p>
+          <aside class="notes">
+            The problem is not access to AI anymore — teams already have access.
+            The problem is that the work is scattered. One developer solves
+            something in Cursor. Another repeats the same context in Claude Code.
+            A workflow runs through an MCP tool or automation platform. A manager
+            asks whether AI is actually helping, and the team does not have a
+            clean answer. This is customer discovery, not a giant market study,
+            but the pattern is clear among AI-active technical people: they are
+            not managing AI-assisted work like a real engineering system. That
+            creates repeated work, lost context, inconsistent outputs, unclear
+            review, and weak visibility. That is the pain Shepherd solves.
+          </aside>
+        </section>
+
+        <!-- ===================== SLIDE 3 — WHY NOW ===================== -->
+        <section>
+          <span class="eyebrow">Why now</span>
+          <h2>Adoption is no longer the bottleneck. Team coordination is.</h2>
+          <div class="compare" style="margin: 0.6em 0">
+            <div class="card bad">
+              <div class="tag">Before</div>
+              <p class="small">One developer. One AI session. One private history.</p>
+            </div>
+            <div class="card good">
+              <div class="tag">Now</div>
+              <p class="small">
+                Teams, agents, tools, workflows, review, cost, governance, and
+                reuse.
+              </p>
+            </div>
+          </div>
+          <div class="grid cols-3">
+            <div class="card"><p class="small">AI usage is now <strong>normal</strong> inside software teams.</p></div>
+            <div class="card"><p class="small">Teams use <strong>multiple</strong> AI tools, agents, workflows, and models.</p></div>
+            <div class="card"><p class="small">Leadership asks about <strong>cost, quality, security, governance, ROI.</strong></p></div>
+          </div>
+          <p style="margin-top: 0.7em">
+            The first wave was individual productivity. The next wave is
+            <span class="accent">team-level memory, review, and improvement.</span>
+          </p>
+          <aside class="notes">
+            AI coding started as a personal productivity boost. That was enough
+            while the tool mainly helped one developer at a time. But once a whole
+            team uses AI every day, across multiple tools and agents, it becomes
+            part of the engineering process. At that point the questions change:
+            What work happened? What context was used? What should be reused? Who
+            reviewed it? Where did AI help? Where did it waste time? How do we
+            keep humans in control? The timing matters because adoption is no
+            longer the interesting part. The interesting part comes after
+            adoption: visibility, coordination, memory, governance, cost control,
+            and continuous improvement. That is the layer Shepherd is building.
+          </aside>
+        </section>
+
+        <!-- ===================== SLIDE 4 — SOLUTION ===================== -->
+        <section>
+          <span class="eyebrow">Solution</span>
+          <h2>Shepherd turns scattered AI work into reusable team memory.</h2>
+          <div class="loop" style="margin: 0.6em 0">
+            <div class="step"><span class="k">1 · Capture</span><span class="v">the run</span></div>
+            <div class="step"><span class="k">2 · Review</span><span class="v">what happened</span></div>
+            <div class="step"><span class="k">3 · Promote</span><span class="v">what worked</span></div>
+            <div class="step"><span class="k">4 · Reuse</span><span class="v">as a playbook</span></div>
+            <div class="step"><span class="k">5 · Improve</span><span class="v">the next run</span></div>
+          </div>
+          <div class="compare" style="margin-top: 0.4em">
+            <div class="card bad">
+              <div class="tag">Without Shepherd</div>
+              <p class="small">
+                A tech lead migrates a service pattern with AI — and the useful
+                context stays buried in a private session.
+              </p>
+            </div>
+            <div class="card good">
+              <div class="tag">With Shepherd</div>
+              <p class="small">
+                The reviewed pattern becomes a playbook the next squad reuses —
+                starting from what the team already learned.
+              </p>
+            </div>
+          </div>
+          <aside class="notes">
+            This is the core product loop: capture what happened, make it visible,
+            review it, turn the useful parts into a reusable playbook, improve the
+            next run. Today a useful AI session usually dies inside one person's
+            chat history. With Shepherd, the useful work becomes team memory. A
+            tech lead might use AI to migrate one service pattern. Without
+            Shepherd, the prompt, context, review process, caveats, and result are
+            trapped inside that one session. With Shepherd, that run can become a
+            reviewed playbook. The next squad does not start from zero — it starts
+            from the best version of what the team already learned. That is the
+            wedge.
+          </aside>
+        </section>
+
+        <!-- ===================== SLIDE 5 — PRODUCT ===================== -->
+        <section>
+          <span class="eyebrow">Product</span>
+          <h2>Capture, review, and reuse AI-assisted engineering work.</h2>
+          <p class="small">
+            Shepherd sits around the tools teams already use —
+            <span class="pill">Cursor</span><span class="pill">Claude Code</span
+            ><span class="pill">Copilot</span><span class="pill">n8n</span
+            ><span class="pill">LangChain</span><span class="pill">internal scripts</span
+            ><span class="pill">MCP servers</span>
+          </p>
+          <div class="grid cols-3" style="margin: 0.5em 0">
+            <div class="card">
+              <h3 class="accent-2">Capture</h3>
+              <p>Record runs, context, outputs, decisions, and outcomes across the team's AI workflows.</p>
+            </div>
+            <div class="card">
+              <h3 class="accent-2">Review</h3>
+              <p>Technical leaders inspect what happened before it becomes shared team knowledge.</p>
+            </div>
+            <div class="card">
+              <h3 class="accent-2">Reuse</h3>
+              <p>Promote successful runs into playbooks and track whether reuse improves speed, quality, or cost.</p>
+            </div>
+          </div>
+          <p class="small">
+            <strong class="accent">Product path:</strong> start with capture +
+            review + playbooks across existing tools, then add structured agent
+            execution on <strong>connected machines</strong> — team-owned runs not
+            tied to one laptop, feeding the same memory layer.
+          </p>
+          <aside class="notes">
+            The first version is a workspace and capture layer around the AI tools
+            and workflows teams already use. Three simple jobs: capture the work
+            as it happens, review what happened before it becomes team knowledge,
+            reuse what worked as a playbook and measure whether it actually helps
+            the next run. The example is the heart of the slide — a real
+            AI-assisted migration becomes retained team memory another squad can
+            pick up and improve on, with visible time/quality lift. The wedge is
+            memory and reuse. Shepherd also provides structured execution through
+            connected machines: team-owned, persistent, role-specialized runs not
+            bound to one laptop. These are not a separate product; they are a
+            higher-signal source that feeds the same capture/review/reuse loop.
+            Privacy and data ownership details live in the appendix.
+          </aside>
+        </section>
+
+        <!-- ===================== SLIDE 6 — CUSTOMER & WEDGE ===================== -->
+        <section>
+          <span class="eyebrow">Customer &amp; Wedge</span>
+          <h2>We start with AI-active engineering teams.</h2>
+          <div class="grid cols-3" style="margin: 0.5em 0">
+            <div class="card">
+              <h3>First users</h3>
+              <p>Tech leads · Engineering managers · Staff engineers · Platform &amp; DevEx leaders</p>
+            </div>
+            <div class="card">
+              <h3>Economic buyer</h3>
+              <p>CTO · VP Engineering · Head of Engineering · Technical founder</p>
+            </div>
+            <div class="card">
+              <h3>First wedge</h3>
+              <p class="accent">Turn successful AI sessions into reusable team playbooks.</p>
+            </div>
+          </div>
+          <h3 style="margin-bottom: 0.3em">Why this wedge wins</h3>
+          <div class="grid cols-2">
+            <ul class="small" style="margin-bottom: 0">
+              <li>Prompt libraries are too shallow.</li>
+              <li>Dashboards alone are too passive.</li>
+            </ul>
+            <ul class="small" style="margin-bottom: 0">
+              <li>Governance alone is too late.</li>
+              <li><strong>Playbooks</strong> start from a concrete pain: solved once, don't solve it again.</li>
+            </ul>
+          </div>
+          <aside class="notes">
+            We start with the people who feel the pain directly. Tech leads and
+            engineering managers see the repeated prompts, repeated context,
+            inconsistent outputs, unclear review, and lack of visibility. They are
+            senior enough to care about team standards, reporting, cost, quality,
+            reuse, and governance. The economic buyer may be the CTO or VP
+            Engineering, but the entry point is the technical leader who feels the
+            pain every week. The first wedge is intentionally focused — we are not
+            solving every AI governance problem on day one. We start with a
+            painful, concrete loop: take AI work that would disappear and turn the
+            best of it into reusable team capability. That is also why Shepherd is
+            not just a shared prompt library — a Notion page of prompts does not
+            capture run history, context, review, outcomes, workflow reuse, or
+            whether the next run improved. Shepherd does.
+          </aside>
+        </section>
+
+        <!-- ===================== SLIDE 7 — MARKET ===================== -->
+        <section>
+          <span class="eyebrow">Market</span>
+          <h2>Engineering is the beachhead. Repeatable AI work is the larger market.</h2>
+          <div class="grid cols-3" style="margin: 0.5em 0">
+            <div class="stat">
+              <span class="num">20M+</span>
+              <span class="label">professional developers worldwide</span>
+            </div>
+            <div class="stat">
+              <span class="num green">84%</span>
+              <span class="label">using or planning to use AI tools</span>
+            </div>
+            <div class="stat">
+              <span class="num">~1.7M</span>
+              <span class="label">AI-active software team-equivalents (10-person)</span>
+            </div>
+          </div>
+          <h3 style="margin-bottom: 0.3em">Penetration scenarios at Team-plan ACV ($6K)</h3>
+          <div class="grid cols-3">
+            <div class="card"><h3 class="accent">$6M ARR</h3><p>1,000 teams</p></div>
+            <div class="card"><h3 class="accent">$60M ARR</h3><p>10,000 teams</p></div>
+            <div class="card"><h3 class="accent">$300M ARR</h3><p>50,000 teams</p></div>
+          </div>
+          <p class="footnote">
+            Upside not included: Business-tier accounts · enterprise expansion ·
+            more seats · more connected machines · expansion beyond engineering.
+          </p>
+          <aside class="notes">
+            We start with engineering because that is where the pain is most
+            concrete and where I have the strongest founder-market fit. The model
+            is intentionally bottom-up. Roughly 20M+ professional developers
+            globally, and AI tool adoption is already normal. Translated into
+            team-equivalents, the number of AI-active software teams is large
+            enough that even small penetration supports a meaningful company. This
+            does not mean every team is immediately reachable — some are solo,
+            some tiny, some in enterprises with different procurement, some won't
+            buy. The point is conservative: the denominator is large enough that
+            10,000–50,000 teams is small penetration, not the whole market. At the
+            Team tier, one customer is about six thousand dollars per year. A
+            thousand teams is six million ARR; ten thousand is sixty million;
+            fifty thousand is three hundred million. That excludes larger Business
+            accounts, enterprise retention, more seats, more connected machines,
+            or expansion outside engineering. The broader market is not only AI
+            coding — it is repeatable human-led AI work across teams. Engineering
+            is the first wedge.
+          </aside>
+        </section>
+
+        <!-- ===================== SLIDE 8 — COMPETITION ===================== -->
+        <section>
+          <span class="eyebrow">Competition &amp; Defensibility</span>
+          <h2>Teams using many AI tools need a layer loyal to none of them.</h2>
+          <div class="grid cols-2" style="margin: 0.4em 0">
+            <div class="card small">
+              <p style="margin:0"><strong>Coding assistants</strong> optimize the individual session — not cross-tool team memory.</p>
+            </div>
+            <div class="card small">
+              <p style="margin:0"><strong>Workflow platforms</strong> build &amp; run agents — not the team improvement loop.</p>
+            </div>
+            <div class="card small">
+              <p style="margin:0"><strong>Observability</strong> traces technical execution — not reusable operating knowledge.</p>
+            </div>
+            <div class="card small">
+              <p style="margin:0"><strong>Eng. intelligence</strong> measures the team — not the AI work itself.</p>
+            </div>
+          </div>
+          <blockquote>
+            Shepherd is the neutral team layer for AI-assisted engineering work.
+          </blockquote>
+          <p class="small">
+            <strong class="accent-2">Defensibility:</strong> single-tool vendors
+            keep teams inside their own products. Shepherd is neutral across them,
+            and the durable asset compounds — runs, reviews, playbooks, decisions,
+            metrics, retained history, and improvement data.
+          </p>
+          <aside class="notes">
+            The obvious investor question: why won't Cursor, GitHub, Anthropic,
+            LangChain, n8n, Willow, or an internal platform team just build this?
+            They probably will build more team features — but those will be
+            strongest inside their own tools. Real teams use multiple tools:
+            Cursor, Claude Code, Copilot, ChatGPT, n8n, LangChain, internal
+            scripts, MCP servers, and whatever comes next. A team using many AI
+            tools needs a layer loyal to none of them. That is Shepherd's
+            position. We don't need to replace the execution tools — in many cases
+            we integrate. If a team builds agents in LangGraph, Shepherd captures
+            run history, outcomes, reusable workflows, reviews, and improvement
+            around those agents. The early advantage is focus, neutrality, and
+            speed into a wedge that large tool vendors are structurally less
+            credible to own across competitors. The more a team uses Shepherd, the
+            more of its AI workflow knowledge lives there — hard to replace,
+            because the value is the compounding memory and improvement layer.
+          </aside>
+        </section>
+
+        <!-- ===================== SLIDE 9 — VALIDATION ===================== -->
+        <section>
+          <span class="eyebrow">Validation</span>
+          <h2>Discovery shows the pain is real. The next proof point is reuse.</h2>
+          <div class="row">
+            <div>
+              <h3 style="margin-bottom: 0.3em">Highest-rated capability cluster</h3>
+              <div class="grid" style="gap: 0.4em">
+                <div class="card small" style="padding: 0.5em 0.8em"><strong class="accent">3.97</strong> &nbsp;Reusable team playbooks</div>
+                <div class="card small" style="padding: 0.5em 0.8em"><strong>3.91</strong> &nbsp;AI workflow impact</div>
+                <div class="card small" style="padding: 0.5em 0.8em"><strong>3.74</strong> &nbsp;Repeated knowledge detection</div>
+                <div class="card small" style="padding: 0.5em 0.8em"><strong>3.71</strong> &nbsp;Agent / model / tool recommendation</div>
+              </div>
+              <p class="footnote">Rated out of 5 · 56 discovery respondents</p>
+            </div>
+            <div>
+              <h3 style="margin-bottom: 0.3em">Next validation milestone</h3>
+              <ul class="small">
+                <li>5 design partners</li>
+                <li>3 active pilots</li>
+                <li>2 paying company accounts</li>
+                <li>90-day retained usage on the playbook loop</li>
+                <li>
+                  <strong class="accent-2">Evidence one team reuses a playbook</strong>
+                  created from another person's or squad's AI work
+                </li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">
+            I want to be honest about the stage: this is pre-seed. We don't have
+            seed-stage traction yet. What we have is a strong founder insight,
+            early customer discovery, a clear buyer, a focused wedge, and a
+            product loop that can be validated quickly. The highest-rated
+            capability was turning successful AI sessions into reusable team
+            playbooks. It was not wildly ahead of every other option, so I won't
+            oversell it as a miracle signal — but it sits at the top of the
+            cluster, and that matters because it matches the product wedge. The
+            broader signal: teams don't just want more AI. They want reuse,
+            visibility, measured impact, and better workflows. The next step is
+            design-partner deployment. The most important proof point is not that
+            someone logs in — it's that a successful AI run becomes a playbook,
+            that playbook is reused by another person or squad, and the team can
+            see that reuse created value.
+          </aside>
+        </section>
+
+        <!-- ===================== SLIDE 10 — BUSINESS MODEL ===================== -->
+        <section>
+          <span class="eyebrow">Business Model / GTM</span>
+          <h2>Customers pay Shepherd for the operating layer, not for tokens.</h2>
+          <div class="grid cols-4" style="margin: 0.5em 0">
+            <div class="card price">
+              <span class="name">Startup</span><span class="amt">$179<span class="acv">/mo</span></span><span class="acv">~$2K ACV</span>
+            </div>
+            <div class="card price" style="border-color: rgba(52,211,153,0.4)">
+              <span class="name accent-2">Team</span><span class="amt">$499<span class="acv">/mo</span></span><span class="acv">~$6K ACV</span>
+            </div>
+            <div class="card price">
+              <span class="name">Business</span><span class="amt">$1,499<span class="acv">/mo</span></span><span class="acv">~$18K ACV</span>
+            </div>
+            <div class="card price">
+              <span class="name">Professional</span><span class="amt">$19<span class="acv">/mo</span></span><span class="acv">bottom-up adoption</span>
+            </div>
+          </div>
+          <div class="row small">
+            <div>
+              <h3 style="margin-bottom: 0.2em">Customers pay for</h3>
+              <ul style="margin-bottom: 0">
+                <li>Seats</li>
+                <li>Connected machines</li>
+                <li>Retained history &amp; playbooks</li>
+                <li>Analytics, governance, shared workflows</li>
+              </ul>
+            </div>
+            <div>
+              <h3 style="margin-bottom: 0.2em">GTM path</h3>
+              <ul style="margin-bottom: 0">
+                <li>Start with design partners</li>
+                <li>Land with one AI-active team</li>
+                <li>Prove reuse, visibility, retained history</li>
+                <li>Expand team → company operating layer</li>
+              </ul>
+            </div>
+          </div>
+          <aside class="notes">
+            No token tax. Customers already pay their model vendors and AI-tool
+            vendors directly. Shepherd charges for the operating layer:
+            visibility, retained history, playbooks, execution capacity
+            (connected machines), governance, analytics, and improvement. Startup
+            / Team / Business carry the economics; Professional supports bottom-up
+            adoption and word-of-mouth. First sale can be team-level; expansion is
+            company-level. Partner-friendly by design: teams keep Cursor, Claude
+            Code, Copilot, n8n, LangChain, internal scripts, and MCP servers.
+            Shepherd becomes the shared layer above them that makes the work
+            visible, reusable, and improvable.
+          </aside>
+        </section>
+
+        <!-- ===================== SLIDE 11 — TEAM & ASK ===================== -->
+        <section>
+          <span class="eyebrow">Team &amp; Ask</span>
+          <h2>I built this layer inside engineering teams. Now I'm building it for the AI-agent era.</h2>
+          <div class="row">
+            <div>
+              <p>
+                <strong>Neil Kalman</strong> · <span class="muted">Founder / CEO</span>
+              </p>
+              <p class="xsmall">
+                <span class="pill">Developer Experience</span><span class="pill">Internal tooling</span
+                ><span class="pill">CI/CD</span><span class="pill">Testing infra</span
+                ><span class="pill">Security workflows</span><span class="pill">Platform automation</span
+                ><span class="pill">AI-assisted dev</span>
+              </p>
+              <div class="grid cols-2" style="margin-top: 0.4em">
+                <div class="stat"><span class="num">$750K</span><span class="label">pre-seed raise</span></div>
+                <div class="stat"><span class="num green">18 mo</span><span class="label">runway</span></div>
+              </div>
+            </div>
+            <div>
+              <h3 style="margin-bottom: 0.2em">Use of funds</h3>
+              <ul class="small">
+                <li>Product &amp; infrastructure — <strong>55%</strong></li>
+                <li>Design-partner GTM — <strong>30%</strong></li>
+                <li>Security, privacy &amp; ops — <strong>15%</strong></li>
+              </ul>
+              <h3 style="margin: 0.4em 0 0.2em">Milestone for this round</h3>
+              <p class="xsmall" style="margin: 0">
+                5 design partners · 3 pilots · 2 paying accounts · 90-day retained
+                playbook usage · <strong class="accent-2">proof that captured AI
+                work is reused by another squad.</strong>
+              </p>
+            </div>
+          </div>
+          <aside class="notes">
+            This is a pre-seed round. The goal is not to scale sales yet — it's to
+            prove the product loop and turn the first design partners into paying
+            company accounts. Right now this is founder-led. The round adds the
+            first key hires: a founding engineer to help build the product, and a
+            design-partner / GTM operator to turn customer discovery into
+            repeatable pilots and early revenue. The milestone is measurable: 5
+            design partners, 3 active pilots, 2 paying company accounts, 90-day
+            retained usage on the playbook loop, and evidence that one person's or
+            squad's AI work becomes reusable capability for another. If we show
+            teams adopt Shepherd, retain their AI work history, reuse playbooks,
+            and pay for the operating layer, we have a strong foundation for the
+            next round.
+          </aside>
+        </section>
+
+        <!-- ===================== APPENDIX DIVIDER ===================== -->
+        <section data-background-color="#0f172a">
+          <section class="section-divider" data-background-color="#0f172a">
+            <span class="eyebrow">Appendix</span>
+            <h2>Source notes &amp; investor Q&amp;A</h2>
+            <p class="muted small">Press <strong>↓</strong> to explore · survey, pricing, market sizing, and the five questions we prepare for.</p>
+            <aside class="notes">
+              Backup material for the conversation: discovery survey detail,
+              pricing rationale, the bottom-up market model, and prepared answers
+              to the most common investor objections.
+            </aside>
+          </section>
+
+          <!-- A1 — Survey detail -->
+          <section data-background-color="#0f172a">
+            <span class="eyebrow">Appendix · Discovery survey</span>
+            <h3>56 respondents · June 7–9, 2026</h3>
+            <div class="grid cols-2 small">
+              <ul>
+                <li>64% — AI work scattered across chats, sessions, tools</li>
+                <li>80% — teams repeat prompts / debugging / context</li>
+                <li>46% — already asked to justify AI cost/usage/impact</li>
+                <li>18% — expect to be asked soon · 13% — can answer with data</li>
+              </ul>
+              <ul>
+                <li>3.97 — Reusable team playbooks</li>
+                <li>3.91 — Which workflows improved quality / reduced cost</li>
+                <li>3.74 — Detect repeated questions → reusable knowledge</li>
+                <li>3.71 — Recommend swapping agent / model / tool</li>
+                <li>3.67 — Weekly/monthly AI usage &amp; cost reports</li>
+                <li>3.62 — A/B experiments comparing two AI workflows</li>
+                <li>3.41 — Which teams are adopting &amp; where to support</li>
+              </ul>
+            </div>
+            <p class="footnote">
+              Audience: engineers, eng managers, tech leads, founders, product/technical.
+              Sources: SurveyMonkey Web Link + Target Audience collectors · Kibibit blog
+              “The Interesting Part Comes After AI Adoption”.
+            </p>
+          </section>
+
+          <!-- A2 — Pricing -->
+          <section data-background-color="#0f172a">
+            <span class="eyebrow">Appendix · Pricing</span>
+            <h3>No token tax</h3>
+            <div class="grid cols-5 small" style="grid-template-columns: repeat(5, 1fr); gap: 0.5em;">
+              <div class="card price"><span class="name">Free</span><span class="amt">$0</span></div>
+              <div class="card price"><span class="name">Pro</span><span class="amt">$19</span><span class="acv">/mo</span></div>
+              <div class="card price"><span class="name">Startup</span><span class="amt">$179</span><span class="acv">/mo</span></div>
+              <div class="card price"><span class="name accent-2">Team</span><span class="amt">$499</span><span class="acv">/mo</span></div>
+              <div class="card price"><span class="name">Business</span><span class="amt">$1,499</span><span class="acv">/mo</span></div>
+            </div>
+            <p class="small" style="margin-top: 0.7em">
+              Customers keep paying their model and AI-tool vendors directly.
+              Shepherd charges for access, organizational value, execution
+              capacity, retained history, analytics, governance, and shared
+              workflows.
+            </p>
+          </section>
+
+          <!-- A3 — Market sizing -->
+          <section data-background-color="#0f172a">
+            <span class="eyebrow">Appendix · Market sizing</span>
+            <h3>Bottom-up, directional</h3>
+            <p class="small">
+              20.8M professional developers (JetBrains 2025) × 84% AI-active or
+              planning (Stack Overflow 2025) ≈ <strong>17.5M</strong> AI-active
+              developers ≈ <strong>1.75M</strong> team-equivalents at 10/team.
+            </p>
+            <div class="grid cols-3 small">
+              <div class="card"><h3 class="accent">$6M</h3><p>1,000 teams × $6K</p></div>
+              <div class="card"><h3 class="accent">$60M</h3><p>10,000 teams × $6K</p></div>
+              <div class="card"><h3 class="accent">$300M</h3><p>50,000 teams × $6K</p></div>
+            </div>
+            <p class="footnote">
+              Not a claim that all are immediately reachable — a directional
+              denominator showing 10K–50K teams is small penetration. Upside:
+              Business-tier (~$18K ACV), enterprise retention, more seats, more
+              connected machines, expansion beyond engineering.
+            </p>
+          </section>
+
+          <!-- A4 — Investor Q&A -->
+          <section data-background-color="#0f172a">
+            <span class="eyebrow">Appendix · Questions we prepare for</span>
+            <h3>Investor Q&amp;A</h3>
+            <div class="grid cols-2 small" style="gap: 0.6em">
+              <div class="card"><p style="margin:0"><strong>Why won't Cursor/GitHub/Anthropic build this?</strong> They will add team features — strongest inside their own tools. Shepherd is cross-tool and neutral.</p></div>
+              <div class="card"><p style="margin:0"><strong>Why not Notion / prompt libraries?</strong> Docs store static prompts. Shepherd captures real runs: context, output, review, decisions, reuse, improvement.</p></div>
+              <div class="card"><p style="margin:0"><strong>Privacy, IP, secrets?</strong> Team-owned history, configurable retention, secret redaction, permissioned access &amp; audit, clean separation from vendors.</p></div>
+              <div class="card"><p style="margin:0"><strong>First proof point?</strong> Reuse — a reviewed playbook used by another squad, with visible time/quality/consistency gains.</p></div>
+            </div>
+            <p class="small" style="margin-top: 0.6em">
+              <strong class="accent">Long-term vision:</strong> the operating
+              layer for repeatable, human-led AI-assisted work across engineering
+              teams. The durable asset is the team's accumulated, improving AI
+              workflow knowledge — not any single run.
+            </p>
+          </section>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+        width: 1280,
+        height: 720,
+        margin: 0.06,
+        minScale: 0.2,
+        maxScale: 1.6,
+        hash: true,
+        slideNumber: "c/t",
+        transition: "slide",
+        backgroundTransition: "fade",
+        plugins: [RevealNotes, RevealHighlight],
+      });
+    </script>
+  </body>
+</html>
